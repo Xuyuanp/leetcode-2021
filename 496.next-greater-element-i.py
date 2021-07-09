@@ -78,7 +78,6 @@ class Solution:
             dic[n] = stack[-1] if stack else -1
             stack.append(n)
 
-        print(dic)
         for i, n in enumerate(nums1):
             res[i] = dic[n]
 
