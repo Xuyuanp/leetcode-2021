@@ -72,14 +72,14 @@ class Solution:
         res = [-1] * len(nums1)
         stack = []
         dic = {}
-        for n in reversed(nums2):
+        for n in nums2:
             while stack and stack[-1] < n:
-                stack.pop()
-            dic[n] = stack[-1] if stack else -1
+                dic[stack.pop()] = n
             stack.append(n)
 
         for i, n in enumerate(nums1):
-            res[i] = dic[n]
+            if n in dic:
+                res[i] = dic[n]
 
         return res
 
@@ -87,3 +87,4 @@ class Solution:
 
 if __name__ == "__main__":
     print(Solution().nextGreaterElement([4,1,2], [1,3,4,2]))
+    print(Solution().nextGreaterElement([2, 4], [1, 2, 3, 4]))
