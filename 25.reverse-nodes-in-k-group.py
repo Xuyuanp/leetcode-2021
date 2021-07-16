@@ -65,6 +65,7 @@
 #
 # Follow-up: Can you solve the problem in O(1) extra memory space?
 #
+from .structures import ListNode
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -80,7 +81,7 @@ class Solution:
             return head
 
         def reverseFirstK(head: ListNode, k: int) -> Tuple[ListNode, ListNode, bool]:
-            sentienl = ListNode(next=head)
+            sentienl = ListNode(-1, next=head)
             pre = sentienl
             tail = pre.next
             while tail and tail.next and k > 1:
