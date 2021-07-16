@@ -59,7 +59,7 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def reverseList(self, head: ListNode) -> ListNode:
+    def reverseList2(self, head: ListNode) -> ListNode:
         if not head or not head.next:
             return head
         last = self.reverseList(head.next)
@@ -77,6 +77,17 @@ class Solution:
             node.next = new_head
             new_head = node
         return new_head
+
+    def reverseList(self, head: ListNode) -> ListNode:
+        sentinel = ListNode(-1, next=head)
+        n = sentinel.next
+        while n and n.next:
+            s = sentinel.next
+            sentinel.next = n.next
+            n.next = sentinel.next.next
+            sentinel.next.next = s
+
+        return sentinel.next
 
 # @lc code=end
 
