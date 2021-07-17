@@ -13,12 +13,17 @@ class ListNode:
                 head = head.next
         return str(list(helper()))
 
+    def __eq__(self, o) -> bool:
+        if not isinstance(o, ListNode):
+            return False
+        return self is o or \
+            self.val == o.val and self.next == o.next
+
     @staticmethod
     def from_list(vals: List) -> Optional['ListNode']:
         if not vals:
             return None
-        head = ListNode(vals[0], None)
-        tail = head
+        head = tail = ListNode(vals[0], None)
         for val in vals[1:]:
             tail.next = ListNode(val, None)
             tail = tail.next
