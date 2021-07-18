@@ -51,6 +51,7 @@
 # Could you implement both?
 #
 #
+from structures import ListNode
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -78,16 +79,38 @@ class Solution:
             new_head = node
         return new_head
 
-    def reverseList(self, head: ListNode) -> ListNode:
+    def reverseList3(self, head: ListNode) -> ListNode:
         sentinel = ListNode(-1, next=head)
-        n = sentinel.next
-        while n and n.next:
-            s = sentinel.next
-            sentinel.next = n.next
-            n.next = sentinel.next.next
-            sentinel.next.next = s
+        curr = sentinel.next
+        while curr and curr.next:
+            tmp = curr.next
+            curr.next = tmp.next
+            tmp.next = sentinel.next
+            sentinel.next = tmp
 
         return sentinel.next
 
+    def reverseList(self, head: ListNode) -> ListNode:
+        new_head, curr = None, head
+        while curr:
+            new_head, curr, new_head.next = curr, curr.next, new_head
+        return new_head
+
 # @lc code=end
 
+if __name__ == "__main__":
+    sol = Solution()
+    cases = [
+        ([], []),
+        ([1], [1]),
+        ([1,2], [2,1]),
+        ([1,2,3], [3,2,1]),
+    ]
+    for args, want in cases:
+        got = sol.reverseList(ListNode.from_list(args))
+        want = ListNode.from_list(want)
+        if got != want:
+            print(f'Failed => args: {args}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
