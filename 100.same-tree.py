@@ -50,6 +50,7 @@
 #
 #
 #
+from structures import TreeNode
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -63,6 +64,15 @@ from collections import deque
 
 class Solution:
     def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        if not p and not q:
+            return True
+        if p and q:
+            return p.vall == q.val and \
+                self.isSameTree(p.left, q.right) and \
+                self.isSameTree(p.right, q.right)
+        return False
+
+    def isSameTree1(self, p: TreeNode, q: TreeNode) -> bool:
         def comp(p: TreeNode, q: TreeNode) -> bool:
             if p and q:
                 return p.val == q.val
