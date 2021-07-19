@@ -51,6 +51,8 @@
 from collections import deque
 from typing import List
 
+from structures import TreeNode
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -87,3 +89,17 @@ class Solution:
 
 
 # [1,2,3,4,null,null,5], [[1],[3,2],[4,5]]
+if __name__ == "__main__":
+    sol = Solution()
+    cases = [
+        ([], []),
+        ([1], [[1]]),
+        ([1,2,3,4,None,None,5], [[1],[3,2],[4,5]])
+    ]
+    for args, want in cases:
+        got = sol.zigzagLevelOrder(TreeNode.from_list(args))
+        if got != want:
+            print(f'Failed => args: {args}; want: {want} but got: {got}')
+            break
+    else:
+        print('All Passed')
