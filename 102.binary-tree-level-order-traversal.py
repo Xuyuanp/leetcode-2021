@@ -47,6 +47,7 @@
 #
 #
 #
+from structures import TreeNode
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -84,3 +85,17 @@ class Solution:
 
 # @lc code=end
 
+if __name__ == "__main__":
+    sol = Solution()
+    cases = [
+        ([], []),
+        ([1], [[1]]),
+        ([3,9,20,None,None,15,7], [[3],[9,20],[15,7]]),
+    ]
+    for args, want in cases:
+        got = sol.levelOrder(TreeNode.from_list(args))
+        if got != want:
+            print(f'Failed => args: {args}; want: {want} but got: {got}')
+            break
+    else:
+        print('All Passed')
