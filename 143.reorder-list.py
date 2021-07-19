@@ -64,6 +64,31 @@ from structures import ListNode
 #         self.next = next
 class Solution:
     def reorderList(self, head: ListNode) -> None:
+        if not head or not head.next:
+            return
+        right = fast = head
+        left = None
+        # find the mid node and reverse the left half
+        while right and fast and fast.next:
+            fast = fast.next.next
+            right.next, left, right = left, right, right.next
+
+        tail = None
+        if fast and right: # odd case. tail is the mid node
+            tail = right
+            right = right.next
+            tail.next = None
+
+        # merge two list in reverse order
+        while left and right:
+            tmp_l, tmp_r = left, right
+            left, right = left.next, right.next
+
+            tmp_r.next = tail
+            tmp_l.next = tmp_r
+            tail = tmp_l
+
+    def reorderList1(self, head: ListNode) -> None:
         """
         Do not return anything, modify head in-place instead.
         """
