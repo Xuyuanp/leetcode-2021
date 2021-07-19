@@ -64,6 +64,7 @@
 # Follow up: Can you solve it using O(1) (i.e. constant) memory?
 #
 #
+from structures import ListNode
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -80,7 +81,7 @@ class Solution:
             return True
 
         slow = fast = head
-        while fast and fast.next:
+        while slow and fast and fast.next:
             slow = slow.next
             fast = fast.next.next
             if slow == fast:
