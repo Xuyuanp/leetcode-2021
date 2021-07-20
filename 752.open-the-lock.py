@@ -86,12 +86,14 @@ from typing import List
 from collections import deque
 
 # @lc code=start
+neighbours = {str(i) : [str((i+1)%10), str((i-1)%10)] for i in range(10)}
+
+
 class Solution:
     def openLock(self, deadends: List[str], target: str) -> int:
         seen = set(deadends)
         if '0000' in seen:
             return -1
-        neighbours = {str(i) : [str((i+1)%10), str((i-1)%10)] for i in range(10)}
         queue = deque()
         queue.append(('0000', 0))
         seen.add('0000')
@@ -110,6 +112,16 @@ class Solution:
 # @lc code=end
 
 if __name__ == "__main__":
-    print(Solution().openLock(["0201","0101","0102","1212","2002"], target = "0202"))
-    print(Solution().openLock(["8888"], target = "0009"))
-    print(Solution().openLock(["8887","8889","8878","8898","8788","8988","7888","9888"], target = "8888"))
+    sol = Solution()
+    cases = [
+        ((["0201","0101","0102","1212","2002"], "0202"), 6),
+        ((["8888"], "0009"), 1),
+        ((["8887","8889","8878","8898","8788","8988","7888","9888"], "8888"), -1)
+    ]
+    for (deadends, target), want in cases:
+        got = sol.openLock(deadends, target)
+        if got != want:
+            print(f'Failed => args: {deadends}, {target}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
