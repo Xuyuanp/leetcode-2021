@@ -45,6 +45,7 @@
 #
 # Follow up: Could you do it in one pass?
 #
+from structures import ListNode
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -63,13 +64,31 @@ class Solution:
         for _ in range(left-1):
             pre = pre.next
 
-        n = pre.next
+        curr = pre.next
         for _ in range(left, right):
-            s = pre.next
-            pre.next = n.next
-            n.next = pre.next.next
-            pre.next.next = s
+            tmp = curr.next
+            curr.next = tmp.next
+            tmp.next = pre.next
+            pre.next = tmp
 
         return sentinel.next
 
 # @lc code=end
+
+if __name__ == "__main__":
+    sol = Solution()
+    cases = [
+        (([1], 1, 1), [1]),
+        (([1, 2], 1, 1), [1, 2]),
+        (([1, 2], 1, 2), [2, 1]),
+        (([1, 2, 3, 4, 5], 2, 4), [1, 4, 3, 2, 5]),
+        (([1, 2, 3, 4, 5], 1, 5), [5, 4, 3, 2, 1]),
+    ]
+    for (vals, left, right), want in cases:
+        got = sol.reverseBetween(ListNode.from_list(vals), left, right)
+        want = ListNode.from_list(want)
+        if got != want:
+            print(f'Failed => args: {vals}, {left}, {right}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
