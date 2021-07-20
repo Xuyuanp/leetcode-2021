@@ -48,6 +48,7 @@
 #
 #
 #
+from structures import ListNode
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -57,6 +58,20 @@
 #         self.next = next
 class Solution:
     def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        tail = sentinel = ListNode(val=-1, next=None)
+        while l1 and l2:
+            if l1.val < l2.val:
+                tail.next = l1
+                l1 = l1.next
+            else:
+                tail.next = l2
+                l2 = l2.next
+            tail = tail.next
+        tail.next = l1 if l1 else l2
+
+        return sentinel.next
+
+    def mergeTwoLists1(self, l1: ListNode, l2: ListNode) -> ListNode:
         if l1 is None:
             return l2
         if l2 is None:
@@ -70,3 +85,19 @@ class Solution:
 
 # @lc code=end
 
+if __name__ == "__main__":
+    sol = Solution()
+    cases = [
+        (([],[]), []),
+        (([1,2,4], []), [1,2,4]),
+        (([], [1,2,4]), [1,2,4]),
+        (([1,2,4], [1,3,4]), [1,1,2,3,4,4]),
+    ]
+    for (l1, l2), want in cases:
+        got = sol.mergeTwoLists(ListNode.from_list(l1), ListNode.from_list(l2))
+        want = ListNode.from_list(want)
+        if got != want:
+            print(f'Failed => args: {l1}, {l2}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
