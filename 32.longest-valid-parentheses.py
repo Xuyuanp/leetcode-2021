@@ -57,6 +57,23 @@ from collections import defaultdict
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
         res = 0
+        dp = [0] * len(s)
+
+        for i in range(1, len(s)):
+            if s[i] != ')':
+                continue
+            if s[i-1] == '(':
+                dp[i] = 2 + dp[i-2]  # we don't need to check if i-2 >= 0, because dp[-1] == 0
+            else:
+                mirror = i - dp[i-1] - 1
+                if mirror >= 0 and s[mirror] == '(':
+                    dp[i] = dp[i-1] + 2 + dp[mirror-1] # the same as above
+            res = max(res, dp[i])
+
+        return res
+
+    def longestValidParentheses1(self, s: str) -> int:
+        res = 0
         dp = defaultdict(int)
 
         for i in range(1, len(s)):
@@ -80,7 +97,8 @@ if __name__ == "__main__":
         ('', 0),
         ('(()', 2),
         (')()())', 4),
-        ('(()))())(', 4)
+        ('(()))())(', 4),
+        ('((()))', 6),
     ]
     for s, want in cases:
         got = sol.longestValidParentheses(s)
