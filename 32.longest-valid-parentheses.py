@@ -51,11 +51,25 @@
 #
 
 # @lc code=start
-from collections import defaultdict
+from collections import defaultdict, deque
 
 
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
+        res = 0
+        stack = deque([0])
+        for c in s:
+            if c == '(':
+                stack.append(0)
+            elif len(stack) > 1:
+                val = stack.pop()
+                stack[-1] += val + 2
+                res = max(res, stack[-1])
+            else:
+                stack = deque([0])
+        return res
+
+    def longestValidParentheses2(self, s: str) -> int:
         res = 0
         dp = [0] * len(s)
 
