@@ -51,14 +51,13 @@ class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
         max_area = 0
 
-        stack = []
-        heights = heights + [0]
+        stack = [-1]
+        heights.append(0)
 
         for i, h in enumerate(heights):
-            while stack and heights[stack[-1]] > h:
-                top = stack.pop()
-                height = heights[top]
-                width = i - stack[-1] - 1 if stack else i
+            while heights[stack[-1]] > h:
+                height = heights[stack.pop()]
+                width = i - stack[-1] - 1
                 max_area = max(max_area, height * width)
             stack.append(i)
 
@@ -67,7 +66,19 @@ class Solution:
 # @lc code=end
 
 if __name__ == "__main__":
-    print(Solution().largestRectangleArea([2]))
-    print(Solution().largestRectangleArea([2, 4]))
-    print(Solution().largestRectangleArea([2, 1, 2]))
-    print(Solution().largestRectangleArea([2, 1, 5, 6, 2, 3]))
+    sol = Solution()
+    cases = [
+        ([2], 2),
+        ([2, 4], 4),
+        ([2, 1, 2], 3),
+        ([1, 2, 3], 4),
+        ([3, 2, 1, 2, 3], 5),
+        ([2, 1, 5, 6, 2, 3], 10),
+    ]
+    for heights, want in cases:
+        got = sol.largestRectangleArea(heights)
+        if got != want:
+            print(f"Failed => args: {heights}; want: {want}, but got: {got}")
+            break
+    else:
+        print("All Passed")
