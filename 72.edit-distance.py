@@ -79,7 +79,6 @@ class Solution:
                 helper(word1[1:], word2[1:]))
 
         res = helper(word1, word2)
-        print(helper.cache_info())
         return res
 
     # O(m*n), O(m*n)
