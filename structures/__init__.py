@@ -1,5 +1,6 @@
 from collections import deque
 from typing import List, Optional
+from itertools import zip_longest
 
 class ListNode:
     def __init__(self, val, next: Optional['ListNode']):
@@ -65,7 +66,7 @@ class TreeNode:
             return None
         root = TreeNode(vals[0])
         q = deque([root])
-        for val1, val2 in zip(vals[1::2], vals[2::2]):
+        for val1, val2 in zip_longest(vals[1::2], vals[2::2]):
             node = q.popleft()
             if val1:
                 node.left = TreeNode(val=val1)
