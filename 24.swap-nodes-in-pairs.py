@@ -70,10 +70,20 @@ class Solution:
         return sentinel.next
 
 # @lc code=end
-
-if __name__ == "__main__":
-    print(Solution().swapPairs(ListNode.from_list([])))
-    print(Solution().swapPairs(ListNode.from_list([1])))
-    print(Solution().swapPairs(ListNode.from_list([1,2])))
-    print(Solution().swapPairs(ListNode.from_list([1,2,3])))
-    print(Solution().swapPairs(ListNode.from_list([1,2,3,4])))
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        ([], []),
+        ([1], [1]),
+        ([1, 2], [2, 1]),
+        ([1, 2, 3], [2, 1, 3]),
+        ([1, 2, 3, 4], [2, 1, 4, 3]),
+    ]
+    for args, want in cases:
+        got = sol.swapPairs(ListNode.from_list(args))
+        want = ListNode.from_list(want)
+        if want != got:
+            print(f'Failed => args: {args}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
