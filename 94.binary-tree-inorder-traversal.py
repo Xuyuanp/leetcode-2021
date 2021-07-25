@@ -63,14 +63,17 @@
 #
 # Follow up: Recursive solution is trivial, could you do it iteratively?
 #
+from typing import List
+
+from structures import TreeNode
 
 # @lc code=start
 # Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 
 class Solution:
     def inorderTraversal(self, root: TreeNode) -> List[int]:
@@ -83,4 +86,22 @@ class Solution:
         return list(traverse(root))
 
 # @lc code=end
+
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        ([], []),
+        ([1], [1]),
+        ([1,2], [2,1]),
+        ([1,2,3], [2,1,3]),
+        ([1,None,2], [1, 2]),
+        ([1,None,2,3], [1,3,2]),
+    ]
+    for args, want in cases:
+        got = sol.inorderTraversal(TreeNode.from_list(args))
+        if want != got:
+            print(f'Failed => args: {args}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
 
