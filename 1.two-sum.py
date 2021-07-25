@@ -72,9 +72,17 @@ class Solution:
         return []
 
 # @lc code=end
-
-
-if __name__ == "__main__":
-    print(Solution().twoSum([2,7,11,15], target = 9))
-    print(Solution().twoSum([3,2,4], target = 6))
-    print(Solution().twoSum([3,3], target = 6))
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        (([3, 3], 6), [0,1]),
+        (([3, 2, 4], 6), [1, 2]),
+        (([2, 7, 11, 15], 9), [0, 1]),
+    ]
+    for (nums, target), want in cases:
+        got = sol.twoSum(nums, target)
+        if want != got:
+            print(f'Failed => args: {(nums, target)}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
