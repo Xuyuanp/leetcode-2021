@@ -95,12 +95,21 @@ class Solution:
 
 
 # @lc code=end
-
-
-if __name__ == "__main__":
-    print(Solution().climbStairs(0))
-    print(Solution().climbStairs(1))
-    print(Solution().climbStairs(2))
-    print(Solution().climbStairs(3))
-    print(Solution().climbStairs(4))
-    print(Solution().climbStairs(5))
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        (0, 1),
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 5),
+        (5, 8),
+        (6, 13),
+    ]
+    for n, want in cases:
+        got = sol.climbStairs(n)
+        if want != got:
+            print(f'Failed => args: {n}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
