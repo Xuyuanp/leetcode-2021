@@ -90,9 +90,20 @@ class Solution:
 
 
 # @lc code=end
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        (']', False),
+        ('[', False),
+        ('()[]{}', True),
+        ('(])', False),
+        ('([{}])', True),
+    ]
+    for s, want in cases:
+        got = sol.isValid(s)
+        if want != got:
+            print(f'Failed => args: {s}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
 
-if __name__ == "__main__":
-    print(Solution().isValid('()[]{}'))
-    print(Solution().isValid('([)]'))
-    print(Solution().isValid('{[]}'))
-    print(Solution().isValid(']'))
