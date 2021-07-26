@@ -54,3 +54,17 @@ class Solution:
         return res
 
 # @lc code=end
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        (1, ['()']),
+        (2, ['()()', '(())']),
+        (3, ['()()()', '((()))', '(())()', '()(())', '(()())']),
+    ]
+    for n, want in cases:
+        got = sol.generateParenthesis(n)
+        if sorted(want) != sorted(got):
+            print(f'Failed => args: {n}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
