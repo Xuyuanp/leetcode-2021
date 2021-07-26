@@ -62,8 +62,11 @@ from typing import List
 class Solution:
     # Alex can always win
     def stoneGame(self, piles: List[int]) -> bool:
+        FIRST, SECOND = 0, 1
+
         n = len(piles)
-        # dp[i][j] is value of the game piles[i:j+1]
+        # dp[i][j] is the (max value of the first pick, max value of the second pick) in the range piles[i:j+1]
+        # when i == j, the first pick always get the only pile.
         dp = [[(piles[i] if i == j else 0, 0) for j in range(n)] for i in range(n)]
 
         # (0,   1), (1,   2) .. (n-3, n-2), (n-2, n-1)
@@ -75,13 +78,13 @@ class Solution:
             for i in range(0, n-shift):
                 j = shift + i
 
-                left = piles[i] + dp[i+1][j][1]
-                right = piles[j] + dp[i][j-1][1]
+                left  = piles[i] + dp[i+1][j][SECOND]
+                right = piles[j] + dp[i][j-1][SECOND]
 
                 if left > right:
-                    dp[i][j] = (left, dp[i+1][j][0])
+                    dp[i][j] = (left,  dp[i+1][j][FIRST])
                 else:
-                    dp[i][j] = (right, dp[i][j-1][0])
+                    dp[i][j] = (right, dp[i][j-1][FIRST])
 
         return dp[0][n-1][0] > dp[0][n-1][1]
 
