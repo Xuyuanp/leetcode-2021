@@ -73,10 +73,19 @@ class Solution:
 
 
 # @lc code=end
-
-if __name__ == "__main__":
-    print(Solution().threeSum([-1, 0, 1, 2, -1, -4]))
-    print(Solution().threeSum([]))
-    print(Solution().threeSum([0]))
-    print(Solution().threeSum([1, -1, -1, 0]))
-    print(Solution().threeSum([0,0,0]))
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        ([], []),
+        ([0], []),
+        ([0,0,0], [[0,0,0]]),
+        ([1, -1, -1, 0], [[-1, 0, 1]]),
+        ([-1, 0, 1, 2, -1, -4], [[-1, -1, 2], [-1, 0, 1]]),
+    ]
+    for nums, want in cases:
+        got = sol.threeSum(nums)
+        if want != got:
+            print(f'Failed => args: {nums}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
