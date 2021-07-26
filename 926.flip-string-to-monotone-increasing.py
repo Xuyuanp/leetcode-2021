@@ -95,20 +95,35 @@ class Solution:
 
     # O(n), O(n)
     def minFlipsMonoIncr1(self, s: str) -> int:
-        l = [0] * len(s) # l[i]: nums of '1' at the left  of s[i]
-        r = [0] * len(s) # r[i]: nums of '0' at the right of s[i]
-        # l[i] + r[i] is the total flips at s[i]
+        zero = ord('0')
+        left = [0] * len(s)   # left[i]:  nums of '1' at the left  of s[i]
+        right = [0] * len(s)  # right[i]: nums of '0' at the right of s[i]
+        # left[i] + right[i] is the total flips at s[i]
         n = len(s)
-        for i in range(1, n):
-            l[i] = l[i-1] + (1 if s[i-1] == '1' else 0)
-            r[n-i-1] = r[n-i] + (1 if s[n-i] == '0' else 0)
+        for i, j in zip(range(1, n), range(n-2, 0, -1)):
+            left[i] = left[i-1] + ord(s[i-1]) - zero
+            right[j] = right[j+1] + ord(s[j+1]) - zero
 
-        return min(l[i] + r[i] for i in range(n))
+        return min(l + r for l, r in zip(left, right))
 
 # @lc code=end
 
-if __name__ == "__main__":
-    print(Solution().minFlipsMonoIncr('00011000'))
-    print(Solution().minFlipsMonoIncr('00110'))
-    print(Solution().minFlipsMonoIncr('010110'))
-    print(Solution().minFlipsMonoIncr('11011'))
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        ('0', 0),
+        ('01', 0),
+        ('10', 1),
+        ('11', 0),
+        ('00011000', 2),
+        ('00110', 1),
+        ('010110', 2),
+        ('11011', 1),
+    ]
+    for s, want in cases:
+        got = sol.minFlipsMonoIncr2(s)
+        if want != got:
+            print(f'Failed => args: {s}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
