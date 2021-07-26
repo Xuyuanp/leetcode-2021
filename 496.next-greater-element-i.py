@@ -70,21 +70,30 @@ from typing import List
 class Solution:
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
         res = [-1] * len(nums1)
-        stack = []
+        stack = [float('inf')]
         dic = {}
         for n in nums2:
-            while stack and stack[-1] < n:
+            while stack[-1] < n:
                 dic[stack.pop()] = n
             stack.append(n)
 
         for i, n in enumerate(nums1):
-            if n in dic:
-                res[i] = dic[n]
+            res[i] = dic.get(n, -1)
 
         return res
 
 # @lc code=end
-
-if __name__ == "__main__":
-    print(Solution().nextGreaterElement([4,1,2], [1,3,4,2]))
-    print(Solution().nextGreaterElement([2, 4], [1, 2, 3, 4]))
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        (([], []), []),
+        (([4, 1, 2], [1, 3, 4, 2]), [-1, 3, -1]),
+        (([2, 4], [1, 2, 3, 4]), [3, -1]),
+    ]
+    for (nums1, nums2), want in cases:
+        got = sol.nextGreaterElement(nums1, nums2)
+        if want != got:
+            print(f'Failed => args: {(nums1, nums2)}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
