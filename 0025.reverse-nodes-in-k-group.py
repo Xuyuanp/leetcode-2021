@@ -65,7 +65,7 @@
 #
 # Follow-up: Can you solve the problem in O(1) extra memory space?
 #
-from .structures import ListNode
+from structures import ListNode
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -109,4 +109,20 @@ class Solution:
         return head
 
 # @lc code=end
-
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        (([1, 2, 3], 1), [1, 2, 3]),
+        (([1, 2, 3], 2), [2, 1, 3]),
+        (([1, 2, 3, 4], 2), [2, 1, 4, 3]),
+        (([1, 2, 3, 4], 3), [3, 2, 1, 4]),
+        (([1, 2, 3, 4], 4), [4, 3, 2, 1]),
+    ]
+    for (vals, k), want in cases:
+        got = sol.reverseKGroup(ListNode.from_list(vals), k)
+        want = ListNode.from_list(want)
+        if want != got:
+            print(f'Failed => args: {vals, k}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
