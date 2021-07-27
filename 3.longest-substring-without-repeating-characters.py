@@ -65,23 +65,32 @@
 class Solution:
     # O(n), O(n)
     def lengthOfLongestSubstring(self, s: str) -> int:
-        dp = {}
+        last_seen = {}
         res = start = 0
         for i, c in enumerate(s):
-            if c in dp and start <= dp[c]:
-                start = dp[c] + 1
+            if c in last_seen and start <= last_seen[c]:
+                start = last_seen[c] + 1
             else:
                 res = max(res, i-start+1)
-            dp[c] = i
+            last_seen[c] = i
         return res
 
 # @lc code=end
-
-if __name__ == "__main__":
-    print(Solution().lengthOfLongestSubstring("pwwwkew"))
-    print(Solution().lengthOfLongestSubstring(""))
-    print(Solution().lengthOfLongestSubstring("a"))
-    print(Solution().lengthOfLongestSubstring("ab"))
-    print(Solution().lengthOfLongestSubstring("abc"))
-    print(Solution().lengthOfLongestSubstring("bbbbb"))
-    print(Solution().lengthOfLongestSubstring("abcabcbb"))
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        ("", 0),
+        ("a", 1),
+        ("ab", 2),
+        ("abc", 3),
+        ("bbbbb", 1),
+        ("pwwwkew", 3),
+        ("abcabcbb", 3),
+    ]
+    for s, want in cases:
+        got = sol.lengthOfLongestSubstring(s)
+        if want != got:
+            print(f'Failed => args: {s}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
