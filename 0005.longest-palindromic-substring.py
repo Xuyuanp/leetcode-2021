@@ -88,22 +88,31 @@ class Solution:
         n = len(s)
         if n <= 1:
             return s
-        dp = [[False]*n for _ in range(n)]
+        dp = [[i == j for j in range(n)] for i in range(n)]
         res = s[0]
         for j in range(n):
-            dp[j][j] = True
-            for i in range(j-1, -1, -1):
+            for k in range(j):
+                i = j - k - 1
                 if s[i] == s[j]:
-                    dp[i][j] = True if j-i == 1 else dp[i+1][j-1]
+                    dp[i][j] = j-i == 1 or dp[i+1][j-1]
                     if dp[i][j] and j - i + 1 > len(res):
                         res = s[i:j+1]
 
         return res
 
 # @lc code=end
-
-if __name__ == "__main__":
-    print(Solution().longestPalindrome("cbbcd"))
-    print(Solution().longestPalindrome("babad"))
-    print(Solution().longestPalindrome('cbbd'))
-    print(Solution().longestPalindrome('aacabdkacaa'))
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        ("cbbcd", 'cbbc'),
+        ("babad", 'bab'),
+        ('cbbd', 'bb'),
+        ('aacabdkacaa', 'aca'),
+    ]
+    for s, want in cases:
+        got = sol.longestPalindrome1(s)
+        if want != got:
+            print(f'Failed => args: {s}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
