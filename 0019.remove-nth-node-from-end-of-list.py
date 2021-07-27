@@ -52,6 +52,7 @@
 # Follow up: Could you do this in one pass?
 #
 #
+from structures import ListNode
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -75,4 +76,20 @@ class Solution:
 
 
 # @lc code=end
-
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        (([1], 1), []),
+        (([1, 2], 1), [1]),
+        (([1, 2], 2), [2]),
+        (([1, 2, 3, 4, 5], 2), [1, 2, 3, 5]),
+        (([1, 2, 3, 4, 5], 5), [2, 3, 4, 5]),
+    ]
+    for (vals, n), want in cases:
+        got = sol.removeNthFromEnd(ListNode.from_list(vals), n)
+        want = ListNode.from_list(want)
+        if want != got:
+            print(f'Failed => args: {vals, n}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
