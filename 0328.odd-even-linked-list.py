@@ -60,6 +60,21 @@ from structures import ListNode
 #         self.next = next
 class Solution:
     def oddEvenList(self, head: ListNode) -> ListNode:
+        if not head:
+            return head
+        odd_tail = head
+        even_head = head.next
+        even_tail = even_head
+        while even_tail and even_tail.next:
+            odd_tail.next = even_tail.next
+            odd_tail = odd_tail.next
+            even_tail.next = odd_tail.next
+            even_tail = even_tail.next
+
+        odd_tail.next = even_head
+        return head
+
+    def oddEvenList1(self, head: ListNode) -> ListNode:
         ODD, EVEN = 0, 1
         heads = [ListNode(-1, None), ListNode(-1, None)]
         tails = [heads[0], heads[1]]
