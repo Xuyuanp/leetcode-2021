@@ -53,13 +53,14 @@
 # @lc code=start
 from collections import defaultdict, deque
 
+LEFT, RIGHT = '(', ')'
 
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
         res = 0
         stack = deque([0])
         for c in s:
-            if c == '(':
+            if c == LEFT:
                 stack.append(0)
             elif len(stack) > 1:
                 val = stack.pop()
@@ -69,35 +70,40 @@ class Solution:
                 stack = deque([0])
         return res
 
+    # Solution:
+    # dp[i] =
+    #   0. 0                                    if i < 0
+    #   1. 2 + dp[i-2]                          if s[i] == RIGHT and s[i-1] == LEFT => ...()...
+    #   2. dp[i-dp[i-1]-1-1] + 1 + dp[i-1] + 1  if s[i] == RIGHT and s[i-1] == RIGHT and s[i-dp[i-1]-2] == LEFT => ...((...))...
     def longestValidParentheses2(self, s: str) -> int:
-        res = 0
+        if len(s) == 0:
+            return 0
         dp = [0] * len(s)
 
         for i in range(1, len(s)):
-            if s[i] != ')':
+            if s[i] != RIGHT:
                 continue
-            if s[i-1] == '(':
+            if s[i-1] == LEFT: # ...()
                 dp[i] = 2 + dp[i-2]  # we don't need to check if i-2 >= 0, because dp[-1] == 0
-            else:
+            elif dp[i-1] > 0:     # prev element is a valid parenthes, ...(...))
                 mirror = i - dp[i-1] - 1
-                if mirror >= 0 and s[mirror] == '(':
+                if mirror >= 0 and s[mirror] == LEFT:    # ...((...))
                     dp[i] = dp[i-1] + 2 + dp[mirror-1] # the same as above
-            res = max(res, dp[i])
 
-        return res
+        return max(dp)
 
     def longestValidParentheses1(self, s: str) -> int:
         res = 0
         dp = defaultdict(int)
 
         for i in range(1, len(s)):
-            if s[i] != ')':
+            if s[i] != RIGHT:
                 continue
-            if s[i-1] == '(':
+            if s[i-1] == LEFT:
                 dp[i] = dp[i-2] + 2
-            else:
+            elif dp[i-1] > 0:
                 mirror = i - dp[i-1] - 1
-                if mirror >= 0 and s[mirror] == '(':
+                if mirror >= 0 and s[mirror] == LEFT:
                     dp[i] = dp[i-1] + dp[mirror-1] + 2
             res = max(res, dp[i])
 
@@ -110,9 +116,12 @@ if __name__ == "__main__":
     cases = [
         ('', 0),
         ('(()', 2),
+        ('))))', 0),
+        ('((((', 0),
         (')()())', 4),
         ('(()))())(', 4),
         ('((()))', 6),
+        ('()(()())(', 8)
     ]
     for s, want in cases:
         got = sol.longestValidParentheses(s)
