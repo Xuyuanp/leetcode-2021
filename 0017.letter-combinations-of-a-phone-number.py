@@ -88,3 +88,17 @@ class Solution:
 
 
 # @lc code=end
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        ('', []),
+        ('2', ['a', 'b', 'c']),
+        ('23', ["ad","ae","af","bd","be","bf","cd","ce","cf"]),
+    ]
+    for args, want in cases:
+        got = sol.letterCombinations(args)
+        if want != got:
+            print(f'Failed => args: {args}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
