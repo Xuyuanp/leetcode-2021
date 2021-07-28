@@ -75,21 +75,25 @@ class Solution:
         return helper(0)
 
 # @lc code=end
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
     cases = [
-        ([2,3,1,1,4], True),
-        ([1], True),
-        ([0], True),
-        ([3,1,2], True),
-        ([3,1,2,3], True),
-        ([3, 2, 1, 0, 4], False),
+        (dict(nums=[0]), True),
+        (dict(nums=[1]), True),
+        (dict(nums=[1,2]), True),
+        (dict(nums=[3,1,2]), True),
+        (dict(nums=[3,1,2,3]), True),
+        (dict(nums=[2,3,1,1,4]), True),
+        (dict(nums=[3,2,1,0,4]), False),
     ]
-    for nums, want in cases:
-        got = sol.canJump(nums)
-        if got != want:
-            print(f"Failed => args: {nums}; want: {want}, but got: {got}")
-            break
-    else:
-        print('All Passed')
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        for args, want in cases:
+            got = fn(**args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
