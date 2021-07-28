@@ -72,10 +72,25 @@ class Solution:
         return res
 
 # @lc code=end
+if __name__ == '__main__':
+    sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    cases = [
+        ([1], 1),
+        ([-2,1], 1),
+        ([-2,-1], -1),
+        ([-2,1,-3,4,-1,2,1,-5,4], 6),
+        ([5,4,-1,7,8], 23),
+    ]
 
-if __name__ == "__main__":
-    print(Solution().maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
-    print(Solution().maxSubArray([1]))
-    print(Solution().maxSubArray([5,4,-1,7,8]))
-    print(Solution().maxSubArray([-2,1]))
-    print(Solution().maxSubArray([-2,-1]))
+    for method in methods:
+        print(f"Testing {method}:")
+        fn = getattr(sol, method)
+
+        for nums, want in cases:
+            got = fn(nums)
+            if want != got:
+                print(f'  Failed => args: {nums}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
