@@ -66,6 +66,17 @@ class Solution:
         return res
 
 # @lc code=end
-
-if __name__ == "__main__":
-    print(Solution().permute([1,2]))
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        ([1], [[1]]),
+        ([1, 2], [[1, 2], [2, 1]]),
+        ([1, 2, 3], [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]])
+    ]
+    for nums, want in cases:
+        got = sol.permute(nums)
+        if sorted(want) != sorted(got):
+            print(f'Failed => args: {nums}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
