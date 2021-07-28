@@ -97,19 +97,24 @@ class Solution:
 # @lc code=end
 if __name__ == '__main__':
     sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
     cases = [
-        (0, 1),
-        (1, 1),
-        (2, 2),
-        (3, 3),
-        (4, 5),
-        (5, 8),
-        (6, 13),
+        ([0], 1),
+        ([1], 1),
+        ([2], 2),
+        ([3], 3),
+        ([4], 5),
+        ([5], 8),
+        ([6], 13),
     ]
-    for n, want in cases:
-        got = sol.climbStairs(n)
-        if want != got:
-            print(f'Failed => args: {n}; want: {want}, but got: {got}')
-            break
-    else:
-        print('All Passed')
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        for args, want in cases:
+            got = fn(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
