@@ -60,7 +60,7 @@ from typing import List
 # @lc code=start
 class Solution:
     # O(m*n), O(1)
-    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+    def uniquePathsWithObstacles1(self, obstacleGrid: List[List[int]]) -> int:
         if obstacleGrid[-1][-1] == 1 or obstacleGrid[0][0] == 1:
             return 0
         m, n = len(obstacleGrid), len(obstacleGrid[0])
@@ -80,7 +80,8 @@ class Solution:
 
 
     # O(m*n), O(m*n)
-    def uniquePathsWithObstacles1(self, obstacleGrid: List[List[int]]) -> int:
+    # we need test this solution first, because it's stateless
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
         if obstacleGrid[-1][-1] == 1 or obstacleGrid[0][0] == 1:
             return 0
 
@@ -95,18 +96,23 @@ class Solution:
         return dp[m][n]
 
 # @lc code=end
-if __name__ == "__main__":
+if __name__ == '__main__':
     sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
     cases = [
-        ([[0, 1]], 0),
-        ([[1, 0]], 0),
-        ([[0,0,0],[0,1,0],[0,0,0]], 2),
-        ([[0, 1], [0, 0]], 1),
+        (dict(obstacleGrid=[[0, 1]]), 0),
+        (dict(obstacleGrid=[[1, 0]]), 0),
+        (dict(obstacleGrid=[[0,0,0],[0,1,0],[0,0,0]]), 2),
+        (dict(obstacleGrid=[[0, 1], [0, 0]]), 1),
     ]
-    for grid, want in cases:
-        got = sol.uniquePathsWithObstacles(grid)
-        if want != got:
-            print(f"Failed => args: {grid}; want: {want}, but got: {got}")
-            break
-    else:
-        print('All Passed')
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        for args, want in cases:
+            got = fn(**args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
