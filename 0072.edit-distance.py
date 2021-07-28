@@ -94,17 +94,21 @@ class Solution:
         return dp[m][n]
 
 # @lc code=end
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     sol = Solution()
-    cases = [
-        (('horse', 'ros'), 3),
-        (('intention', 'execution'), 5),
-    ]
-    for (word1, word2), want in cases:
-        got = sol.minDistance(word1, word2)
-        if got != want:
-            print(f"Failed => args: {word1}, {word2}; want: {want}, but got: {got}")
-            break
-    else:
-        print('All Passed')
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        cases = [
+            (('horse', 'ros'), 3),
+            (('intention', 'execution'), 5),
+        ]
+        for args, want in cases:
+            got = fn(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
