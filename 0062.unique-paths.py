@@ -75,7 +75,7 @@ class Solution:
         def helper(x: int, y: int) -> int:
             if x <= 0 or y <= 0:
                 return 0
-            if x == 1 and y == 1:
+            if x == 1 or y == 1:
                 return 1
             if (x, y) not in mem:
                 mem[(x, y)] = helper(x-1, y) + helper(x, y-1)
@@ -85,6 +85,8 @@ class Solution:
 
     # O(m*n), O(m*n)
     def uniquePaths(self, m: int, n: int) -> int:
+        if m == 1 or n == 1:
+            return 1
         dp = [[0] * (n+1) for _ in range(m+1)]
         for i in range(1, m+1):
             for j in range(1, n+1):
@@ -93,7 +95,24 @@ class Solution:
 
 
 # @lc code=end
-
-if __name__ == "__main__":
-    print(Solution().uniquePaths(7, 3))
-    print(Solution().uniquePaths(3, 3))
+if __name__ == '__main__':
+    sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    cases = [
+        (dict(m=1,n=1), 1),
+        (dict(m=1,n=3), 1),
+        (dict(m=3,n=1), 1),
+        (dict(m=3,n=3), 6),
+        (dict(m=7,n=3), 28),
+    ]
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        for args, want in cases:
+            got = fn(**args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
