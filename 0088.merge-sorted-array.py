@@ -97,10 +97,20 @@ class Solution:
 
 
 # @lc code=end
-
-if __name__ == "__main__":
-    Solution().merge(nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3)
-    Solution().merge(nums1 = [0], m = 0, nums2 = [1], n = 1)
-    Solution().merge(nums1 = [1, 0], m = 1, nums2 = [0], n = 1)
-    Solution().merge(nums1 = [1], m = 1, nums2 = [], n = 0)
-    Solution().merge(nums1 = [2, 0], m = 1, nums2 = [1], n = 1)
+if __name__ == '__main__':
+    sol = Solution()
+    cases = [
+        (([1,2,3,0,0,0], 3, [2,5,6], 3), [1,2,2,3,5,6]),
+        (([0], 0, [1], 1), [1]),
+        (([1, 0], 1, [0], 1), [0,1]),
+        (([1], 1, [], 0), [1]),
+        (([2, 0], 1, [1], 1), [1,2]),
+    ]
+    for (nums1, m, nums2, n), want in cases:
+        sol.merge(nums1, m, nums2, n)
+        got = nums1
+        if want != got:
+            print(f'Failed => args: {(nums1, m, nums2, n)}; want: {want}, but got: {got}')
+            break
+    else:
+        print('All Passed')
