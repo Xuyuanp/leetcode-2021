@@ -59,22 +59,33 @@ class Solution:
     # O(n), O(1)
     def maxProfit(self, prices: List[int]) -> int:
         start = profit = 0
-        for i in range(1, len(prices)):
-            p = prices[i]
+        for i, p in enumerate(prices[1:]):
             if p < prices[start]:
-                start = i
-                continue
-            profit = max(profit, p-prices[start])
+                start = i+1
+            else:
+                profit = max(profit, p-prices[start])
 
         return profit
 
 # @lc code=end
-
-
-if __name__ == "__main__":
-    print(Solution().maxProfit([]))
-    print(Solution().maxProfit([1]))
-    print(Solution().maxProfit([1, 2]))
-    print(Solution().maxProfit([2, 1]))
-    print(Solution().maxProfit([7,1,5,3,6,4]))
-    print(Solution().maxProfit([7,6,4,3,1]))
+if __name__ == '__main__':
+    sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        cases = [
+            ([[1]], 0),
+            ([[1,2]], 1),
+            ([[2,1]], 0),
+            ([[7,1,5,3,6,4]], 5),
+            ([[7,6,4,3,1]], 0),
+        ]
+        for args, want in cases:
+            got = fn(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
