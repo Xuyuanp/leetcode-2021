@@ -89,8 +89,23 @@ class Solution:
 
 
 # @lc code=end
-
-if __name__ == "__main__":
-    print(Solution().evalRPN(["2","1","+","3","*"]))
-    print(Solution().evalRPN(["4","13","5","/","+"]))
-    print(Solution().evalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]))
+if __name__ == '__main__':
+    sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        cases = [
+            ([['1', '2', '+']], 3),
+            ([["2","1","+","3","*"]], 9),
+            ([["4","13","5","/","+"]], 6),
+            ([["10","6","9","3","+","-11","*","/","*","17","+","5","+"]], 22),
+        ]
+        for args, want in cases:
+            got = fn(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
