@@ -91,6 +91,8 @@ neighbours = {str(i) : [str((i+1)%10), str((i-1)%10)] for i in range(10)}
 
 class Solution:
     def openLock(self, deadends: List[str], target: str) -> int:
+        if '0000' == target:
+            return 0
         seen = set(deadends)
         if '0000' in seen:
             return -1
@@ -99,11 +101,11 @@ class Solution:
         seen.add('0000')
         while queue:
             val, turns = queue.popleft()
-            if val == target:
-                return turns
             for i in range(4):
                 for n in neighbours[val[i]]:
                     new_val = val[:i] + n + val[i+1:]
+                    if new_val == target:
+                        return turns + 1
                     if new_val not in seen:
                         seen.add(new_val)
                         queue.append((new_val, turns+1))
@@ -114,9 +116,11 @@ class Solution:
 if __name__ == "__main__":
     sol = Solution()
     cases = [
+        ((["8888"], "0000"), 0),
         ((["0201","0101","0102","1212","2002"], "0202"), 6),
         ((["8888"], "0009"), 1),
-        ((["8887","8889","8878","8898","8788","8988","7888","9888"], "8888"), -1)
+        ((["8887","8889","8878","8898","8788","8988","7888","9888"], "8888"), -1),
+        ((["0201","0101","0102","1212","2002"], "0202"), 6),
     ]
     for (deadends, target), want in cases:
         got = sol.openLock(deadends, target)
