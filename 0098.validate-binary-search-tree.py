@@ -51,6 +51,7 @@
 #
 #
 #
+from structures import TreeNode
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -82,9 +83,29 @@ class Solution:
             if node is None:
                 return True
             if min_v < node.val < max_v:
-                return helper(node.left, min_v, node.val) and helper(node.right, node.val, max_v)
+                return helper(node.left, min_v, node.val) \
+                    and helper(node.right, node.val, max_v)
             return False
         return helper(root, -math.inf, math.inf)
 
 # @lc code=end
-
+if __name__ == '__main__':
+    sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        cases = [
+            ([TreeNode.from_list([1])], True),
+            ([TreeNode.from_list([1, 2, 3])], False),
+            ([TreeNode.from_list([2, 1, 3])], True),
+            ([TreeNode.from_list([5,1,4,None,None,3,6])], False),
+        ]
+        for args, want in cases:
+            got = fn(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
