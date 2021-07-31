@@ -71,28 +71,31 @@ class Solution:
 
         dp = [0] * n
         dp[0] = nums[0]
-        dp[1] = max(nums[:2])
-        for i in range(2, n):
+        for i in range(1, n):
             dp[i] = max(dp[i-2] + nums[i], dp[i-1])
         return dp[-1]
 
 # @lc code=end
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     sol = Solution()
-    cases = [
-        ([1], 1),
-        ([1, 2], 2),
-        ([2, 1], 2),
-        ([1, 2, 3, 1], 4),
-        ([2, 7, 9, 3, 1], 12),
-        ([2, 7, 9, 6, 1], 13),
-        ([2, 1, 1, 2], 4)
-    ]
-    for nums, want in cases:
-        got = sol.rob(nums)
-        if want != got:
-            print(f"Failed => args: {nums}; want: {want}, but got: {got}")
-            break
-    else:
-        print('All Passed')
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        cases = [
+            ([[1]], 1),
+            ([[1, 2]], 2),
+            ([[2, 1]], 2),
+            ([[1, 2, 3, 1]], 4),
+            ([[2, 7, 9, 3, 1]], 12),
+            ([[2, 7, 9, 6, 1]], 13),
+            ([[2, 1, 1, 2]], 4)
+        ]
+        for args, want in cases:
+            got = fn(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
