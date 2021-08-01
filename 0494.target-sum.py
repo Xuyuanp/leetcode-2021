@@ -63,10 +63,24 @@
 
 
 from collections import defaultdict
+from functools import lru_cache
 from typing import List
 
 # @lc code=start
 class Solution:
+    def findTargetSumWays1(self, nums: List[int], target: int) -> int:
+
+        @lru_cache(None)
+        def helper(index: int, curr: int) -> int:
+            if index == len(nums):
+                return 1 if curr == target else 0
+
+            positive = helper(index+1, curr+nums[index])
+            negative = helper(index+1, curr-nums[index])
+            return positive+negative
+
+        return helper(0, 0)
+
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
         counter = defaultdict(int)
         counter[0] = 1
@@ -79,11 +93,24 @@ class Solution:
         return counter[target]
 
 # @lc code=end
-
-
-if __name__ == "__main__":
-    print(Solution().findTargetSumWays([1,1,1,1,1], target = 3))
-    print(Solution().findTargetSumWays([1], target = 1))
-    print(Solution().findTargetSumWays([1], target = 3))
-    print(Solution().findTargetSumWays([1, 0], target = 1))
-    print(Solution().findTargetSumWays([0,38,42,31,13,10,11,12,44,16,38,17,22,28,9,27,20,35,34,39], target = 2))
+if __name__ == '__main__':
+    sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        cases = [
+            ([[1], 1], 1),
+            ([[1], 3], 0),
+            ([[1, 0], 1], 2),
+            ([[1,1,1,1,1], 3], 5),
+            ([[0,38,42,31,13,10,11,12,44,16,38,17,22,28,9,27,20,35,34,39], 2], 6666),
+        ]
+        for args, want in cases:
+            got = fn(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
