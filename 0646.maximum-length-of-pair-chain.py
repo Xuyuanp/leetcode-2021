@@ -55,8 +55,18 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    # O(n*log(n)), O(n)
+    # O(n*log(n)), O(n). greedy
     def findlongestchain(self, pairs: List[List[int]]) -> int:
+        pairs.sort(key=lambda p: p[1])
+        curr, res = pairs[0][1], 1
+        for x, y in pairs[1:]:
+            if x > curr:
+                res += 1
+                curr = y
+        return res
+
+    # O(n*log(n)), O(n). binary search
+    def findlongestchain1(self, pairs: List[List[int]]) -> int:
         pairs.sort()
         tails = [pairs[0][1]]
 
