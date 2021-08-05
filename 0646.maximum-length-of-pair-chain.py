@@ -58,11 +58,11 @@ class Solution:
     # O(n*log(n)), O(n). greedy
     def findlongestchain(self, pairs: List[List[int]]) -> int:
         pairs.sort(key=lambda p: p[1])
-        curr, res = pairs[0][1], 1
-        for x, y in pairs[1:]:
-            if x > curr:
+        pre, res = pairs[0], 1
+        for curr in pairs[1:]:
+            if curr[0] > pre[1]:
                 res += 1
-                curr = y
+                pre = curr
         return res
 
     # O(n*log(n)), O(n). binary search
