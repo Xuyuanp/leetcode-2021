@@ -64,6 +64,17 @@ from bisect import bisect_left
 
 
 class Solution:
+    # O(n^2), O(n)
+    def lengthOfLIS2(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp = [1]*n
+        for i in range(1, n):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    dp[i] = max(dp[i], 1+dp[j])
+        return max(dp)
+
+    # O(n*log(n)), O(n)
     def lengthOfLIS1(self, nums: List[int]) -> int:
         tails = []
 
