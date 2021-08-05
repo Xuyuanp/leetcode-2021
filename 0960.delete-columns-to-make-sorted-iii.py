@@ -76,10 +76,11 @@ from typing import List
 
 # @lc code=start
 class Solution:
+    # O(m*n^2), O(n). m = len(strs), n = len(strs[0])
     def minDeletionSize(self, strs: List[str]) -> int:
         n = len(strs[0])
 
-        # dp[i] is the longest increasing sequence in strs[..][:i+1]
+        # dp[i] is the longest increasing sub sequence in strs[..][:i+1]
         dp = [1] * n
         max_len = 1
         for i in range(1, n):
