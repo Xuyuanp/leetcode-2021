@@ -45,18 +45,27 @@ class Solution:
         left, right = 0, n-1
         while left < right:
             mid = (left+right)//2
-            if nums[mid-1] < nums[mid] < nums[mid+1]:
-                return nums[mid]
             if nums[mid] == nums[mid+1]:
                 if mid%2 == 1:
+                    # [1,2,2,3,3,4,4]
+                    # [1,2,2]
                     right = mid - 1
                 else:
+                    # [1,1,2,2,3]
+                    # [1,1,2,2,3,3,4,4,5]
                     left = mid + 2
-            else:
+            elif nums[mid-1] == nums[mid]:
                 if mid%2 == 1:
+                    # [1,1,2]
+                    # [1,1,2,2,3,4,4]
                     left = mid + 1
                 else:
+                    # [1,2,2,3,3]
+                    # [1,1,2,3,3,4,4,5,5]
                     right = mid - 2
+            else:
+                # [1,1,2,3,3]
+                return nums[mid]
         return nums[left]
 
 # @lc code=end
