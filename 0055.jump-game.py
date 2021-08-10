@@ -61,6 +61,15 @@ class Solution:
                 last = i
         return last == 0
 
+    # O(n), O(1)
+    def canJump2(self, nums: List[int]) -> bool:
+        n = len(nums)
+        i = last = 0
+        while i <= last < n:
+            last = max(last, i+nums[i])
+            i += 1
+        return last >= n-1
+
     # O(n*max(nums)), O(n)
     # Time Limit Exceeded sometimes
     def canJump1(self, nums: List[int]) -> bool:
@@ -75,25 +84,29 @@ class Solution:
         return helper(0)
 
 # @lc code=end
-if __name__ == '__main__':
+def main():
     sol = Solution()
     methods = [name for name in dir(sol) if not name.startswith('__')]
-    cases = [
-        (dict(nums=[0]), True),
-        (dict(nums=[1]), True),
-        (dict(nums=[1,2]), True),
-        (dict(nums=[3,1,2]), True),
-        (dict(nums=[3,1,2,3]), True),
-        (dict(nums=[2,3,1,1,4]), True),
-        (dict(nums=[3,2,1,0,4]), False),
-    ]
     for method in methods:
         print(f'Testing {method}:')
         fn = getattr(sol, method)
+        cases = [
+            ([[0]], True),
+            ([[1]], True),
+            ([[1,2]], True),
+            ([[3,1,2]], True),
+            ([[3,2,1,0,4]], False),
+            ([[2,3,1,1,4]], True),
+        ]
         for args, want in cases:
-            got = fn(**args)
+            got = fn(*args)
             if want != got:
                 print(f'  Failed => args: {args}; want: {want}, but got: {got}')
                 break
         else:
             print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    main()
