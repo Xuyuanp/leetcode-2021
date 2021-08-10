@@ -53,30 +53,61 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    def jump(self, nums: List[int]) -> int:
-        l = r = n = 0
-        while r < len(nums) -1:
-            n += 1
-            nxt = max(i + nums[i] for i in range(l, r+1))
-            l, r = r+1, nxt
+    def jump3(self, nums: List[int]) -> int:
+        n = len(nums)
+        # dp[i] is the min jumps to reach the index i from the first index
+        dp = [float('inf')] * n
+        dp[0] = 0
+        for i in range(n):
+            for j in range(i+1, min(i+nums[i]+1, n)):
+                dp[j] = min(dp[j], dp[i]+1)
+        return dp[-1]
 
-        return n
+    def jump2(self, nums: List[int]) -> int:
+        n = len(nums)
+        # dp[i] is the min jumps to reach the last index from the index i
+        dp = [float('inf')] * n
+        dp[-1] = 0
+        for i in range(n-2, -1, -1):
+            if i + nums[i] >= n-1:
+                dp[i] = 1
+            elif nums[i] > 0:
+                dp[i] = min(dp[i+1:i+nums[i]+1]) + 1
+        return dp[0]
+
+    def jump(self, nums: List[int]) -> int:
+        left = right = steps = 0
+        while right < len(nums) -1:
+            steps += 1
+            nxt = max(i + nums[i] for i in range(left, right+1))
+            left, right = right+1, nxt
+
+        return steps
 
 # @lc code=end
-
-if __name__ == "__main__":
+def main():
     sol = Solution()
-    cases = [
-        ([1], 0),
-        ([1, 2], 1),
-        ([2, 2, 2], 1),
-        ([2, 3, 1, 1, 4], 2),
-        ([2, 3, 0, 1, 4], 2)
-    ]
-    for nums, want in cases:
-        got = sol.jump(nums)
-        if got != want:
-            print(f"Failed => args: {nums}; want: {want}; but got: {got}")
-            break
-    else:
-        print("All Passed")
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        cases = [
+            ([[1]], 0),
+            ([[1, 2]], 1),
+            ([[2, 2, 2]], 1),
+            ([[2, 3, 0, 1, 4]], 2),
+            ([[2, 3, 1, 1, 4]], 2),
+            ([[5,9,3,2,1,0,2,3,3,1,0,0]], 3),
+        ]
+        for args, want in cases:
+            got = fn(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    main()
