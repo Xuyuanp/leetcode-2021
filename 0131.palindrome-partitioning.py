@@ -41,6 +41,32 @@ from typing import List
 # @lc code=start
 class Solution:
     # O(n*2^n), O(n^2)
+    def partition2(self, s: str) -> List[List[str]]:
+        res = []
+        n = len(s)
+
+        mem = {}
+
+        def is_palindrome(i: int, j: int) -> bool:
+            if i >= j:
+                return True
+            if (i, j) not in mem:
+                mem[(i, j)] = s[i] == s[j] and is_palindrome(i+1, j-1)
+            return mem[(i, j)]
+
+        def backtrack(i: int, pat: List[str]):
+            if i == n:
+                res.append(list(pat))
+                return
+            for j in range(i, n):
+                if is_palindrome(i, j):
+                    pat.append(s[i:j+1])
+                    backtrack(j+1, pat)
+                    pat.pop(-1)
+
+        backtrack(0, [])
+        return res
+    # O(n*2^n), O(n^2)
     def partition1(self, s: str) -> List[List[str]]:
         res = []
         n = len(s)
