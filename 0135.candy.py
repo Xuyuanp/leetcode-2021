@@ -62,8 +62,44 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    # O(n), O(1)
+    # same as candy3, but more readable
     def candy(self, ratings: List[int]) -> int:
+        n = len(ratings)
+        ratings.append(-1)
+        res = 0
+        i = 0
+        pre = 0
+
+        while i < n:
+            j = i
+            while j < n and ratings[j] == ratings[j-1]:
+                pre = 1
+                res += 1
+                j += 1
+
+            while j < n and ratings[j] > ratings[j-1]:
+                pre += 1
+                res += pre
+                j += 1
+
+            top = j
+            while j < n and ratings[j] < ratings[j-1]:
+                pre -= 1
+                res += pre
+                j += 1
+
+            if pre > 1:
+                res -= (pre-1) * (j-top)
+            elif pre < 1:
+                res -= (pre-1) * (j-top+1)
+
+            pre = 1
+            i = j
+
+        return res
+
+    # O(n), O(1)
+    def candy3(self, ratings: List[int]) -> int:
         n = len(ratings)
         res = 0
         i = 0
@@ -170,6 +206,8 @@ def main():
             ([[2,2,2,1]], 5),
             ([[1,2,2,4,3,2,2,1]], 13),
             ([[1,3,4,5,2]], 11),
+            ([[1,2,3,1]], 7),
+            ([[1,2,3,1,2,3]], 12),
         ]
         for args, want in cases:
             got = fn(*args)
