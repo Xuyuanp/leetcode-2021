@@ -80,9 +80,7 @@ class Solution:
         def is_palindrome(i: int, j: int) -> bool:
             if i >= j:
                 return True
-            if s[i] != s[j]:
-                return False
-            return is_palindrome(i+1, j-1)
+            return s[i] == s[j] and is_palindrome(i+1, j-1)
 
         dp = [n-x for x in range(n+1)]
         for i in range(n-1, -1, -1):
