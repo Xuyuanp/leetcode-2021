@@ -63,20 +63,19 @@
 #
 #
 #
+from collections import deque
 from typing import List
 
 # @lc code=start
 class Solution:
+    # O(n*log(n) + n^2), O(log(n))
     def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
-        res = []
+        res = deque()
         H, K = 0, 1
         people.sort(key=lambda p: (-p[H], p[K]))
         for p in people:
-            if len(res) <= p[K]:
-                res.append(p)
-            else:
-                res.insert(p[K], p)
-        return res
+            res.insert(p[K], p)
+        return [p for p in res]
 
 # @lc code=end
 def main():
