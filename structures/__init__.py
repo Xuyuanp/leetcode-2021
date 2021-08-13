@@ -68,10 +68,10 @@ class TreeNode:
         q = deque([root])
         for val1, val2 in zip_longest(vals[1::2], vals[2::2]):
             node = q.popleft()
-            if val1:
+            if val1 is not None:
                 node.left = TreeNode(val=val1)
                 q.append(node.left)
-            if val2:
+            if val2 is not None:
                 node.right = TreeNode(val=val2)
                 q.append(node.right)
 
