@@ -76,6 +76,24 @@ from typing import List
 
 # @lc code=start
 class Solution:
+    # O(n), O(1)
+    def canCompleteCircuit1(self, gas: List[int], cost: List[int]) -> int:
+        n = len(gas)
+        total_tank = 0
+        curr_tank = 0
+        start = 0
+        for i in range(n):
+            rest = gas[i] - cost[i]
+            total_tank += rest
+            curr_tank += rest
+            if curr_tank < 0:
+                curr_tank = 0
+                start = i + 1
+        if total_tank < 0:
+            return -1
+        return start
+
+    # O(n^2), O(1)
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
         n = len(gas)
         for i in range(n):
