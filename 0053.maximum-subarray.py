@@ -55,15 +55,47 @@ from typing import List
 
 # @lc code=start
 class Solution:
+    # O(n), O(n). dp
     def maxSubArray(self, nums: List[int]) -> int:
-        max_so_far = nums[0]
-        global_max = nums[0]
-        for num in nums[1:]:
-            max_so_far = max(max_so_far + num, num)
-            global_max = max(global_max, max_so_far)
-        return global_max
+        n = len(nums)
+        dp = [0]*n
+        dp[0] = nums[0]
+        for i in range(1, n):
+            dp[i] = max(nums[i], dp[i-1]+nums[i])
+        return max(dp)
 
+    # O(n), O(n).
     def maxSubArray1(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp = [0]*n
+        dp[0] = nums[0]
+        res = dp[0]
+        for i in range(1, n):
+            # dp[i] only need dp[i-1] => reduce dim
+            dp[i] = max(nums[i], dp[i-1]+nums[i])
+            res = max(res, dp[i])
+        return res
+
+    # O(n), O(1).
+    def maxSubArray2(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp_i_1 = nums[0]
+        res = dp_i_1
+        for i in range(1, n):
+            dp_i = max(nums[i], dp_i_1 + nums[i])
+            res = max(res, dp_i)
+            dp_i_1 = dp_i
+        return res
+
+    # O(n), O(1)
+    def maxSubArray3(self, nums: List[int]) -> int:
+        res = curr = nums[0]
+        for x in nums[1:]:
+            curr = max(x, curr + x)
+            res = max(res, curr)
+        return res
+
+    def maxSubArray4(self, nums: List[int]) -> int:
         res = nums[0]
         for i in range(1, len(nums)):
             if nums[i-1] > 0:
@@ -71,26 +103,30 @@ class Solution:
             res = max(nums[i], res)
         return res
 
+
 # @lc code=end
-if __name__ == '__main__':
+def test():
     sol = Solution()
     methods = [name for name in dir(sol) if not name.startswith('__')]
-    cases = [
-        ([1], 1),
-        ([-2,1], 1),
-        ([-2,-1], -1),
-        ([-2,1,-3,4,-1,2,1,-5,4], 6),
-        ([5,4,-1,7,8], 23),
-    ]
-
     for method in methods:
-        print(f"Testing {method}:")
+        print(f'Testing {method}:')
         fn = getattr(sol, method)
-
-        for nums, want in cases:
-            got = fn(nums)
+        cases = [
+            ([[1]], 1),
+            ([[-2,1]], 1),
+            ([[-2,-1]], -1),
+            ([[-2,1,-3,4,-1,2,1,-5,4]], 6),
+            ([[5,4,-1,7,8]], 23),
+        ]
+        for args, want in cases:
+            got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {nums}; want: {want}, but got: {got}')
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
                 break
         else:
             print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    test()
