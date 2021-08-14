@@ -58,16 +58,14 @@ from typing import List
 class Solution:
     # O(n), O(1)
     def rob(self, nums: List[int]) -> int:
-        pre = curr = 0
-        for n in nums:
-            pre, curr = curr, max(pre + n, curr)
+        pre, curr = 0, nums[0]
+        for money in nums[1:]:
+            pre, curr = curr, max(pre + money, curr)
         return curr
 
     # O(n), O(n)
     def rob1(self, nums: List[int]) -> int:
         n = len(nums)
-        if n < 3:
-            return max(nums)
 
         dp = [0] * n
         dp[0] = nums[0]
