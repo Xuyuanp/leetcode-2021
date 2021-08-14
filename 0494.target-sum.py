@@ -68,6 +68,21 @@ from typing import List
 
 # @lc code=start
 class Solution:
+    def findTargetSumWays2(self, nums: List[int], target: int) -> int:
+        mem = {}
+
+        def helper(index: int, curr: int) -> int:
+            if (index, curr) not in mem:
+                if index == len(nums):
+                    mem[(index, curr)] = 1 if curr == target else 0
+                else:
+                    positive = helper(index+1, curr+nums[index])
+                    negative = helper(index+1, curr-nums[index])
+                    mem[(index, curr)] = positive+negative
+            return mem[(index, curr)]
+
+        return helper(0, 0)
+
     def findTargetSumWays1(self, nums: List[int], target: int) -> int:
 
         @lru_cache(None)
