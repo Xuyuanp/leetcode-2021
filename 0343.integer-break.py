@@ -62,10 +62,21 @@ class Solution:
         dp[1] = 1
         dp[2] = 2
         dp[3] = 3
-        for i in range(3, n+1):
-            for j in range(2, i):
+        for i in range(4, n+1):
+            for j in range(2, i-1):
                 dp[i] = max(dp[i], j*dp[i-j])
         return dp[n]
+
+    # O(log(k)), O(1). k is number of 3 in n
+    # for all N > 4 => 3*(n-3) > n
+    def integerBreak2(self, n: int) -> int:
+        if n < 4:
+            return n-1
+        three, rest = divmod(n, 3)
+        if rest < 2:
+            rest += 3
+            three -= 1
+        return rest * (3**three)
 
 # @lc code=end
 def test():
