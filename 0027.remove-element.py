@@ -104,23 +104,29 @@ class Solution:
         return total
 
 # @lc code=end
-
-
-if __name__ == "__main__":
+def test():
     sol = Solution()
-    cases = [
-        (([1], 1), []),
-        (([1, 1], 1), []),
-        (([1, 2], 1), [2]),
-        (([1, 2], 2), [1]),
-        (([1, 2], 3), [1, 2]),
-        (([1,2,3,2,4], 2), [1,3,4]),
-    ]
-    for (nums, val), want in cases:
-        total = sol.removeElement(nums, val)
-        got = nums[:total]
-        if got != want:
-            print(f'Failed => args: {nums}, {val}; want: {want}, but got: {got}')
-            break
-    else:
-        print('All Passed')
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        fn = getattr(sol, method)
+        cases = [
+                (([1], 1), []),
+                (([1, 1], 1), []),
+                (([1, 2], 1), [2]),
+                (([1, 2], 2), [1]),
+                (([1, 2], 3), [1, 2]),
+                (([1,2,3,2,4], 2), [1,3,4]),
+                ]
+        for args, want in cases:
+            got = fn(*args)
+            if want != args[0][:got]:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    test()
