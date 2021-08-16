@@ -41,8 +41,7 @@
 #
 #
 #
-import math
-from typing import List, Tuple
+from typing import List
 
 # @lc code=start
 class Solution:
@@ -82,26 +81,26 @@ class Solution:
         loops = min(m, n)//2
         index = 0
         for i in range(loops):
-            for j in range(i, n-1-i):
-                res[index] = matrix[i][j]
+            for col in range(i, n-1-i):
+                res[index] = matrix[i][col]
                 index += 1
-            for j in range(i, m-1-i):
-                res[index] = matrix[j][n-1-i]
+            for row in range(i, m-1-i):
+                res[index] = matrix[row][n-1-i]
                 index += 1
-            for j in range(n-1-i, i, -1):
-                res[index] = matrix[m-1-i][j]
+            for col in range(n-1-i, i, -1):
+                res[index] = matrix[m-1-i][col]
                 index += 1
-            for j in range(m-1-i, i, -1):
-                res[index] = matrix[j][i]
+            for row in range(m-1-i, i, -1):
+                res[index] = matrix[row][i]
                 index += 1
 
         if n > m and m%2 == 1:
-            for i in range(loops, n-loops):
-                res[index] = matrix[m//2][i]
+            for col in range(loops, n-loops):
+                res[index] = matrix[m//2][col]
                 index += 1
         elif m > n and n%2 == 1:
-            for i in range(loops, m-loops):
-                res[index] = matrix[i][n//2]
+            for row in range(loops, m-loops):
+                res[index] = matrix[row][n//2]
                 index += 1
         elif m%2 == n%2 == 1:
             res[index] = matrix[m//2][n//2]
