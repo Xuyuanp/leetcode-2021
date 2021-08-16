@@ -73,7 +73,7 @@ class Solution:
         counter = Counter(t)
         win_counter = defaultdict(int)
         matched, required = 0, len(counter)
-        res = None
+        res = ''
         left = right = 0
         for right, c in enumerate(s):
             if c not in counter:
@@ -86,8 +86,8 @@ class Solution:
             while matched == required and left <= right:
                 c = s[left]
                 if c in counter:
-                    if not res or right-left < res[1]-res[0]:
-                        res = [left, right]
+                    if not res or right-left+1 < len(res):
+                        res = s[left:right+1]
 
                     win_counter[c]-=1
                     if win_counter[c] < counter[c]:
@@ -95,35 +95,36 @@ class Solution:
 
                 left += 1
 
-        return s[res[0]:res[1]+1] if res else ''
+        return res
 
-    # O(m+n), O(max number of letters). sliding window
+    # O(m+n), O(number of unique letters in t). sliding window
     def minWindow1(self, s: str, t: str) -> str:
         counter = Counter(t)
         required = len(counter)
-        res = None
+        res = ''
         left = 0
-        for right, c in enumerate(s, 1):
-            if c not in counter:
+        for right, char in enumerate(s, 1):
+            if char not in counter:
                 continue
 
-            counter[c] -= 1
-            if counter[c] == 0:
+            counter[char] -= 1
+            if counter[char] == 0:
                 required -= 1
 
             while required == 0 and left < right:
-                c = s[left]
-                if c in counter:
-                    if not res or right-left < res[1]-res[0]:
-                        res = [left, right]
+                # when required == 0, counter[<any letter>] <= 0
+                char = s[left]
+                if char in counter:
+                    if not res or right-left < len(res):
+                        res = s[left:right]
 
-                    counter[c] += 1
-                    if counter[c] > 0:
+                    counter[char] += 1
+                    if counter[char] == 1:
                         required += 1
 
                 left += 1
 
-        return s[res[0]:res[1]] if res else ''
+        return res
 
 # @lc code=end
 def test():
@@ -131,14 +132,15 @@ def test():
     methods = [name for name in dir(sol) if not name.startswith('__')]
     for method in methods:
         print(f'Testing {method}:')
-        fn = getattr(sol, method)
+        func = getattr(sol, method)
         cases = [
             (['a', 'aa'], ''),
             (['a', 'a'], 'a'),
             (['ADOBECODEBANC', 'ABC'], 'BANC'),
+            (['aABCDEFGz', 'az'], 'aABCDEFGz'),
         ]
         for args, want in cases:
-            got = fn(*args)
+            got = func(*args)
             if want != got:
                 print(f'  Failed => args: {args}; want: {want}, but got: {got}')
                 break
