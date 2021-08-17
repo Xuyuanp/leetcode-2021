@@ -69,12 +69,12 @@ class Solution:
         prev = [0, 1]
         curr = [0, 0]
         for i in range(1, len(nums1)):
-            if nums1[i] <= nums1[i-1] or nums2[i] <= nums2[i-1]:
-                curr[KEEP] = prev[SWAP]
-                curr[SWAP] = prev[KEEP]+1
-            elif nums1[i] > nums1[i-1] and nums2[i] > nums2[i-1]:
+            if nums1[i] > nums1[i-1] and nums2[i] > nums2[i-1]:
                 curr[KEEP] = prev[KEEP]
                 curr[SWAP] = prev[SWAP]+1
+            else:
+                curr[KEEP] = prev[SWAP]
+                curr[SWAP] = prev[KEEP]+1
 
             if nums1[i] > nums2[i-1] and nums2[i] > nums1[i-1]:
                 curr[KEEP] = min(curr[KEEP], prev[SWAP])
@@ -90,12 +90,12 @@ class Solution:
         dp[0][SWAP] = 1
 
         for i in range(1, len(nums1)):
-            if nums1[i] <= nums1[i-1] or nums2[i] <= nums2[i-1]:
-                dp[i][KEEP] = dp[i-1][SWAP]
-                dp[i][SWAP] = dp[i-1][KEEP]+1
-            elif nums1[i] > nums1[i-1] and nums2[i] > nums2[i-1]:
+            if nums1[i] > nums1[i-1] and nums2[i] > nums2[i-1]:
                 dp[i][KEEP] = dp[i-1][KEEP]
                 dp[i][SWAP] = dp[i-1][SWAP]+1
+            else:
+                dp[i][KEEP] = dp[i-1][SWAP]
+                dp[i][SWAP] = dp[i-1][KEEP]+1
 
             if nums1[i] > nums2[i-1] and nums2[i] > nums1[i-1]:
                 dp[i][KEEP] = min(dp[i-1][SWAP], dp[i][KEEP])
