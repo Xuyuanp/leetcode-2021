@@ -42,6 +42,7 @@
 #
 #
 from typing import List
+from dataclasses import dataclass
 
 # @lc code=start
 class Solution:
@@ -170,28 +171,42 @@ class Solution:
         rows, cols = len(matrix), len(matrix[0])
         res = [0] * (rows*cols)
 
+        @dataclass
+        class Direction:
+            axis: List[int]
+            step: int
+            bound: int
+
+            def move(self):
+                self.axis[DEREF] += self.step
+
+            def shrink(self):
+                self.bound -= self.step
+
+            def is_end(self):
+                return self.axis[DEREF] == self.bound
+
+        DEREF = 0
         row = [0]
         col = [0]
 
-        AXIS, STEP, BOUND = 0, 1, 2
-        DEREF = 0
         directions = [
-            [col, 1, cols-1],
-            [row, 1, rows-1],
-            [col, -1, 0],
-            [row, -1, 0],
+            Direction(col, 1, cols-1),
+            Direction(row, 1, rows-1),
+            Direction(col, -1, 0),
+            Direction(row, -1, 0),
         ]
         curr_dir = 0
 
         for i in range(rows*cols):
             res[i] = matrix[row[DEREF]][col[DEREF]]
 
-            if directions[curr_dir][AXIS][DEREF] == directions[curr_dir][BOUND]:
+            if directions[curr_dir].is_end():
                 pre_dir = (curr_dir+3)%4
-                directions[pre_dir][BOUND] -= directions[pre_dir][STEP]
+                directions[pre_dir].shrink()
                 curr_dir = (curr_dir+1)%4
 
-            directions[curr_dir][AXIS][DEREF] += directions[curr_dir][STEP]
+            directions[curr_dir].move()
 
         return res
 
