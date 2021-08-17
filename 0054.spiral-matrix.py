@@ -166,6 +166,35 @@ class Solution:
 
         return res
 
+    def spiralOrder5(self, matrix: List[List[int]]) -> List[int]:
+        rows, cols = len(matrix), len(matrix[0])
+        res = [0] * (rows*cols)
+
+        row = [0]
+        col = [0]
+
+        AXIS, STEP, BOUND = 0, 1, 2
+        DEREF = 0
+        directions = [
+            [col, 1, cols-1],
+            [row, 1, rows-1],
+            [col, -1, 0],
+            [row, -1, 0],
+        ]
+        curr_dir = 0
+
+        for i in range(rows*cols):
+            res[i] = matrix[row[DEREF]][col[DEREF]]
+
+            if directions[curr_dir][AXIS][DEREF] == directions[curr_dir][BOUND]:
+                pre_dir = (curr_dir+3)%4
+                directions[pre_dir][BOUND] -= directions[pre_dir][STEP]
+                curr_dir = (curr_dir+1)%4
+
+            directions[curr_dir][AXIS][DEREF] += directions[curr_dir][STEP]
+
+        return res
+
 
 # @lc code=end
 def test():
