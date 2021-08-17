@@ -62,6 +62,72 @@ class Solution:
             matrix[loops][loops] = first
         return matrix
 
+    def generateMatrix1(self, n: int) -> List[List[int]]:
+
+        def generateMatrixMN(rows: int, cols: int) -> List[List[int]]:
+            matrix = [[0]*cols for _ in range(rows)]
+
+            STEP_ROW, STEP_COL, BOUND = 0, 1, 2
+            directions = [
+                [ 0,  1, cols-1], # left -> right
+                [ 1,  0, rows-1], # top -> bottom
+                [ 0, -1, 0],      # right -> left
+                [-1,  0, 0]       # bottom -> top
+            ]
+            curr_dir = 0
+            row = col = 0
+            for val in range(rows*cols):
+                matrix[row][col] = val+1
+
+                if [col, row][curr_dir%2] == directions[curr_dir][BOUND]:
+                    # when we reach the bound of the current direction,
+                    # shrink the bound of the previous direction,
+                    # and then turn to the next direction
+                    pre_dir = (curr_dir-1)%4
+                    directions[pre_dir][BOUND] -= \
+                        directions[pre_dir][[STEP_COL, STEP_ROW][pre_dir%2]]
+                    curr_dir = (curr_dir+1)%4
+
+                row += directions[curr_dir][STEP_ROW]
+                col += directions[curr_dir][STEP_COL]
+
+            return matrix
+
+        return generateMatrixMN(n, n)
+
+    def generateMatrix2(self, n: int) -> List[List[int]]:
+
+        def generateMatrixMN(rows: int, cols: int) -> List[List[int]]:
+            matrix = [[0]*cols for _ in range(rows)]
+
+            row = [0]
+            col = [0]
+            AXIS, STEP, BOUND = 0, 1, 2
+            VAL = 0
+            directions = [
+                [col,  1, cols-1], # left -> right
+                [row,  1, rows-1], # top -> bottom
+                [col, -1, 0],      # right -> left
+                [row, -1, 0]       # bottom -> top
+            ]
+            curr_dir = 0
+            for val in range(rows*cols):
+                matrix[row[VAL]][col[VAL]] = val+1
+
+                if directions[curr_dir][AXIS][VAL] == directions[curr_dir][BOUND]:
+                    # when we reach the bound of the current direction,
+                    # shrink the bound of the previous direction,
+                    # and then turn to the next direction
+                    pre_dir = (curr_dir-1)%4
+                    directions[pre_dir][BOUND] -= directions[pre_dir][STEP]
+                    curr_dir = (curr_dir+1)%4
+
+                directions[curr_dir][AXIS][VAL] += directions[curr_dir][STEP]
+
+            return matrix
+
+        return generateMatrixMN(n, n)
+
 # @lc code=end
 def test():
     sol = Solution()
