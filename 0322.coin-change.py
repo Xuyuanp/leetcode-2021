@@ -75,14 +75,14 @@ from typing import List
 from functools import lru_cache
 
 class Solution:
+    # O(n*k), O(n). n=amount, k=len(coins)
     def coinChange(self, coins: List[int], amount: int) -> int:
-        dp = [0] + [amount+1] * amount
+        dp = [float('inf')] * (amount+1)
+        dp[0] = 0
         for a in range(1, amount+1):
-            for c in coins:
-                if c <= a:
-                    dp[a] = min(dp[a-c] + 1, dp[a])
+            dp[a] = min(dp[a], 1+min(dp[a-c] if c<=a else float('inf') for c in coins))
 
-        return dp[amount] if dp[amount] != amount+1 else -1
+        return dp[amount] if dp[amount] != float('inf') else -1
 
     def coinChange1(self, coins: List[int], amount: int) -> int:
         coins = set(coins)
@@ -93,36 +93,41 @@ class Solution:
                 return 0
             if amount in coins:
                 return 1
-            min_cnt = -1
+            min_cnt = float('inf')
             for c in coins:
                 if c > amount:
                     continue
                 rest = helper(amount-c)
                 if rest < 0:
                     continue
-                if min_cnt < 0:
-                    min_cnt = rest
-                else:
-                    min_cnt = min(min_cnt, rest)
+                min_cnt = min(min_cnt, rest)
 
-            return min_cnt+1 if min_cnt >= 0 else -1
+            return min_cnt+1 if min_cnt != float('inf') else -1
 
         return helper(amount)
 
 # @lc code=end
-
-if __name__ == "__main__":
+def test():
     sol = Solution()
-    cases = [
-        (([2], 3), -1),
-        (([2], 4), 2),
-        (([1], 0), 0),
-        (([1, 2, 5], 11), 3),
-    ]
-    for (coins, amount), want in cases:
-        got = sol.coinChange(coins, amount)
-        if got != want:
-            print(f"Failed => args: {coins}, {amount}; want: {want}, but got: {got}")
-            break
-    else:
-        print('All Passed')
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        func = getattr(sol, method)
+        cases = [
+            (([2], 3), -1),
+            (([2], 4), 2),
+            (([1], 0), 0),
+            (([1, 2, 5], 11), 3),
+        ]
+        for args, want in cases:
+            got = func(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    test()
