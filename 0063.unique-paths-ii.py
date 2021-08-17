@@ -80,7 +80,6 @@ class Solution:
 
 
     # O(m*n), O(m*n)
-    # we need test this solution first, because it's stateless
     def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
         if obstacleGrid[-1][-1] == 1 or obstacleGrid[0][0] == 1:
             return 0
@@ -96,23 +95,27 @@ class Solution:
         return dp[m][n]
 
 # @lc code=end
-if __name__ == '__main__':
+def test():
     sol = Solution()
     methods = [name for name in dir(sol) if not name.startswith('__')]
-    cases = [
-        (dict(obstacleGrid=[[0, 1]]), 0),
-        (dict(obstacleGrid=[[1, 0]]), 0),
-        (dict(obstacleGrid=[[0,0,0],[0,1,0],[0,0,0]]), 2),
-        (dict(obstacleGrid=[[0, 1], [0, 0]]), 1),
-    ]
     for method in methods:
         print(f'Testing {method}:')
-        fn = getattr(sol, method)
+        func = getattr(sol, method)
+        cases = [
+            ([[[0, 1]]], 0),
+            ([[[1, 0]]], 0),
+            ([[[0,0,0],[0,1,0],[0,0,0]]], 2),
+            ([[[0, 1], [0, 0]]], 1),
+        ]
         for args, want in cases:
-            got = fn(**args)
+            got = func(*args)
             if want != got:
                 print(f'  Failed => args: {args}; want: {want}, but got: {got}')
                 break
         else:
             print('  All Passed')
         print()
+
+
+if __name__ == '__main__':
+    test()
