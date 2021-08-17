@@ -116,6 +116,56 @@ class Solution:
 
         return list(matrix[0]) + self.spiralOrder2(list(zip(*matrix[1:]))[::-1])
 
+    def spiralOrder3(self, matrix: List[List[int]]) -> List[int]:
+        def top(res):
+            row = 0
+            cols = len(matrix[0])
+            for col in range(cols):
+                res.append(matrix[row][col])
+            return matrix[1:]
+
+        def right(res):
+            rows = len(matrix)
+            col = -1
+            for row in range(rows):
+                res.append(matrix[row][col])
+                matrix[row] = matrix[row][:-1]
+            return matrix
+
+        def bottom(res):
+            row = -1
+            cols = len(matrix[0])
+            for col in range(cols-1, -1, -1):
+                res.append(matrix[row][col])
+            return matrix[:-1]
+
+        def left(res):
+            rows = len(matrix)
+            col = 0
+            for row in range(rows-1, -1, -1):
+                res.append(matrix[row][col])
+                matrix[row] = matrix[row][1:]
+            return matrix
+
+        moves = [top, right, bottom, left]
+
+        step = 0
+        res = []
+
+        while matrix and matrix[0]:
+            matrix = moves[step](res)
+            step = (step+1)%4
+
+        return res
+
+    def spiralOrder4(self, matrix: List[List[int]]) -> List[int]:
+        res = []
+        while matrix and matrix[0]:
+            res += list(matrix[0])
+            matrix = list(zip(*matrix[1:]))[::-1]
+
+        return res
+
 
 # @lc code=end
 def test():
