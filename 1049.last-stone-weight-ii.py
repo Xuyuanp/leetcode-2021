@@ -72,7 +72,7 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    # O(n*)
+    # O(n*sum(stones)), O(sum(stones))
     def lastStoneWeightII(self, stones: List[int]) -> int:
         dp = {stones[0], -stones[0]}
         for stone in stones[1:]:
@@ -82,6 +82,20 @@ class Solution:
                 next_dp.add(s-stone)
             dp = next_dp
         return min(abs(s) for s in dp)
+
+    def lastStoneWeightII1(self, stones: List[int]) -> int:
+        # sum(S1) + sum(S2) = sum(S)
+        # sum(S1) - sum(S2) = diff
+        # 2*sum(S1) = diff + sum(S)
+        # diff = 2*sum(S1) - sum(S)
+        # => find the min abs(diff)
+        dp = {0}
+        total = 0
+        for stone in stones:
+            total += stone
+            dp |= {s+stone for s in dp}
+
+        return min(abs(s*2-total) for s in dp)
 
 # @lc code=end
 def test():
