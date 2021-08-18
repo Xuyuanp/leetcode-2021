@@ -48,34 +48,67 @@
 
 # @lc code=start
 class Solution:
+    # O(min(m,n)*log(m*n))
     def findKthNumber(self, m: int, n: int, k: int) -> int:
+        if m > n:
+            m, n = n, m
+
         def enough(x: int) -> bool:
             count = 0
             for i in range(m):
                 count += min(x//(i+1), n)
             return count >= k
 
-        lo, hi = 1, m*n
-        while lo < hi:
-            mid = lo + (hi-lo)//2
+        left, right = 1, m*n
+        while left < right:
+            mid = left + (right-left)//2
             if not enough(mid):
-                lo = mid + 1
+                left = mid + 1
             else:
-                hi = mid
-        return lo
+                right = mid
+        return left
+
+    # O(min(m,n)*log(m*n))
+    def findKthNumber1(self, m: int, n: int, k: int) -> int:
+        if m > n:
+            m, n = n, m
+
+        def n_less_than(x: int) -> int:
+            count = 0
+            for i in range(1, m+1):
+                count += min(x//i, n) # nums of vals less than x in each line
+            return count
+
+        left, right = 1, m*n
+        while left < right:
+            mid = left + (right-left)//2
+            if n_less_than(mid) < k:
+                left = mid + 1
+            else:
+                right = mid
+        return left
 
 
 # @lc code=end
-if __name__ == '__main__':
+def test():
     sol = Solution()
-    cases = [
-        ((3, 3, 5), 3),
-        ((2, 3, 6), 6)
-    ]
-    for (m, n, k), want in cases:
-        got = sol.findKthNumber(m, n, k)
-        if want != got:
-            print(f'Failed => args: {(m, n, k)}; want: {want}, but got: {got}')
-            break
-    else:
-        print('All Passed')
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        func = getattr(sol, method)
+        cases = [
+            ([3, 3, 5], 3),
+            ([2, 3, 6], 6)
+        ]
+        for args, want in cases:
+            got = func(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    test()
