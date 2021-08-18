@@ -70,10 +70,7 @@ class Solution:
             if pos == len(lis):
                 lis.append([[x, cnt]])
             else:
-                if pos > 0:
-                    lis[pos].append([x, cnt])
-                else:
-                    lis[pos].append([x, 1])
+                lis[pos].append([x, cnt])
 
         return sum(t[1] for t in lis[-1])
 
