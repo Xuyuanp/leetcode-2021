@@ -48,16 +48,17 @@ from typing import List
 # @lc code=start
 class Solution:
     def findClosestElements(self, nums: List[int], k: int, x: int) -> List[int]:
-        if x <= nums[0]:
-            return nums[:k]
-        if x >= nums[-1]:
-            return nums[-k:]
+
+        def closer(a: int, b: int) -> bool:
+            da, db = abs(a-x), abs(b-x)
+            return da < db or da == db and a < b
 
         left, right = 0, len(nums)-k
         # left ... mid ... mid+k ... right
         while left < right:
             mid = left + (right-left)//2
-            if x - nums[mid] > nums[mid+k] - x:
+            if closer(nums[mid+k], nums[mid]):
+                # if x is closer to nums[mid+k] than nums[mid], shrink left bound
                 left = mid + 1
             else:
                 right = mid
@@ -65,12 +66,12 @@ class Solution:
         return nums[left:left+k]
 
 # @lc code=end
-if __name__ == '__main__':
+def test():
     sol = Solution()
     methods = [name for name in dir(sol) if not name.startswith('__')]
     for method in methods:
         print(f'Testing {method}:')
-        fn = getattr(sol, method)
+        func = getattr(sol, method)
         cases = [
             ([[1], 1, 1], [1]),
             ([[1], 1, -1], [1]),
@@ -79,10 +80,14 @@ if __name__ == '__main__':
             ([[1, 2, 30, 31, 32], 3, 30], [30, 31, 32]),
         ]
         for args, want in cases:
-            got = fn(*args)
+            got = func(*args)
             if want != got:
                 print(f'  Failed => args: {args}; want: {want}, but got: {got}')
                 break
         else:
             print('  All Passed')
         print()
+
+
+if __name__ == '__main__':
+    test()
