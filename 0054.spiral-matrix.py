@@ -171,22 +171,23 @@ class Solution:
         rows, cols = len(matrix), len(matrix[0])
         res = [0] * (rows*cols)
 
+        DEREF = 0
+
         @dataclass
         class Direction:
-            axis: List[int]
+            axis_ref: List[int]
             step: int
             bound: int
 
             def move(self):
-                self.axis[DEREF] += self.step
+                self.axis_ref[DEREF] += self.step
 
             def shrink(self):
                 self.bound -= self.step
 
             def is_end(self):
-                return self.axis[DEREF] == self.bound
+                return self.axis_ref[DEREF] == self.bound
 
-        DEREF = 0
         row = [0]
         col = [0]
 

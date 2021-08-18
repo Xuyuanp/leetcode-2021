@@ -40,6 +40,7 @@
 #
 #
 from typing import List
+from dataclasses import dataclass
 
 # @lc code=start
 class Solution:
@@ -102,8 +103,8 @@ class Solution:
 
             row = [0]
             col = [0]
-            AXIS, STEP, BOUND = 0, 1, 2
-            VAL = 0
+            AXIS_REF, STEP, BOUND = 0, 1, 2
+            DEREF = 0
             directions = [
                 [col,  1, cols-1], # left -> right
                 [row,  1, rows-1], # top -> bottom
@@ -112,9 +113,9 @@ class Solution:
             ]
             curr_dir = 0
             for val in range(rows*cols):
-                matrix[row[VAL]][col[VAL]] = val+1
+                matrix[row[DEREF]][col[DEREF]] = val+1
 
-                if directions[curr_dir][AXIS][VAL] == directions[curr_dir][BOUND]:
+                if directions[curr_dir][AXIS_REF][DEREF] == directions[curr_dir][BOUND]:
                     # when we reach the bound of the current direction,
                     # shrink the bound of the previous direction,
                     # and then turn to the next direction
@@ -122,7 +123,56 @@ class Solution:
                     directions[pre_dir][BOUND] -= directions[pre_dir][STEP]
                     curr_dir = (curr_dir+1)%4
 
-                directions[curr_dir][AXIS][VAL] += directions[curr_dir][STEP]
+                directions[curr_dir][AXIS_REF][DEREF] += directions[curr_dir][STEP]
+
+            return matrix
+
+        return generateMatrixMN(n, n)
+
+    def generateMatrix3(self, n: int) -> List[List[int]]:
+
+        def generateMatrixMN(rows: int, cols: int) -> List[List[int]]:
+            DEREF = 0
+
+            @dataclass
+            class Direction:
+                axis_ref: List[int]
+                step: int
+                bound: int
+
+                def move(self):
+                    self.axis_ref[DEREF] += self.step
+
+                def shrink(self):
+                    self.bound -= self.step
+
+                def is_end(self):
+                    return self.axis_ref[DEREF] == self.bound
+
+            matrix = [[0]*cols for _ in range(rows)]
+
+            row = [0]
+            col = [0]
+
+            directions = [
+                Direction(col, 1, cols-1),  # left -> right
+                Direction(row, 1, rows-1),  # top -> bottom
+                Direction(col, -1, 0),      # right -> left
+                Direction(row, -1, 0),      # bottom -> top
+            ]
+            curr_dir = 0
+            for val in range(rows*cols):
+                matrix[row[DEREF]][col[DEREF]] = val+1
+
+                if directions[curr_dir].is_end():
+                    # when we reach the bound of the current direction,
+                    # shrink the bound of the previous direction,
+                    # and then turn to the next direction
+                    pre_dir = (curr_dir+3)%4
+                    directions[pre_dir].shrink()
+                    curr_dir = (curr_dir+1)%4
+
+                directions[curr_dir].move()
 
             return matrix
 
