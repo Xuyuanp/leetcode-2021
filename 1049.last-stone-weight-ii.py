@@ -72,10 +72,10 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    # O(n*sum(stones)), O(sum(stones))
+    # O(n*sum(stones)*2), O(sum(stones)*2)
     def lastStoneWeightII(self, stones: List[int]) -> int:
-        dp = {stones[0], -stones[0]}
-        for stone in stones[1:]:
+        dp = {0}
+        for stone in stones:
             next_dp = set()
             for s in dp:
                 next_dp.add(s+stone)
@@ -83,6 +83,7 @@ class Solution:
             dp = next_dp
         return min(abs(s) for s in dp)
 
+    # O(n*sum(stones)), O(sum(stones))
     def lastStoneWeightII1(self, stones: List[int]) -> int:
         # sum(S1) + sum(S2) = sum(S)
         # sum(S1) - sum(S2) = diff
@@ -96,6 +97,46 @@ class Solution:
             dp |= {s+stone for s in dp}
 
         return min(abs(s*2-total) for s in dp)
+
+    # equivalent to lastStoneWeightII
+    def lastStoneWeightII2(self, stones: List[int]) -> int:
+        total = sum(stones)
+        offset = total
+        dp = [False] * (total*2+1)
+        dp[offset] = True
+        for stone in stones:
+            next_dp = [False]*(total*2+1)
+            for s, ok in enumerate(dp):
+                if ok:
+                    next_dp[s+stone] = True
+                    next_dp[s-stone] = True
+            dp = next_dp
+        return min(abs(s-offset) for s, ok in enumerate(dp) if ok)
+
+    # equivalent to lastStoneWeightII1
+    def lastStoneWeightII3(self, stones: List[int]) -> int:
+        total = sum(stones)
+        dp = [False] * (total+1)
+        dp[0] = True
+        for stone in stones:
+            next_dp = list(dp)
+            for s, ok in enumerate(dp):
+                if ok:
+                    next_dp[s+stone] = True
+            dp = next_dp
+
+        return min(abs(s*2-total) for s, ok in enumerate(dp) if ok)
+
+    # equivalent to lastStoneWeightII3
+    def lastStoneWeightII4(self, stones: List[int]) -> int:
+        total = sum(stones)
+        dp = [False] * (total+1)
+        dp[0] = True
+        for stone in stones:
+            for s in range(len(dp)-1, stone-1, -1):
+                dp[s] = dp[s] or dp[s-stone]
+
+        return min(abs(s*2-total) for s, ok in enumerate(dp) if ok)
 
 # @lc code=end
 def test():
