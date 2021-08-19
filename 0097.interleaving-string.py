@@ -118,7 +118,7 @@ class Solution:
 
         return dp[n]
 
-    # O(m*n), O(min(m, n))
+    # O(m*n), O(m*n)
     def isInterleave2(self, s1: str, s2: str, s3: str) -> bool:
         if len(s1) < len(s2):
             s1, s2 = s2, s1
@@ -137,6 +137,27 @@ class Solution:
                 s2[0] == s3[0] and is_interleave(s1, s2[1:], s3[1:])
 
         return is_interleave(s1, s2, s3)
+
+    # O(m*n), O(m*n)
+    def isInterleave2(self, s1: str, s2: str, s3: str) -> bool:
+        if len(s1) < len(s2):
+            s1, s2 = s2, s1
+        m, n = len(s1), len(s2)
+        if m+n != len(s3):
+            return False
+
+        @lru_cache(None)
+        def is_interleave(i1: int, i2: int) -> bool:
+            i3 = i1+i2
+            if i1 == m:
+                return s2[i2:] == s3[i3:]
+            if i2 == n:
+                return s1[i1:] == s3[i3:]
+
+            return s1[i1] == s3[i3] and is_interleave(i1+1, i2) or \
+                s2[i2] == s3[i3] and is_interleave(i1, i2+1)
+
+        return is_interleave(0, 0)
 
 # @lc code=end
 def test():
