@@ -40,7 +40,7 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    # O(n*2^n), O(n^2)
+    # O(2^n), O(n)
     def partition2(self, s: str) -> List[List[str]]:
         res = []
         n = len(s)
@@ -66,7 +66,8 @@ class Solution:
 
         backtrack(0, [])
         return res
-    # O(n*2^n), O(n^2)
+
+    # O(2^n), O(n)
     def partition1(self, s: str) -> List[List[str]]:
         res = []
         n = len(s)
@@ -90,17 +91,18 @@ class Solution:
         backtrack(0, [])
         return res
 
+    # O(2^n), O(n^2)
     def partition(self, s: str) -> List[List[str]]:
         res = []
         n = len(s)
 
         dp = [[i==j for i in range(n)] for j in range(n)]
 
-        @lru_cache(None)
         def fill_dp(i: int, j: int):
-            if 0 <= i <= j < n and s[i] == s[j]:
+            while 0 <= i <= j < n and s[i] == s[j]:
                 dp[i][j] = True
-                fill_dp(i-1, j+1)
+                i -= 1
+                j += 1
 
         def backtrack(i: int, pat: List[str]):
             if i == n:
