@@ -52,17 +52,13 @@ class Solution:
         def helper(m: int):
             if m < 2:
                 return 1
-            res = 0
-            for i in range(m):
-                # use each number as root
-                res += helper(i) * helper(m-i-1)
-            return res
+            return sum(helper(i)*helper(m-i-1) for i in range(m))
 
         return helper(n)
 
     # O(n^2), O(n). DP
     def numTrees1(self, n: int) -> int:
-        if n < 3:
+        if n < 2:
             return n
         dp = [1] * (n+1)
         for i in range(2, n+1):
