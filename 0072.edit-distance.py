@@ -74,9 +74,10 @@ class Solution:
                 return helper(word1[1:], word2[1:])
 
             return 1 + min(
-                helper(word1[1:], word2),
-                helper(word1,     word2[1:]),
-                helper(word1[1:], word2[1:]))
+                helper(word1[1:], word2),      # delete word1[0]
+                helper(word1,     word2[1:]),  # delete word2[0]
+                helper(word1[1:], word2[1:]),  # replace either word1[0] or word2[0]
+            )
 
         res = helper(word1, word2)
         return res
@@ -84,14 +85,62 @@ class Solution:
     # O(m*n), O(m*n)
     def minDistance1(self, word1: str, word2: str) -> int:
         m, n = len(word1), len(word2)
-        dp = [[0 if i > 0 and j > 0 else max(i, j)
+        dp = [[0 if i > 0 and j > 0 else i+j
                for j in range(n+1)]
               for i in range(m+1)]
         for i in range(1, m+1):
             for j in range(1, n+1):
-                dp[i][j] = dp[i-1][j-1] if word1[i-1] == word2[j-1] else \
-                    min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1]) + 1
+                if word1[i-1] == word2[j-1]:
+                    dp[i][j] = dp[i-1][j-1]
+                else:
+                    dp[i][j] = 1 + min(
+                        dp[i-1][j],
+                        dp[i][j-1],
+                        dp[i-1][j-1],
+                    )
         return dp[m][n]
+
+    # O(m*n), O(min(m, n))
+    def minDistance2(self, word1: str, word2: str) -> int:
+        if len(word1) < len(word2):
+            word1, word2 = word2, word1
+        m, n = len(word1), len(word2)
+        dp = [0] * (n+1)
+        for i in range(m+1):
+            next_dp = [0] * (n+1)
+            for j in range(n+1):
+                if i == 0 or j == 0:
+                    next_dp[j] = i+j
+                elif word1[i-1] == word2[j-1]:
+                    next_dp[j] = dp[j-1]
+                else:
+                    next_dp[j] = 1 + min(
+                        dp[j],
+                        next_dp[j-1],
+                        dp[j-1],
+                    )
+            dp = next_dp
+        return dp[n]
+
+    # O(m*n), O(m*n)
+    def minDistance3(self, word1: str, word2: str) -> int:
+        m, n = len(word1), len(word2)
+        @lru_cache(maxsize=None)
+        def helper(i: int, j: int) -> int:
+            if i == m:
+                return n-j
+            if j == n:
+                return m-i
+            if word1[i] == word2[j]:
+                return helper(i+1, j+1)
+
+            return 1 + min(
+                helper(i+1, j),      # delete word1[0]
+                helper(i, j+1),  # delete word2[0]
+                helper(i+1, j+1),  # replace either word1[0] or word2[0]
+            )
+
+        return helper(0, 0)
 
 # @lc code=end
 if __name__ == '__main__':
