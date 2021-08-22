@@ -45,6 +45,7 @@ from typing import List
 
 # @lc code=start
 class Solution:
+    # O(m*n), O(m*n)
     def findLength(self, nums1: List[int], nums2: List[int]) -> int:
         m, n = len(nums1), len(nums2)
         dp = [[0] * (n+1) for _ in range(m+1)]
@@ -55,6 +56,24 @@ class Solution:
                 if nums1[i-1] == nums2[j-1]:
                     dp[i][j] = dp[i-1][j-1]+1
                     res = max(res, dp[i][j])
+
+        return res
+
+    # O(m*n), O(min(m, n))
+    def findLength1(self, nums1: List[int], nums2: List[int]) -> int:
+        if len(nums1) < len(nums2):
+            nums1, nums2 = nums2, nums1
+        m, n = len(nums1), len(nums2)
+        dp = [0] * (n+1)
+        res = 0
+
+        for i in range(1, m+1):
+            next_dp = [0] * (n+1)
+            for j in range(1, n+1):
+                if nums1[i-1] == nums2[j-1]:
+                    next_dp[j] = dp[j-1] + 1
+                    res = max(res, next_dp[j])
+            dp = next_dp
 
         return res
 
@@ -78,7 +97,6 @@ def test():
             if want != got:
                 print(f'  Failed => args: {args}; want: {want}, but got: {got}')
                 break
-            print('---')
         else:
             print('  All Passed')
         print()
