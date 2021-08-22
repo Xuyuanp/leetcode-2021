@@ -63,6 +63,9 @@
 #
 
 # @lc code=start
+from functools import cache
+
+
 class Solution:
     # O(m*n), O(m*n). DP
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
@@ -75,6 +78,20 @@ class Solution:
                 else:
                     dp[i][j] = max(dp[i-1][j], dp[i][j-1])
         return dp[-1][-1]
+
+    # O(m*n), O(m*n).
+    def longestCommonSubsequence1(self, text1: str, text2: str) -> int:
+        m, n = len(text1), len(text2)
+
+        @cache
+        def helper(i: int, j: int) -> int:
+            if i == m or j == n:
+                return 0
+            if text1[i] == text2[j]:
+                return 1 + helper(i+1, j+1)
+            return max(helper(i+1, j), helper(i, j+1))
+
+        return helper(0, 0)
 
 # @lc code=end
 def test():
