@@ -57,6 +57,7 @@ from typing import List
 
 # @lc code=start
 class Solution:
+    # O(n), O(1)
     def findLengthOfLCIS(self, nums: List[int]) -> int:
         res = curr = 1
         for x, y in zip(nums, nums[1:]):
@@ -66,6 +67,15 @@ class Solution:
             else:
                 curr = 1
         return res
+
+    # O(n), O(n)
+    def findLengthOfLCIS2(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp = [1] * n
+        for i in range(1, n):
+            if nums[i] > nums[i-1]:
+                dp[i] = dp[i-1] + 1
+        return max(dp)
 
 # @lc code=end
 def test():
