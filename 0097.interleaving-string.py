@@ -77,19 +77,17 @@ class Solution:
         if m+n != len(s3):
             return False
         dp = [[False]*(n+1) for _ in range(m+1)]
+        dp[0][0] = True
+        for i in range(1, m+1):
+            dp[i][0] = dp[i-1][0] and s1[i-1] == s3[i-1]
+        for j in range(1, n+1):
+            dp[0][j] = dp[0][j-1] and s2[j-1] == s3[j-1]
 
-        for i in range(m+1):
-            for j in range(n+1):
-                if i == j == 0:
-                    dp[i][j] = True
-                elif i == 0:
-                    dp[i][j] = dp[i][j-1] and s2[j-1] == s3[j-1]
-                elif j == 0:
-                    dp[i][j] = dp[i-1][j] and s1[i-1] == s3[i-1]
-                else:
-                    dp[i][j] = \
-                        dp[i-1][j] and s1[i-1] == s3[i+j-1] or \
-                        dp[i][j-1] and s2[j-1] == s3[i+j-1]
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                dp[i][j] = \
+                    dp[i-1][j] and s1[i-1] == s3[i+j-1] or \
+                    dp[i][j-1] and s2[j-1] == s3[i+j-1]
 
         return dp[m][n]
 
@@ -102,19 +100,17 @@ class Solution:
             return False
 
         dp = [False] * (n+1)
+        dp[0] = True
+        for j in range(1, n+1):
+            dp[j] = dp[j-1] and s2[j-1] == s3[j-1]
 
-        for i in range(m+1):
-            for j in range(n+1):
-                if i == j == 0:
-                    dp[j] = True
-                elif i == 0:
-                    dp[j] = dp[j-1] and s2[j-1] == s3[j-1]
-                elif j == 0:
-                    dp[j] = dp[j] and s1[i-1] == s3[i-1]
-                else:
-                    dp[j] = \
-                        dp[j] and s1[i-1] == s3[i+j-1] or \
-                        dp[j-1] and s2[j-1] == s3[i+j-1]
+        for i in range(1, m+1):
+            next_dp = [False] * (n+1)
+            next_dp[0] = dp[0] and s1[i-1] == s3[i-1]
+            for j in range(1, n+1):
+                next_dp[j] = dp[j] and s1[i-1] == s3[i+j-1] or \
+                    next_dp[j-1] and s2[j-1] == s3[i+j-1]
+            dp = next_dp
 
         return dp[n]
 
@@ -168,6 +164,7 @@ def test():
         func = getattr(sol, method)
         cases = [
             (['', '', ''], True),
+            (['a', '', 'c'], False),
             (['aabcc', 'dbbca', 'aadbbcbcac'], True),
             (['aabcc', 'dbbca', 'aadbbbaccc'], False),
         ]
