@@ -75,7 +75,6 @@ class Solution:
                 if s[0] == t[0]:
                     return 1 + helper(s[1:], t)
                 return helper(s[1:], t)
-                # return s.count(t)
 
             res = 0
             for i in range(len(s)-len(t)+1):
@@ -152,15 +151,34 @@ class Solution:
             return 0
         dp = [[1 if j == 0 else 0 for j in range(n+1) ] for _ in range(m+1)]
 
-        for j in range(1, n+1):
-            for i in range(1, m+1):
+        for i in range(1, m+1):
+            for j in range(1, n+1):
                 if i < j:
                     continue
+                dp[i][j] = dp[i-1][j]
                 if s[i-1] == t[j-1]:
-                    dp[i][j] = dp[i-1][j] + dp[i-1][j-1]
-                else:
-                    dp[i][j] = dp[i-1][j]
+                    dp[i][j] += dp[i-1][j-1]
         return dp[m][n]
+
+    def numDistinct5(self, s: str, t: str) -> int:
+        m, n = len(s), len(t)
+        if m < n:
+            return 0
+        dp = [0] * (n+1)
+        dp[0] = 1
+
+        for i in range(1, m+1):
+            next_dp = [0]*(n+1)
+            next_dp[0] = 1
+            for j in range(1, n+1):
+                if i < j:
+                    continue
+                next_dp[j] = dp[j]
+                if s[i-1] == t[j-1]:
+                    next_dp[j] += dp[j-1]
+            dp = next_dp
+        return dp[n]
+
 
 # @lc code=end
 def test():
