@@ -62,7 +62,7 @@
 #
 
 
-from collections import defaultdict
+from collections import Counter, defaultdict
 from functools import lru_cache
 from typing import List
 
@@ -74,12 +74,12 @@ class Solution:
         def helper(index: int, curr: int) -> int:
             if (index, curr) not in mem:
                 if index == len(nums):
-                    mem[(index, curr)] = 1 if curr == target else 0
+                    mem[index, curr] = 1 if curr == target else 0
                 else:
                     positive = helper(index+1, curr+nums[index])
                     negative = helper(index+1, curr-nums[index])
-                    mem[(index, curr)] = positive+negative
-            return mem[(index, curr)]
+                    mem[index, curr] = positive+negative
+            return mem[index, curr]
 
         return helper(0, 0)
 
@@ -99,13 +99,31 @@ class Solution:
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
         counter = defaultdict(int)
         counter[0] = 1
-        for n in nums:
+        for x in nums:
             next_counter = defaultdict(int)
             for i in counter:
-                next_counter[i+n] += counter[i]
-                next_counter[i-n] += counter[i]
+                next_counter[i+x] += counter[i]
+                next_counter[i-x] += counter[i]
             counter = next_counter
         return counter[target]
+
+    # O(n*sum), O(sum)
+    def findTargetSumWays3(self, nums: List[int], target: int) -> int:
+        # sum(A) + sum(B) = sum(S)
+        # sum(A) - sum(B) = target
+        # sum(A) = (sum(S) + target)/2
+        # => find A
+        total = 0
+        counter = Counter([0])
+        for x in nums:
+            total += x
+            next_counter = Counter(counter)
+            for i in counter:
+                next_counter[i+x] += counter[i]
+            counter = next_counter
+        if (total+target)%2 == 1:
+            return 0
+        return counter[(total+target)//2]
 
 # @lc code=end
 if __name__ == '__main__':
