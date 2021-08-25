@@ -101,6 +101,43 @@ class Solution:
 
         return helper(0, m)
 
+    # O(n*n*m), O(n*m)
+    def splitArray1(self, nums: List[int], m: int) -> int:
+        n = len(nums)
+
+        @cache
+        def helper(end: int, mm: int) -> int:
+            if mm == 1:
+                return sum(nums[:end])
+
+            curr = 0
+            res = float('inf')
+
+            for i in range(end, mm-1, -1):
+                curr+= nums[i-1]
+                res = min(res, max(curr, helper(i-1, mm-1)))
+
+            return res
+
+        return helper(n, m)
+
+    # O(n*n*m), O(n*m)
+    def splitArray1(self, nums: List[int], m: int) -> int:
+        n = len(nums)
+        dp = [[float('inf')]*(m+1) for _ in range(n+1)]
+        dp[0][1] = 0
+
+        for i in range(1, n+1):
+            dp[i][1] = nums[i-1] + dp[i-1][1]
+            for mm in range(2, min(i, m)+1):
+                curr = 0
+                for j in range(i, mm-1, -1):
+                    curr += nums[j-1]
+                    dp[i][mm] = min(dp[i][mm], max(curr, dp[j-1][mm-1]))
+
+        return dp[n][m]
+
+
 # @lc code=end
 def test():
     sol = Solution()

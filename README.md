@@ -7,12 +7,12 @@
 Problems:
 
 * [10. Regular expression matching](0010.regular-expression-matching.py)
-* [44. Wildcard maching](0044.wildcard-matching.py)
+* [44. Wildcard matching](0044.wildcard-matching.py)
 * [62. Unique paths](0062.unique-paths.py)
 * [63. Unique paths II](0063.unique-paths-ii.py)
 * [72. Edit distance](0072.edit-distance.py)
 * [97. Interleaving string](0097.interleaving-string.py)
-* [115. Distinct subsequence](0115.distinct-subsequences.py)
+* [115. Distinct subsequences](0115.distinct-subsequences.py)
 * [583. Delete operation for two strings](0583.delete-operation-for-two-strings.py)
 * [712. Minimum ascii delete sum for two strings](0712.minimum-ascii-delete-sum-for-two-strings.py)
 * [718. Maximum length of repeated subarray](0718.maximum-length-of-repeated-subarray.py)
@@ -39,9 +39,9 @@ for i in range(1, m+1):
 return dp[m][n]
 ```
 
-`Time complexity: O(m*n)`
+`Time complexity: O(M*N)`
 
-`Space complexity: O(m*n)`
+`Space complexity: O(M*N)`
 
 ### 1.1.2 Optimize memory usage
 
@@ -63,45 +63,83 @@ for i in range(1, m+1):
 return dp[n]
 ```
 
-`Time complexity: O(m*n)`
+`Time complexity: O(M*N)`
 
-`Space complexity: O(n) or O(min(m, n))`
+`Space complexity: O(N) or O(min(M, N))`
 
 ### 1.2 Split/Partition array for max/min value
+
+Split an array with length `N` into `K` partitions.
+
+For each partion `p`, there is a value: `f(p)`,
+
+Find the `max/min` value of `g(p1, p2, p3...pk)`.
+
+(`f` and `g` can be `max`, `min`, `sum`, `avg`...)
 
 Problems:
 
 * [410. Split array largest sum](0410.split-array-largest-sum.py)
 * [813. Largest sum of average](0813.largest-sum-of-averages.py)
-* [1043. Partition array of maximum sum](1043.partition-array-for-maximum-sum.py)
 * [1278. Palindrome partition III](1278.palindrome-partitioning-iii.py)
 * [1335. Minimum difficulty of a job schedule](1335.minimum-difficulty-of-a-job-schedule.py)
 
 ### 1.2.3 General solution
 
-Recursive & memoization
-
 ```python
 from functools import cache
 
-def solution(arr: List[int], k: int) -> int:
-    n = len(arr)
+# left -> right
+def solution(arr: List[int], K: int) -> int:
+    N = len(arr)
 
     @cache
-    def helper(start: int, kk: int) -> int:
-        if kk == 1:
-            return f1(arr[start:])
+    def helper(start: int, k: int) -> int:
+        if k == 1:
+            return f(arr[start:])
 
-        curr = 0 # 1, -1, inf, -inf...
         res = 0  # 1, -1, inf, -inf...
-        for i in range(start, n-kk+1):
-            curr = f2(curr, arr[i])
-            res = f3(res, f4(curr, helper(i+1, kk-1)))
+        for i in range(start, n-k+1):
+            curr = f(arr[start:i+1])
+            rest = helper(i+1, k-1)
+            res = extremum(res, g(curr, rest))
         return res
 
-    return helper(0, k)
+    return helper(0, K)
+
+# right -> left
+def solution(arr: List[int], K: int) -> int:
+    N = len(arr)
+
+    @cache
+    def helper(end: int, k: int) -> int:
+        if k == 1:
+            return f(arr[:end])
+
+        res = 0  # 1, -1, inf, -inf...
+        for i in range(end, k-1, -1):
+            curr = f(arr[i-1:end])
+            rest = helper(i-1, k-1)
+            res = extremum(res, g(curr, rest))
+        return res
+
+    return helper(n, K)
+
+# dp
+def solution(arr: List[int], K: int) -> int:
+    N = len(arr)
+    dp = [[INIT] * (K+1) for _ in range(N+1)]
+
+    for i in range(1, N+1):
+        dp[i][1] = f(arr[:i])
+        for k in range(2, min(i, K)+1):
+            for j in range(i, k-1, -1):
+                curr = f(arr[j-1:i])
+                dp[i][k] = extremum(dp[i][k], g(curr, dp[j-1][k-1]))
+
+    return dp[n][k]
 ```
 
-`Time complexity: O(n*n*k)`
+`Time complexity: O(N*N*K)`
 
-`Space complexity: O(n*k)`
+`Space complexity: O(N*K)`

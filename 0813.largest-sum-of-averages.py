@@ -59,7 +59,7 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    # O(n*k), O(n*k)
+    # O(n*n*k), O(n*k)
     def largestSumOfAverages(self, nums: List[int], k: int) -> float:
         n = len(nums)
 
@@ -75,6 +75,38 @@ class Solution:
             return res
 
         return helper(0, k)
+
+    # O(n*n*k), O(n*k)
+    def largestSumOfAverages1(self, nums: List[int], k: int) -> float:
+        n = len(nums)
+
+        @cache
+        def helper(end: int, kk: int) -> float:
+            if kk == 1:
+                return sum(nums[:end])/end
+            curr = 0
+            res = 0
+            for i in range(end, kk-1, -1):
+                curr += nums[i-1]
+                res = max(res, curr/(end-i+1) + helper(i-1, kk-1))
+            return res
+
+        return helper(n, k)
+
+    # O(n*n*k), O(n*k)
+    def largestSumOfAverages1(self, nums: List[int], k: int) -> float:
+        n = len(nums)
+        dp = [[0] * (k+1) for _ in range(n+1)]
+
+        for i in range(1, n+1):
+            dp[i][1] = (nums[i-1] + (dp[i-1][1])*(i-1))/i
+            for kk in range(2, min(i, k)+1):
+                curr = 0
+                for j in range(i, kk-1, -1):
+                    curr += nums[j-1]
+                    dp[i][kk] = max(dp[i][kk], curr/(i-j+1) + dp[j-1][kk-1])
+
+        return dp[n][k]
 
 # @lc code=end
 def test():

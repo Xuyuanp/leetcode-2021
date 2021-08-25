@@ -83,13 +83,55 @@ class Solution:
             res = float('inf')
 
             for i in range(start, n-kk+1):
-                res = min(res, make_palindrome(start, i)+helper(i+1, kk-1))
+                curr = make_palindrome(start, i)
+                res = min(res, curr+helper(i+1, kk-1))
 
             return res
 
         return helper(0, k)
 
-    # TODO: DP
+    def palindromePartition1(self, s: str, k: int) -> int:
+        n = len(s)
+
+        @cache
+        def make_palindrome(start: int, end: int) -> int:
+            if start >= end:
+                return 0
+            return make_palindrome(start+1, end-1) + (0 if s[start] == s[end] else 1)
+
+        @cache
+        def helper(end: int, kk: int) -> int:
+            if kk == 1:
+                return make_palindrome(0, end-1)
+
+            res = float('inf')
+
+            for i in range(end, kk-1, -1):
+                curr = make_palindrome(i-1, end-1)
+                res = min(res, curr+helper(i-1, kk-1))
+
+            return res
+
+        return helper(n, k)
+
+    def palindromePartition2(self, s: str, k: int) -> int:
+        n = len(s)
+        dp = [[float('inf')]*(k+1) for _ in range(n+1)]
+
+        @cache
+        def make_palindrome(start: int, end: int) -> int:
+            if start >= end:
+                return 0
+            return make_palindrome(start+1, end-1) + (0 if s[start] == s[end] else 1)
+
+        for i in range(1, n+1):
+            dp[i][1] = make_palindrome(0, i-1)
+            for kk in range(2, min(i, k)+1):
+                for j in range(i, kk-1, -1):
+                    curr = make_palindrome(j-1, i-1)
+                    dp[i][kk] = min(dp[i][kk], curr+dp[j-1][kk-1])
+
+        return dp[n][k]
 
 # @lc code=end
 def test():

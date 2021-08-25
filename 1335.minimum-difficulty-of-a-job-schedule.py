@@ -83,7 +83,7 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    # O(n*n*d), O(n*d)
+    # O(n*n*d), O(n*d). left -> right
     def minDifficulty(self, jobDifficulty: List[int], d: int) -> int:
         n = len(jobDifficulty)
         if n < d:
@@ -101,6 +101,25 @@ class Solution:
             return res
 
         return helper(0, d)
+
+    # O(n*n*d), O(n*d). right -> left
+    def minDifficulty1(self, jobDifficulty: List[int], d: int) -> int:
+        n = len(jobDifficulty)
+        if n < d:
+            return -1
+        @cache
+        def helper(end: int, dd: int) -> int:
+            if dd == 1:
+                return max(jobDifficulty[:end])
+            res = float('inf')
+            curr_max = -1
+            for i in range(end, dd-1, -1):
+                curr_max = max(curr_max, jobDifficulty[i-1])
+                res = min(res, curr_max+helper(i-1, dd-1))
+
+            return res
+
+        return helper(n, d)
 
 # @lc code=end
 def test():
