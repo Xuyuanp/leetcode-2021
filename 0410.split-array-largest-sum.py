@@ -54,10 +54,12 @@
 #
 #
 #
+from functools import cache
 from typing import List
 
 # @lc code=start
 class Solution:
+    # O(n*log(sum)), O(1)
     def splitArray(self, nums: List[int], m: int) -> int:
         def num_of_subarrays_sum_lt_val(val: int) -> int:
             cnt = 1
@@ -79,23 +81,44 @@ class Solution:
                 left = mid + 1
         return left
 
+    # O(n*n*m), O(n*m)
+    def splitArray1(self, nums: List[int], m: int) -> int:
+        n = len(nums)
+
+        @cache
+        def helper(start: int, mm: int) -> int:
+            if mm == 1:
+                return sum(nums[start:])
+
+            curr_sum = 0
+            res = float('inf')
+
+            for i in range(start, n-mm+1):
+                curr_sum += nums[i]
+                res = min(res, max(curr_sum, helper(i+1, mm-1)))
+
+            return res
+
+        return helper(0, m)
+
 # @lc code=end
-if __name__ == '__main__':
+def test():
     sol = Solution()
     methods = [name for name in dir(sol) if not name.startswith('__')]
     for method in methods:
         print(f'Testing {method}:')
-        fn = getattr(sol, method)
+        func = getattr(sol, method)
         cases = [
             ([[7,2,5,10,8], 2], 18),
             ([[1,2,3,4,5], 2], 9),
             ([[1,4,4], 3], 4),
         ]
         for args, want in cases:
-            got = fn(*args)
-            if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
-                break
-        else:
-            print('  All Passed')
+            got = func(*args)
+            assert want == got, f'Failed => args: {args}; want: {want}, but got: {got}'
+        print('  All Passed')
         print()
+
+
+if __name__ == '__main__':
+    test()
