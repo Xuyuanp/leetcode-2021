@@ -2,6 +2,8 @@
 
 ## 1. Dynamic Programming
 
+### 1.1 Edit distance
+
 Problems:
 
 * [10. Regular expression matching](0010.regular-expression-matching.py)
@@ -18,7 +20,7 @@ Problems:
 * [1035. Uncrossed lines](1035.uncrossed-lines.py)
 * [1092. Shortest common supersequence](1092.shortest-common-supersequence.py)
 
-### 1.1 General solution
+### 1.1.1 General solution
 
 ```python
 dp = [[0] * (n+1) for _ in range(m+1)]
@@ -37,11 +39,11 @@ for i in range(1, m+1):
 return dp[m][n]
 ```
 
-_Time complexity: O(m*n)_
+`Time complexity: O(m*n)`
 
-_Space complexity: O(m*n)_
+`Space complexity: O(m*n)`
 
-### 1.2 Optimize memory usage
+### 1.1.2 Optimize memory usage
 
 ```python
 dp = [0] * (n+1)
@@ -61,6 +63,45 @@ for i in range(1, m+1):
 return dp[n]
 ```
 
-_Time complexity: O(m*n)_
+`Time complexity: O(m*n)`
 
-_Space complexity: O(n) or O(min(m, n))_
+`Space complexity: O(n) or O(min(m, n))`
+
+### 1.2 Split/Partition array for max/min value
+
+Problems:
+
+* [410. Split array largest sum](0410.split-array-largest-sum.py)
+* [813. Largest sum of average](0813.largest-sum-of-averages.py)
+* [1043. Partition array of maximum sum](1043.partition-array-for-maximum-sum.py)
+* [1278. Palindrome partition III](1278.palindrome-partitioning-iii.py)
+* [1335. Minimum difficulty of a job schedule](1335.minimum-difficulty-of-a-job-schedule.py)
+
+### 1.2.3 General solution
+
+Recursive & memoization
+
+```python
+from functools import cache
+
+def solution(arr: List[int], k: int) -> int:
+    n = len(arr)
+
+    @cache
+    def helper(start: int, kk: int) -> int:
+        if kk == 1:
+            return f1(arr[start:])
+
+        curr = 0 # 1, -1, inf, -inf...
+        res = 0  # 1, -1, inf, -inf...
+        for i in range(start, n-kk+1):
+            curr = f2(curr, arr[i])
+            res = f3(res, f4(curr, helper(i+1, kk-1)))
+        return res
+
+    return helper(0, k)
+```
+
+`Time complexity: O(n*n*k)`
+
+`Space complexity: O(n*k)`
