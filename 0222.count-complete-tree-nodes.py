@@ -85,18 +85,25 @@ class Solution:
             return (1<<right_depth) + self.countNodes(root.left)
 
 # @lc code=end
-if __name__ == '__main__':
+def test():
     sol = Solution()
     methods = [name for name in dir(sol) if not name.startswith('__')]
     for method in methods:
         print(f'Testing {method}:')
-        fn = getattr(sol, method)
-        cases = [([TreeNode.from_list(list(range(n)))], n) for n in range(1, 100)]
+        func = getattr(sol, method)
+        cases = [
+            ([TreeNode.from_list(list(range(n)))], n)
+            for n in range(1, 100)
+        ]
         for args, want in cases:
-            got = fn(*args)
+            got = func(*args)
             if want != got:
                 print(f'  Failed => args: {args}; want: {want}, but got: {got}')
                 break
         else:
             print('  All Passed')
         print()
+
+
+if __name__ == '__main__':
+    test()
