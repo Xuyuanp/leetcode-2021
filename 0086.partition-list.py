@@ -71,24 +71,32 @@ class Solution:
         return less_head.next
 
 # @lc code=end
-
-if __name__ == "__main__":
+def test():
     sol = Solution()
-    cases = [
-        (([], 1), []),
-        (([1], 1), [1]),
-        (([1], 2), [1]),
-        (([2], 1), [2]),
-        (([1,4,3,2,5,2], 3), [1,2,2,4,3,5]),
-        (([2, 1], 2), [1, 2]),
-        (([2, 1], 10), [2, 1]),
-        (([2, 1], 0), [2, 1]),
-    ]
-    for (head, k), want in cases:
-        got = sol.partition(ListNode.from_list(head), k)
-        want = ListNode.from_list(want)
-        if got != want:
-            print(f"Falied => args: {head}, {k}; want: {want}, but got: {got}")
-            break
-    else:
-        print('All Passed')
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        func = getattr(sol, method)
+        cases = [
+            (([], 1), []),
+            (([1], 1), [1]),
+            (([1], 2), [1]),
+            (([2], 1), [2]),
+            (([1,4,3,2,5,2], 3), [1,2,2,4,3,5]),
+            (([2, 1], 2), [1, 2]),
+            (([2, 1], 10), [2, 1]),
+            (([2, 1], 0), [2, 1]),
+        ]
+        for args, want in cases:
+            got = func(ListNode.from_list(args[0]), args[1])
+            want = ListNode.from_list(want)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    test()
