@@ -64,21 +64,29 @@ class Solution:
         return max_area
 
 # @lc code=end
-
-if __name__ == "__main__":
+def test():
     sol = Solution()
-    cases = [
-        ([2], 2),
-        ([2, 4], 4),
-        ([2, 1, 2], 3),
-        ([1, 2, 3], 4),
-        ([3, 2, 1, 2, 3], 5),
-        ([2, 1, 5, 6, 2, 3], 10),
-    ]
-    for heights, want in cases:
-        got = sol.largestRectangleArea(heights)
-        if got != want:
-            print(f"Failed => args: {heights}; want: {want}, but got: {got}")
-            break
-    else:
-        print("All Passed")
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        func = getattr(sol, method)
+        cases = [
+            ([[2]], 2),
+            ([[2, 4]], 4),
+            ([[2, 1, 2]], 3),
+            ([[1, 2, 3]], 4),
+            ([[3, 2, 1, 2, 3]], 5),
+            ([[2, 1, 5, 6, 2, 3]], 10),
+        ]
+        for args, want in cases:
+            got = func(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    test()
