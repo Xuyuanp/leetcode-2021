@@ -56,7 +56,8 @@
 #
 #
 #
-from typing import List
+from functools import cache
+from typing import List, Tuple
 
 # @lc code=start
 class Solution:
@@ -88,19 +89,46 @@ class Solution:
 
         return dp[0][n-1][0] > dp[0][n-1][1]
 
-# @lc code=end
+    # O(n^2), O(n^2)
+    def stoneGame1(self, piles: List[int]) -> bool:
+        n = len(piles)
 
-if __name__ == "__main__":
+        @cache
+        def helper(i: int, j: int) -> Tuple[int, int]:
+            if i == j:
+                return piles[i], 0
+
+            la, lb = helper(i+1, j)   # take left
+            ra, rb = helper(i, j-1)   # take right
+            return max(
+                (piles[i] + lb, la),
+                (piles[j] + rb, ra),
+            )
+
+        a, b = helper(0, n-1)
+        return a > b
+
+# @lc code=end
+def test():
     sol = Solution()
-    cases = [
-        ([5, 3, 4, 5], True),
-        ([1, 2], True),
-        ([1, 100, 3, 3], True),
-    ]
-    for piles, want in cases:
-        got = sol.stoneGame(piles)
-        if got != want:
-            print(f"Failed => args: {piles}; want: {want}, but got: {got}")
-            break
-    else:
-        print('All Passed')
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        func = getattr(sol, method)
+        cases = [
+            ([[5, 3, 4, 5]], True),
+            ([[1, 2]], True),
+            ([[1, 100, 3, 3]], True),
+        ]
+        for args, want in cases:
+            got = func(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    test()
