@@ -72,7 +72,7 @@ class Solution:
         return dp[1][n]
 
     # O(n^3), O(n^2)
-    def maxCoins(self, nums: List[int]) -> int:
+    def maxCoins1(self, nums: List[int]) -> int:
         n = len(nums)
         nums = [1] + nums + [1]
 
