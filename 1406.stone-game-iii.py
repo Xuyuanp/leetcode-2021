@@ -91,7 +91,7 @@
 #
 #
 from functools import cache
-from typing import List, Tuple
+from typing import List
 
 # @lc code=start
 class Solution:
@@ -100,40 +100,38 @@ class Solution:
         n = len(stoneValue)
 
         @cache
-        def helper(i: int) -> Tuple[int, int]:
+        def helper(i: int) -> int:
             if i == n:
-                return 0, 0
+                return 0
             curr = 0
-            res = (-float('inf'), 0)
+            res = -float('inf')
             for j in range(i, min(i+3, n)):
                 curr += stoneValue[j]
-                other, rest = helper(j+1)
-                res = max(res, (curr+rest, other))
+                res = max(res, curr-helper(j+1))
             return res
 
-        a, b = helper(0)
-        if a > b:
+        diff = helper(0)
+        if diff > 0:
             return 'Alice'
-        if a < b:
+        if diff < 0:
             return 'Bob'
         return 'Tie'
 
     # O(n), O(n)
     def stoneGameIII1(self, stoneValue: List[int]) -> str:
         n = len(stoneValue)
-        dp = [[-float('inf'), -float('inf')] for _ in range(n+1)]
-        dp[n] = [0, 0]
+        dp = [-float('inf')] * (n+1)
+        dp[n] = 0
         for i in range(n-1, -1, -1):
             curr = 0
             for j in range(i, min(n, i+3)):
                 curr += stoneValue[j]
-                if curr + dp[j+1][1] > dp[i][0]:
-                    dp[i] = [curr+dp[j+1][1], dp[j+1][0]]
+                dp[i] = max(dp[i], curr-dp[j+1])
 
-        a, b = dp[0]
-        if a > b:
+        diff = dp[0]
+        if diff > 0:
             return 'Alice'
-        if a < b:
+        if diff < 0:
             return 'Bob'
         return 'Tie'
 
