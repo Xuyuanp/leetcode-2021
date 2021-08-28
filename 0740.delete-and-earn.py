@@ -93,7 +93,7 @@ class Solution:
         return backtracking(0)
 
     # same as 198(house-robber)
-    # O(n+k), O(k). k = max(nums)-min(nums)
+    # O(n+k), O(n). k = max(nums)-min(nums)
     def deleteAndEarn2(self, nums: List[int]) -> int:
         counter = Counter()
         start = end = 0
