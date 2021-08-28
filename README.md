@@ -143,3 +143,59 @@ def solution(arr: List[int], K: int) -> int:
 `Time complexity: O(N*N*K)`
 
 `Space complexity: O(N*K)`
+
+## 2. Binary Search
+
+## 2.1 longest increasing subsequence(LIS)
+
+Problems:
+
+* [300. Longest increasing subsequence](0300.longest-increasing-subsequence.py)
+* [354. Russian doll envelopes](0354.russian-doll-envelopes.py)
+* [646. Maximum length of pair chain](0646.maximum-length-of-pair-chain.py)
+* [673. Number of longest increasing subsequnce](0673.number-of-longest-increasing-subsequence.py)
+
+### 2.1.1 General solution
+
+```python
+# dp
+# Complexity:
+# Time: O(N^2), Space: O(N)
+def lengthOfLIS(nums: List[int]) -> int:
+    n = len(nums)
+    dp = [1]*n
+    for i in range(1, n):
+        for j in range(i):
+            if nums[j] < nums[i]:
+                dp[i] = max(dp[i], dp[j]+1)
+    return max(dp)
+
+# binary search
+# Complexity:
+# Time: O(N*log(N)), Space: O(N)
+def lengthOfLIS(nums: List[int]) -> int:
+    lis = []
+
+    def binary_search(x int) -> int:
+        left, right = 0, len(lis)
+        while left < right:
+            mid = left + (right-left)//2
+            if lis[mid] < x:
+                left = mid + 1
+            else:
+                right = mid
+        return left
+
+    for x in nums:
+        pos = binary_search(x)
+        if pos == len(lis):
+            lis.append(x)
+        else:
+            lis[pos] = x
+
+    return len(lis)
+```
+
+`Time complexity: O(N^2) => O(N*log(N))`
+
+`Space complexity: O(N)`

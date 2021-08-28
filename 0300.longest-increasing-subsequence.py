@@ -76,13 +76,13 @@ class Solution:
 
     # O(n*log(n)), O(n)
     def lengthOfLIS1(self, nums: List[int]) -> int:
-        tails = []
+        lis = []
 
         def binary_search(x: int) -> int:
-            left, right = 0, len(tails)
+            left, right = 0, len(lis)
             while left < right:
                 mid = (left+right)//2
-                if tails[mid] < x:
+                if lis[mid] < x:
                     left = mid + 1
                 else:
                     right = mid
@@ -90,21 +90,21 @@ class Solution:
 
         for x in nums:
             pos = binary_search(x)
-            if pos == len(tails):
-                tails.append(x)
+            if pos == len(lis):
+                lis.append(x)
             else:
-                tails[pos] = x
-        return len(tails)
+                lis[pos] = x
+        return len(lis)
 
     def lengthOfLIS(self, nums: List[int]) -> int:
-        tails = []
+        lis = []
         for x in nums:
-            pos = bisect_left(tails, x)
-            if pos == len(tails):
-                tails.append(x)
+            pos = bisect_left(lis, x)
+            if pos == len(lis):
+                lis.append(x)
             else:
-                tails[pos] = x
-        return len(tails)
+                lis[pos] = x
+        return len(lis)
 
 # @lc code=end
 def main():

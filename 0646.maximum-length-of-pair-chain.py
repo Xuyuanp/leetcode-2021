@@ -68,13 +68,13 @@ class Solution:
     # O(n*log(n)), O(n). binary search
     def findlongestchain1(self, pairs: List[List[int]]) -> int:
         pairs.sort()
-        tails = [pairs[0][1]]
+        lis = [pairs[0][1]]
 
         def binary_search(val: int) -> int:
-            left, right = 0, len(tails)
+            left, right = 0, len(lis)
             while left < right:
                 mid = (left+right)//2
-                if tails[mid] < val:
+                if lis[mid] < val:
                     left = mid + 1
                 else:
                     right = mid
@@ -82,21 +82,21 @@ class Solution:
 
         for pair in pairs[1:]:
             pos = binary_search(pair[1])
-            if pos == len(tails):
+            if pos == len(lis):
                 # tails[-1]: |--------|
                 # case1:      |---------|            -> drop
                 # case1:                 |-----|     -> append
-                if pair[0] > tails[-1]:
-                    tails.append(pair[1])
+                if pair[0] > lis[-1]:
+                    lis.append(pair[1])
             else:
                 # tails[pos]:   |-------|
                 # case1         |---|     -> replace
                 # case2          |---|    -> replace
-                tails[pos] = pair[1]
-        return len(tails)
+                lis[pos] = pair[1]
+        return len(lis)
 
 # @lc code=end
-def main():
+def test():
     sol = Solution()
     methods = [name for name in dir(sol) if not name.startswith('__')]
     for method in methods:
@@ -122,4 +122,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    test()
