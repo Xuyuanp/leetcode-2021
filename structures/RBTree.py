@@ -18,6 +18,8 @@ class RBNode:
     left: Optional[RBNode] = None
     right: Optional[RBNode] = None
 
+    parent: Optional[RBNode] = None
+
     @classmethod
     def is_black(cls, node: Optional[RBNode]) -> bool:
         return not node or node.color == Color.BLACK
@@ -169,6 +171,56 @@ class RBTree:
     def _right_rotate(self, child: RBNode, parent: RBNode):
         parent.left = child.right
         child.right = parent
+
+    def _transplant(self, u: RBNode, v: RBNode):
+        if u.parent is None:
+            self.root = v
+        elif u == u.parent.left:
+            u.parent.left = v
+        else:
+            u.parent.right = v
+
+        v.parent = u.parent
+
+    def _delete_fixup(self, node: RBNode):
+        while node != self.root and node.color == Color.BLACK:
+            pass
+
+        node.color = Color.BLACK
+
+    def _get_smallest_node(self, node: RBNode) -> RBNode:
+        while node.left:
+            node = node.left
+        return node
+
+    def delete_node(self, node: RBNode):
+        curr = node
+        ori_color = curr.color
+        if not node.left:
+            replace = node.right
+            self._transplant(node, node.right)
+        elif not node.right:
+            replace = node.left
+            self._transplant(node, node.left)
+        else:
+            curr = self._get_smallest_node(node.right)
+            ori_color = curr.color
+            replace = curr.right
+            if curr == node.right:
+                if replace:
+                    replace.parent = node
+            else:
+                self._transplant(curr, curr.right)
+                curr.right = node.right
+                curr.right.parent = curr
+
+            self._transplant(node, curr)
+            curr.left = node.left
+            curr.left.parent = curr
+            curr.color = node.color
+
+        if ori_color == Color.BLACK:
+            self._delete_fixup(replace)
 
     # def remove(self, key: KeyType) -> bool:
     #     return self._remove(key, Context(node=self.root))
