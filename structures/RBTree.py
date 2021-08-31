@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Optional
+from typing import Iterator, Optional, Tuple
 
 KeyType = int
 
@@ -18,16 +18,32 @@ class RBNode:
     left: Optional[RBNode] = None
     right: Optional[RBNode] = None
 
-    parent: Optional[RBNode] = None
-
     @classmethod
     def is_black(cls, node: Optional[RBNode]) -> bool:
         return not node or node.color == Color.BLACK
+
+    @classmethod
+    def ensure_black(cls, node: Optional[RBNode]):
+        if node:
+            node.color = Color.BLACK
+
+    def has_red_children(self) -> bool:
+        return self.left and self.left.color == Color.RED or \
+            self.right and self.right.color == Color.BLACK
 
     def __repr__(self) -> str:
         if not self.left and not self.right:
             return f'{{ {self.key}:{self.color} }}'
         return f'{{ {self.key}:{self.color} [{self.left} {self.right}] }}'
+
+    def __iter__(self) -> Iterator[KeyType]:
+        if self.left:
+            yield from self.left.__iter__()
+
+        yield self.key
+
+        if self.right:
+            yield from self.right.__iter__()
 
 
 @dataclass
@@ -60,10 +76,23 @@ class RBTree:
 
     def __init__(self):
         self.root = None
+        self._count = 0
+
+    def __iter__(self) -> Iterator[KeyType]:
+        if self.root:
+            yield from self.root.__iter__()
+
+    def __len__(self) -> int:
+        return self.count
+
+    @property
+    def count(self) -> int:
+        return self._count
 
     def insert(self, key: KeyType):
         self.root = self._insert(key, Context(current=self.root))
-        self.root.color = Color.BLACK
+        RBNode.ensure_black(self.root)
+        self._count += 1
 
     def _insert(self, key: KeyType, ctx: Context) -> RBNode:
         parent = ctx.current
@@ -172,86 +201,248 @@ class RBTree:
         parent.left = child.right
         child.right = parent
 
-    def _transplant(self, u: RBNode, v: RBNode):
-        if u.parent is None:
-            self.root = v
-        elif u == u.parent.left:
-            u.parent.left = v
+    def remove(self, key: KeyType):
+        self.root = self._remove(key, Context(current=self.root))
+        RBNode.ensure_black(self.root)
+
+    def _remove_fix(self, old_child: RBNode, new_child: Optional[RBNode], ctx: Context) -> RBNode:
+        parent = ctx.current
+        assert parent
+
+        if old_child.color == Color.RED:
+            assert not new_child
+            return parent
+
+        if new_child and new_child.color == Color.RED:
+            new_child.color = Color.BLACK
+            return parent
+
+        # double black
+        child = new_child
+        sibling, sibling_is_left = (parent.left, True) if child == parent.right else (parent.right, False)
+        assert sibling, 'double black node always has a sibling'
+        sibling_has_red_children = sibling.has_red_children()
+
+        if sibling.color == Color.RED and parent.color == Color.BLACK and not sibling_has_red_children:
+            #
+            #        P:black               S:black
+            #       /  \                  /     \
+            #  C:black  S:red   =>       P:red   b2
+            #          / \              /   \
+            #         b1  b2        C:black  b1
+            #
+            rotate_fn = self._right_rotate if sibling_is_left else self._left_rotate
+            rotate_fn(sibling, parent)
+            parent.color = Color.RED
+            sibling.color = Color.BLACK
+            # TODO: continue fix double black node
+            return sibling
+
+        if sibling.color == Color.BLACK and parent.color == Color.BLACK and not sibling_has_red_children:
+            sibling.color = Color.RED
+            return parent
+
+        return parent
+
+    def _remove_case1(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
+        return self._remove_case2(child, sibling, ctx)
+
+    def _remove_case2(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
+        parent = ctx.current
+        assert parent
+
+        sibling_is_left = sibling == parent.left
+
+        if sibling.color == Color.RED:
+            #
+            #        P:black               S:black
+            #       /  \                  /     \
+            #  C:black  S:red   =>       P:red   b2
+            #          / \              /   \
+            #         b1  b2        C:black  b1
+            #
+            assert parent.color == Color.BLACK
+
+            rotate_fn = self._right_rotate if sibling_is_left else self._left_rotate
+            rotate_fn(sibling, parent)
+            parent.color = Color.RED
+            sibling.color = Color.BLACK
+
+            return sibling
+
+        return self._remove_case3(child, sibling, ctx)
+
+    def _remove_case3(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
+        parent = ctx.current
+        assert parent
+
+        sibling_has_red_children = sibling.has_red_children()
+        if sibling.color == Color.BLACK and parent.color == Color.BLACK and not sibling_has_red_children:
+            #
+            #        P:black               P:black
+            #       /  \                  /     \
+            #  C:black  S:black    =>   C:black  S:red
+            #          / \                       / \
+            #         b1  b2                    b1  b2
+            #
+            sibling.color = Color.RED
+            # TODO: parent should be double black
+            return parent
+
+        return self._remove_case4(child, sibling, ctx)
+
+    def _remove_case4(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
+        parent = ctx.current
+        assert parent
+
+        sibling_has_red_children = sibling.has_red_children()
+
+        if parent.color == Color.RED and sibling.color == Color.BLACK and not sibling_has_red_children:
+            #
+            #        P:red                 P:black
+            #       /  \                   /     \
+            #  C:black  S:black    =>    C:black  S:red
+            #          / \                       / \
+            #         b1  b2                    b1  b2
+            #
+            parent.color, sibling.color = sibling.color, parent.color
+            return parent
+
+        return self._remove_case5(child, sibling, ctx)
+
+    def _remove_case5(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
+        parent = ctx.current
+        assert parent
+
+        sibling_is_left = sibling == parent.left
+        closer_node = sibling.right if sibling_is_left else sibling.left
+        outer_node = sibling.left if sibling_is_left else sibling.right
+
+        if sibling.color == Color.BLACK and closer_node and closer_node.color == Color.RED and RBNode.is_black(outer_node):
+            if sibling_is_left:
+                #
+                #           P:any                    P:any
+                #          /   \                    /   \
+                #      S:black  C:black   =>    SR:black C:black
+                #      /    \                      /   \
+                #  SL:black SR:red               S:red  b2
+                #           / \                  /   \
+                #          b1  b2           SL:black  b1
+                #
+                self._left_rotate(closer_node, sibling)
+                parent.left = closer_node
+            else:
+                #
+                #        P:any                    P:any
+                #       /  \                     /     \
+                #  C:black  S:black      =>    C:black SL:black
+                #          / \                         / \
+                #      SL:red SR:black                b1  S:red
+                #     / \                                / \
+                #    b1  b2                             b2  SR:black
+                #
+                self._right_rotate(closer_node, sibling)
+                parent.right = closer_node
+            closer_node.color = Color.BLACK
+            sibling.color = Color.RED
+
+        return self._remove_case6(child, closer_node, ctx)
+
+    def _remove_case6(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
+        parent = ctx.current
+        assert parent
+
+        sibling_is_left = sibling == parent.left
+        outer_node = sibling.left if sibling_is_left else sibling.right
+
+        if sibling.color == Color.BLACK and outer_node and outer_node.color == Color.RED:
+            if sibling_is_left:
+                #
+                #           P:c                         S:c
+                #          /   \                       /   \
+                #      S:black  C:black   =>      SL:black  P:black
+                #       /    \                             /  \
+                #  SL:red    b1                           b1   C:black
+                #
+                self._right_rotate(sibling, parent)
+            else:
+                #
+                #        P:c                           S:c
+                #       /  \                          /   \
+                #  C:black  S:black      =>       P:black SR:black
+                #          / \                    /  \
+                #         b1  SR:red         C:black  b1
+                #
+                self._left_rotate(sibling, parent)
+            sibling.color = parent.color
+            RBNode.ensure_black(sibling.left)
+            RBNode.ensure_black(sibling.right)
+            return sibling
+
+        return parent
+
+    def _remove(self, key: KeyType, ctx: Context) -> Optional[RBNode]:
+        current = ctx.current
+        if not current:
+            # key not found
+            return None
+
+        if key < current.key:
+            if not current.left:
+                return current
+            old_child = current.left
+            new_child = self._remove(key, ctx.left)
+            current.left = new_child
+        elif key > current.key:
+            if not current.right:
+                return current
+            old_child = current.right
+            new_child = self._remove(key, ctx.right)
+            current.right = new_child
+        elif current.left and current.right:
+            # current has two children
+            # replace current key with the smallest key in the right subtree and remove the smallest node
+            old_child = current.right
+            new_child, current.key = self._remove_smallest_node(ctx.right)
+            current.right = new_child
         else:
-            u.parent.right = v
+            # current has 0 or 1 child
+            return self._remove_current(ctx)
 
-        v.parent = u.parent
+        return self._remove_fix(old_child, new_child, ctx)
 
-    def _delete_fixup(self, node: RBNode):
-        while node != self.root and node.color == Color.BLACK:
+    def _remove_smallest_node(self, ctx: Context) -> Tuple[Optional[RBNode], KeyType]:
+        current = ctx.current
+        assert current
+        if current.left:
+            old_child = current.left
+            new_child, key_of_removed = self._remove_smallest_node(ctx.left)
+            current.left = new_child
+
+            replaced = self._remove_fix(old_child, new_child, ctx)
+        else:
+            key_of_removed = current.key
+            replaced = self._remove_current(ctx)
+
+        return replaced, key_of_removed
+
+    def _remove_current(self, ctx: Context) -> Optional[RBNode]:
+        current = ctx.current
+        assert current and not (current.left and current.right), 'node should have at most one child'
+
+        child = current.left if current.left else current.right
+
+        if current.color == Color.RED:
+            assert not child, 'a red node can NOT have exactly one child'
+        elif child and child.color == Color.RED:
+            # a black node has a red leaf child
+            assert not child.left and not child.right, "a black node's single red child node can NOT have children"
+        else:
+            # child is nil or black
             pass
 
-        node.color = Color.BLACK
-
-    def _get_smallest_node(self, node: RBNode) -> RBNode:
-        while node.left:
-            node = node.left
-        return node
-
-    def delete_node(self, node: RBNode):
-        curr = node
-        ori_color = curr.color
-        if not node.left:
-            replace = node.right
-            self._transplant(node, node.right)
-        elif not node.right:
-            replace = node.left
-            self._transplant(node, node.left)
-        else:
-            curr = self._get_smallest_node(node.right)
-            ori_color = curr.color
-            replace = curr.right
-            if curr == node.right:
-                if replace:
-                    replace.parent = node
-            else:
-                self._transplant(curr, curr.right)
-                curr.right = node.right
-                curr.right.parent = curr
-
-            self._transplant(node, curr)
-            curr.left = node.left
-            curr.left.parent = curr
-            curr.color = node.color
-
-        if ori_color == Color.BLACK:
-            self._delete_fixup(replace)
-
-    # def remove(self, key: KeyType) -> bool:
-    #     return self._remove(key, Context(node=self.root))
-    #
-    # def _remove(self, key: KeyType, ctx: Context) -> bool:
-    #     if not ctx.node:
-    #         return False
-    #     if key < ctx.node.key:
-    #         return self._remove(key, ctx.left)
-    #     if key > ctx.node.key:
-    #         return self._remove(key, ctx.right)
-    #
-    #     if not ctx.node.right:
-    #         self._remove_one_child(ctx)
-    #     else:
-    #         ctx.node.key = self._remove_smallest_child(ctx)
-    #
-    #     return True
-    #
-    # def _remove_smallest_child(self, ctx: Context) -> KeyType:
-    #     assert ctx.node
-    #     if ctx.node.left:
-    #         return self._remove_smallest_child(ctx.left)
-    #     key = ctx.node.key
-    #     self._remove_one_child(ctx)
-    #     return key
-    #
-    # def _remove_one_child(self, ctx: Context):
-    #     assert ctx.node
-    #     if not ctx.node.left and not ctx.node.right:
-    #         return
+        self._count -= 1
+        return child
 
 def test():
     print('Testing RBTree:')
@@ -300,15 +491,27 @@ def test():
                 4, color=Color.BLACK,
                 right=RBNode(5))
         )),
+        # ([1,-1], None),
+        # ([1, 2,-1], RBNode(2, color=Color.BLACK)),
+        # ([1, 2, 3, -1], RBNode(2, color=Color.BLACK, right=RBNode(3))),
+        # ([1, 2, 3, -2], RBNode(3, color=Color.BLACK, left=RBNode(1))),
+        # ([1, 2, 3, -3], RBNode(2, color=Color.BLACK, left=RBNode(1))),
+        ([3,2,4,5,-4], RBNode(
+            3, color=Color.BLACK,
+            left=RBNode(2, color=Color.BLACK),
+            right=RBNode(5, color=Color.BLACK)
+        )),
     ]
     for keys, want in cases:
         tree = RBTree()
         for key in keys:
             if key > 0:
                 tree.insert(key)
+            elif key < 0:
+                tree.remove(-key)
 
         got = tree.root
-        assert want == got
+        assert want == got, f"want: {want}, but got: {got}"
     print('  All Passed')
     print()
 
