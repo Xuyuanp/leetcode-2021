@@ -218,41 +218,12 @@ class RBTree:
             return parent
 
         # double black
-        child = new_child
-        sibling, sibling_is_left = (parent.left, True) if child == parent.right else (parent.right, False)
+        sibling = parent.left if new_child == parent.right else parent.right
         assert sibling, 'double black node always has a sibling'
-        sibling_has_red_children = sibling.has_red_children()
-
-        if sibling.color == Color.RED and parent.color == Color.BLACK and not sibling_has_red_children:
-            #
-            #        P:black               S:black
-            #       /  \                  /     \
-            #  C:black  S:red   =>       P:red   b2
-            #          / \              /   \
-            #         b1  b2        C:black  b1
-            #
-            rotate_fn = self._right_rotate if sibling_is_left else self._left_rotate
-            rotate_fn(sibling, parent)
-            parent.color = Color.RED
-            sibling.color = Color.BLACK
-            # TODO: continue fix double black node
-            return sibling
-
-        if sibling.color == Color.BLACK and parent.color == Color.BLACK and not sibling_has_red_children:
-            sibling.color = Color.RED
-            return parent
-
-        return parent
-
-    def _remove_case1(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
-        return self._remove_case2(child, sibling, ctx)
-
-    def _remove_case2(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
-        parent = ctx.current
-        assert parent
 
         sibling_is_left = sibling == parent.left
 
+        # case2
         if sibling.color == Color.RED:
             #
             #        P:black               S:black
@@ -270,55 +241,35 @@ class RBTree:
 
             return sibling
 
-        return self._remove_case3(child, sibling, ctx)
+        if not sibling.has_red_children():
+            if parent.color == Color.BLACK:
+                # case3
+                #
+                #        P:black               P:black
+                #       /  \                  /     \
+                #  C:black  S:black    =>   C:black  S:red
+                #          / \                       / \
+                #         b1  b2                    b1  b2
+                #
+                sibling.color = Color.RED
+            else:
+                # case4
+                #
+                #        P:red                 P:black
+                #       /  \                   /     \
+                #  C:black  S:black    =>    C:black  S:red
+                #          / \                       / \
+                #         b1  b2                    b1  b2
+                #
+                parent.color, sibling.color = sibling.color, parent.color
 
-    def _remove_case3(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
-        parent = ctx.current
-        assert parent
-
-        sibling_has_red_children = sibling.has_red_children()
-        if sibling.color == Color.BLACK and parent.color == Color.BLACK and not sibling_has_red_children:
-            #
-            #        P:black               P:black
-            #       /  \                  /     \
-            #  C:black  S:black    =>   C:black  S:red
-            #          / \                       / \
-            #         b1  b2                    b1  b2
-            #
-            sibling.color = Color.RED
-            # TODO: parent should be double black
             return parent
 
-        return self._remove_case4(child, sibling, ctx)
-
-    def _remove_case4(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
-        parent = ctx.current
-        assert parent
-
-        sibling_has_red_children = sibling.has_red_children()
-
-        if parent.color == Color.RED and sibling.color == Color.BLACK and not sibling_has_red_children:
-            #
-            #        P:red                 P:black
-            #       /  \                   /     \
-            #  C:black  S:black    =>    C:black  S:red
-            #          / \                       / \
-            #         b1  b2                    b1  b2
-            #
-            parent.color, sibling.color = sibling.color, parent.color
-            return parent
-
-        return self._remove_case5(child, sibling, ctx)
-
-    def _remove_case5(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
-        parent = ctx.current
-        assert parent
-
-        sibling_is_left = sibling == parent.left
         closer_node = sibling.right if sibling_is_left else sibling.left
         outer_node = sibling.left if sibling_is_left else sibling.right
 
-        if sibling.color == Color.BLACK and closer_node and closer_node.color == Color.RED and RBNode.is_black(outer_node):
+        # case5
+        if closer_node and closer_node.color == Color.RED and RBNode.is_black(outer_node):
             if sibling_is_left:
                 #
                 #           P:any                    P:any
@@ -343,19 +294,17 @@ class RBTree:
                 #
                 self._right_rotate(closer_node, sibling)
                 parent.right = closer_node
+
             closer_node.color = Color.BLACK
             sibling.color = Color.RED
 
-        return self._remove_case6(child, closer_node, ctx)
+            sibling = closer_node
+            sibling_is_left = sibling == parent.left
 
-    def _remove_case6(self, child: Optional[RBNode], sibling: RBNode, ctx: Context) -> RBNode:
-        parent = ctx.current
-        assert parent
-
-        sibling_is_left = sibling == parent.left
         outer_node = sibling.left if sibling_is_left else sibling.right
 
-        if sibling.color == Color.BLACK and outer_node and outer_node.color == Color.RED:
+        # case6
+        if outer_node and outer_node.color == Color.RED:
             if sibling_is_left:
                 #
                 #           P:c                         S:c
@@ -401,7 +350,8 @@ class RBTree:
             current.right = new_child
         elif current.left and current.right:
             # current has two children
-            # replace current key with the smallest key in the right subtree and remove the smallest node
+            # replace current key with the smallest key in the right subtree
+            # and remove the smallest node
             old_child = current.right
             new_child, current.key = self._remove_smallest_node(ctx.right)
             current.right = new_child
@@ -428,7 +378,8 @@ class RBTree:
 
     def _remove_current(self, ctx: Context) -> Optional[RBNode]:
         current = ctx.current
-        assert current and not (current.left and current.right), 'node should have at most one child'
+        assert current and not (current.left and current.right), \
+            'node should have at most one child'
 
         child = current.left if current.left else current.right
 
@@ -436,7 +387,8 @@ class RBTree:
             assert not child, 'a red node can NOT have exactly one child'
         elif child and child.color == Color.RED:
             # a black node has a red leaf child
-            assert not child.left and not child.right, "a black node's single red child node can NOT have children"
+            assert not child.left and not child.right, \
+                "a black node's single red child node can NOT have children"
         else:
             # child is nil or black
             pass
@@ -491,11 +443,11 @@ def test():
                 4, color=Color.BLACK,
                 right=RBNode(5))
         )),
-        # ([1,-1], None),
-        # ([1, 2,-1], RBNode(2, color=Color.BLACK)),
-        # ([1, 2, 3, -1], RBNode(2, color=Color.BLACK, right=RBNode(3))),
-        # ([1, 2, 3, -2], RBNode(3, color=Color.BLACK, left=RBNode(1))),
-        # ([1, 2, 3, -3], RBNode(2, color=Color.BLACK, left=RBNode(1))),
+        ([1,-1], None),
+        ([1, 2,-1], RBNode(2, color=Color.BLACK)),
+        ([1, 2, 3, -1], RBNode(2, color=Color.BLACK, right=RBNode(3))),
+        ([1, 2, 3, -2], RBNode(3, color=Color.BLACK, left=RBNode(1))),
+        ([1, 2, 3, -3], RBNode(2, color=Color.BLACK, left=RBNode(1))),
         ([3,2,4,5,-4], RBNode(
             3, color=Color.BLACK,
             left=RBNode(2, color=Color.BLACK),
