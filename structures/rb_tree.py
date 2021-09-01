@@ -127,11 +127,11 @@ class RBTree:
             if child == parent.left and child.left and child.left.color == Color.RED:
                 # CC = child of child
                 #
-                #      P:black                   C:black
+                #      P:Black                   C:Black
                 #     /                         / \
-                #    C:red          ==>     CC:red P:red
+                #    C:Red          ==>     CC:Red P:Red
                 #   /
-                #  CC:red
+                #  CC:Red
                 #
                 parent.color = Color.RED
                 child.color = Color.BLACK
@@ -139,11 +139,11 @@ class RBTree:
             elif child == parent.right and child.right and child.right.color == Color.RED:
                 # CC = child of child
                 #
-                #  P:black                       C:black
+                #  P:Black                       C:Black
                 #   \                           / \
-                #    C:red          ==>     CC:red P:red
+                #    C:Red          ==>     CC:Red P:Red
                 #     \
-                #     CC:red
+                #     CC:Red
                 #
                 parent.color = Color.RED
                 child.color = Color.BLACK
@@ -159,11 +159,11 @@ class RBTree:
 
         if uncle and uncle.color == Color.RED:
             #
-            #     G:black                         G:red
+            #     G:Black                         G:Red
             #    / \                             / \
-            # U:red P:red          ==>      U:black P:black
+            # U:Red P:Red          ==>      U:Black P:Black
             #        \                               \
-            #         C:red                           C:red
+            #         C:Red                           C:Red
             #
             grandp.color = Color.RED
             parent.color = Color.BLACK
@@ -173,20 +173,20 @@ class RBTree:
 
         if child == parent.right and parent == grandp.left:
             #
-            #    G:black                  G:black
+            #    G:Black                  G:Black
             #   /                        /
-            #  P:red          ==>       C:red
+            #  P:Red          ==>       C:Red
             #   \                      /
-            #    C:red                P:red
+            #    C:Red                P:Red
             #
             self._left_rotate(child, parent)
         elif child == parent.left and parent == grandp.right:
             #
-            #  G:black                G:black
+            #  G:Black                G:Black
             #   \                      \
-            #    P:red        ==>       C:red
+            #    P:Red        ==>       C:Red
             #   /                        \
-            #  C:red                      P:red
+            #  C:Red                      P:Red
             #
             self._right_rotate(child, parent)
         else:
@@ -237,11 +237,11 @@ class RBTree:
         # case2
         if sibling.color == Color.RED:
             #
-            #        P:black               S:black
+            #        P:Black               S:Black
             #       /  \                  /     \
-            #  C:black  S:red   =>       P:red   b2
+            #  C:Black  S:Red   =>       P:Red   b2
             #          / \              /   \
-            #         b1  b2        C:black  b1
+            #         b1  b2        C:Black  b1
             #
             assert parent.color == Color.BLACK
 
@@ -274,9 +274,9 @@ class RBTree:
             if parent.color == Color.BLACK:
                 # case3
                 #
-                #        P:black               P:black
+                #        P:Black               P:Black
                 #       /  \                  /     \
-                #  C:black  S:black    =>   C:black  S:red
+                #  C:Black  S:Black    =>   C:Black  S:Red
                 #          / \                       / \
                 #         b1  b2                    b1  b2
                 #
@@ -285,9 +285,9 @@ class RBTree:
             else:
                 # case4
                 #
-                #        P:red                 P:black
+                #        P:Red                 P:Black
                 #       /  \                   /     \
-                #  C:black  S:black    =>    C:black  S:red
+                #  C:Black  S:Black    =>    C:Black  S:Red
                 #          / \                       / \
                 #         b1  b2                    b1  b2
                 #
@@ -305,11 +305,11 @@ class RBTree:
                 #
                 #           P:any                    P:any
                 #          /   \                    /   \
-                #      S:black  C:black   =>    SR:black C:black
+                #      S:Black  C:Black   =>    SR:Black C:Black
                 #      /    \                      /   \
-                #  SL:black SR:red               S:red  b2
+                #  SL:Black SR:Red               S:Red  b2
                 #           / \                  /   \
-                #          b1  b2           SL:black  b1
+                #          b1  b2           SL:Black  b1
                 #
                 self._left_rotate(closer_nephew, sibling)
                 parent.left = closer_nephew
@@ -317,11 +317,11 @@ class RBTree:
                 #
                 #        P:any                    P:any
                 #       /  \                     /     \
-                #  C:black  S:black      =>    C:black SL:black
+                #  C:Black  S:Black      =>    C:Black SL:Black
                 #          / \                         / \
-                #      SL:red SR:black                b1  S:red
+                #      SL:Red SR:Black                b1  S:Red
                 #     / \                                / \
-                #    b1  b2                             b2  SR:black
+                #    b1  b2                             b2  SR:Black
                 #
                 self._right_rotate(closer_nephew, sibling)
                 parent.right = closer_nephew
@@ -340,18 +340,18 @@ class RBTree:
                 #
                 #           P:c                         S:c
                 #          /   \                       /   \
-                #      S:black  C:black   =>      SL:black  P:black
+                #      S:Black  C:Black   =>      SL:Black  P:Black
                 #       /    \                             /  \
-                #  SL:red    b1                           b1   C:black
+                #  SL:Red    b1                           b1   C:Black
                 #
                 self._right_rotate(sibling, parent)
             else:
                 #
                 #        P:c                           S:c
                 #       /  \                          /   \
-                #  C:black  S:black      =>       P:black SR:black
+                #  C:Black  S:Black      =>       P:Black SR:Black
                 #          / \                    /  \
-                #         b1  SR:red         C:black  b1
+                #         b1  SR:Red         C:Black  b1
                 #
                 self._left_rotate(sibling, parent)
             sibling.color = parent.color
@@ -472,19 +472,18 @@ def test():
                 4, color=Color.BLACK,
                 right=RBNode(5))
         )),
-        # ([1,-1], None),
-        # ([1, 2,-1], RBNode(2, color=Color.BLACK)),
-        # ([1, 2, 3, -1], RBNode(2, color=Color.BLACK, right=RBNode(3))),
-        # ([1, 2, 3, -2], RBNode(3, color=Color.BLACK, left=RBNode(1))),
-        # ([1, 2, 3, -3], RBNode(2, color=Color.BLACK, left=RBNode(1))),
-        # ([3,2,4,5,-4], RBNode(
-        #     3, color=Color.BLACK,
-        #     left=RBNode(2, color=Color.BLACK),
-        #     right=RBNode(5, color=Color.BLACK)
-        # )),
-        # ([3,2,4,5,-4,-3,-2], RBNode(5, color=Color.BLACK)),
-        # ([3, 1, 5, 2, 8, 10, 4, 7, 9, 6,-4,-2,-3,-1,-9,-6,-7,-8,-5,-10], None),
-        ([6, 4, 10, 9, 3, 2, 8, 5, 7, 1, -6], None)
+        ([1,-1], None),
+        ([1, 2,-1], RBNode(2, color=Color.BLACK)),
+        ([1, 2, 3, -1], RBNode(2, color=Color.BLACK, right=RBNode(3))),
+        ([1, 2, 3, -2], RBNode(3, color=Color.BLACK, left=RBNode(1))),
+        ([1, 2, 3, -3], RBNode(2, color=Color.BLACK, left=RBNode(1))),
+        ([3,2,4,5,-4], RBNode(
+            3, color=Color.BLACK,
+            left=RBNode(2, color=Color.BLACK),
+            right=RBNode(5, color=Color.BLACK)
+        )),
+        ([3,2,4,5,-4,-3,-2], RBNode(5, color=Color.BLACK)),
+        ([3, 1, 5, 2, 8, 10, 4, 7, 9, 6,-4,-2,-3,-1,-9,-6,-7,-8,-5,-10], None),
     ]
     for keys, want in cases:
         tree = RBTree()
