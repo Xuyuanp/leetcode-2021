@@ -29,7 +29,7 @@ class RBNode:
 
     def has_red_children(self) -> bool:
         return self.left and self.left.color == Color.RED or \
-            self.right and self.right.color == Color.BLACK
+            self.right and self.right.color == Color.RED
 
     def __repr__(self) -> str:
         if not self.left and not self.right:
@@ -101,9 +101,11 @@ class RBTree:
         elif key < parent.key:
             child = self._insert(key, ctx.left)
             parent.left = child
-        else:
+        elif key > parent.key:
             child = self._insert(key, ctx.right)
             parent.right = child
+        else:
+            raise KeyError('duplicated key')
 
         return self._insert_fixup(child, ctx)
 
@@ -202,20 +204,27 @@ class RBTree:
         child.right = parent
 
     def remove(self, key: KeyType):
-        self.root = self._remove(key, Context(current=self.root))
+        self.root, _ = self._remove(key, Context(current=self.root))
         RBNode.ensure_black(self.root)
 
-    def _remove_fix(self, old_child: RBNode, new_child: Optional[RBNode], ctx: Context) -> RBNode:
+    def _remove_fix(self,
+                    old_child: RBNode,
+                    new_child: Optional[RBNode],
+                    ctx: Context
+                    ) -> Tuple[RBNode, bool]:
         parent = ctx.current
         assert parent
 
+        if not old_child:
+            return parent, False
+
         if old_child.color == Color.RED:
             assert not new_child
-            return parent
+            return parent, False
 
         if new_child and new_child.color == Color.RED:
             new_child.color = Color.BLACK
-            return parent
+            return parent, False
 
         # double black
         sibling = parent.left if new_child == parent.right else parent.right
@@ -241,7 +250,25 @@ class RBTree:
             parent.color = Color.RED
             sibling.color = Color.BLACK
 
-            return sibling
+            parent_sibling = sibling.left if sibling_is_left else sibling.right
+            # will start from case3
+            new_child, need_fix = self._remove_fix(old_child, new_child, Context(
+                current=parent,
+                sibling=parent_sibling,
+                parent=sibling
+            ))
+            if sibling_is_left:
+                old_child = sibling.right
+                sibling.right = new_child
+            else:
+                old_child = sibling.left
+                sibling.left = new_child
+
+            return self._remove_fix(old_child, new_child, Context(
+                current=sibling,
+                sibling=ctx.sibling,
+                parent=ctx.parent,
+            )) if need_fix else (sibling, False)
 
         if not sibling.has_red_children():
             if parent.color == Color.BLACK:
@@ -254,6 +281,7 @@ class RBTree:
                 #         b1  b2                    b1  b2
                 #
                 sibling.color = Color.RED
+                need_fix = True
             else:
                 # case4
                 #
@@ -264,14 +292,15 @@ class RBTree:
                 #         b1  b2                    b1  b2
                 #
                 parent.color, sibling.color = sibling.color, parent.color
+                need_fix = False
 
-            return parent
+            return parent, need_fix
 
-        closer_node = sibling.right if sibling_is_left else sibling.left
-        outer_node = sibling.left if sibling_is_left else sibling.right
+        closer_nephew = sibling.right if sibling_is_left else sibling.left
+        outer_nephew = sibling.left if sibling_is_left else sibling.right
 
         # case5
-        if closer_node and closer_node.color == Color.RED and RBNode.is_black(outer_node):
+        if closer_nephew and closer_nephew.color == Color.RED and RBNode.is_black(outer_nephew):
             if sibling_is_left:
                 #
                 #           P:any                    P:any
@@ -282,8 +311,8 @@ class RBTree:
                 #           / \                  /   \
                 #          b1  b2           SL:black  b1
                 #
-                self._left_rotate(closer_node, sibling)
-                parent.left = closer_node
+                self._left_rotate(closer_nephew, sibling)
+                parent.left = closer_nephew
             else:
                 #
                 #        P:any                    P:any
@@ -294,19 +323,19 @@ class RBTree:
                 #     / \                                / \
                 #    b1  b2                             b2  SR:black
                 #
-                self._right_rotate(closer_node, sibling)
-                parent.right = closer_node
+                self._right_rotate(closer_nephew, sibling)
+                parent.right = closer_nephew
 
-            closer_node.color = Color.BLACK
+            closer_nephew.color = Color.BLACK
             sibling.color = Color.RED
 
-            sibling = closer_node
+            sibling = closer_nephew
             sibling_is_left = sibling == parent.left
 
-        outer_node = sibling.left if sibling_is_left else sibling.right
+        outer_nephew = sibling.left if sibling_is_left else sibling.right
 
         # case6
-        if outer_node and outer_node.color == Color.RED:
+        if outer_nephew and outer_nephew.color == Color.RED:
             if sibling_is_left:
                 #
                 #           P:c                         S:c
@@ -328,55 +357,53 @@ class RBTree:
             sibling.color = parent.color
             RBNode.ensure_black(sibling.left)
             RBNode.ensure_black(sibling.right)
-            return sibling
+            return sibling, False
 
-        return parent
+        return parent, False
 
-    def _remove(self, key: KeyType, ctx: Context) -> Optional[RBNode]:
+    def _remove(self, key: KeyType, ctx: Context) -> Tuple[Optional[RBNode], bool]:
         current = ctx.current
         if not current:
             # key not found
-            return None
+            return None, False
 
         if key < current.key:
-            if not current.left:
-                return current
             old_child = current.left
-            new_child = self._remove(key, ctx.left)
+            new_child, need_fix = self._remove(key, ctx.left)
             current.left = new_child
         elif key > current.key:
-            if not current.right:
-                return current
             old_child = current.right
-            new_child = self._remove(key, ctx.right)
+            new_child, need_fix = self._remove(key, ctx.right)
             current.right = new_child
         elif current.left and current.right:
             # current has two children
             # replace current key with the smallest key in the right subtree
             # and remove the smallest node
             old_child = current.right
-            new_child, current.key = self._remove_smallest_node(ctx.right)
+            new_child, current.key, need_fix = self._remove_smallest_node(ctx.right)
             current.right = new_child
         else:
             # current has 0 or 1 child
-            return self._remove_current(ctx)
+            return self._remove_current(ctx), True
 
-        return self._remove_fix(old_child, new_child, ctx)
+        return self._remove_fix(old_child, new_child, ctx) if need_fix else (current, False)
 
-    def _remove_smallest_node(self, ctx: Context) -> Tuple[Optional[RBNode], KeyType]:
+    def _remove_smallest_node(self, ctx: Context) -> Tuple[Optional[RBNode], KeyType, bool]:
         current = ctx.current
         assert current
         if current.left:
             old_child = current.left
-            new_child, key_of_removed = self._remove_smallest_node(ctx.left)
+            new_child, key_of_removed, need_fix = self._remove_smallest_node(ctx.left)
             current.left = new_child
 
-            replaced = self._remove_fix(old_child, new_child, ctx)
+            replaced, need_fix = self._remove_fix(old_child, new_child, ctx) \
+                if need_fix else (current, False)
         else:
             key_of_removed = current.key
             replaced = self._remove_current(ctx)
+            need_fix = True
 
-        return replaced, key_of_removed
+        return replaced, key_of_removed, need_fix
 
     def _remove_current(self, ctx: Context) -> Optional[RBNode]:
         current = ctx.current
@@ -445,17 +472,19 @@ def test():
                 4, color=Color.BLACK,
                 right=RBNode(5))
         )),
-        ([1,-1], None),
-        ([1, 2,-1], RBNode(2, color=Color.BLACK)),
-        ([1, 2, 3, -1], RBNode(2, color=Color.BLACK, right=RBNode(3))),
-        ([1, 2, 3, -2], RBNode(3, color=Color.BLACK, left=RBNode(1))),
-        ([1, 2, 3, -3], RBNode(2, color=Color.BLACK, left=RBNode(1))),
-        ([3,2,4,5,-4], RBNode(
-            3, color=Color.BLACK,
-            left=RBNode(2, color=Color.BLACK),
-            right=RBNode(5, color=Color.BLACK)
-        )),
-        ([3,2,4,5,-4,-3,-2], RBNode(5, color=Color.BLACK)),
+        # ([1,-1], None),
+        # ([1, 2,-1], RBNode(2, color=Color.BLACK)),
+        # ([1, 2, 3, -1], RBNode(2, color=Color.BLACK, right=RBNode(3))),
+        # ([1, 2, 3, -2], RBNode(3, color=Color.BLACK, left=RBNode(1))),
+        # ([1, 2, 3, -3], RBNode(2, color=Color.BLACK, left=RBNode(1))),
+        # ([3,2,4,5,-4], RBNode(
+        #     3, color=Color.BLACK,
+        #     left=RBNode(2, color=Color.BLACK),
+        #     right=RBNode(5, color=Color.BLACK)
+        # )),
+        # ([3,2,4,5,-4,-3,-2], RBNode(5, color=Color.BLACK)),
+        # ([3, 1, 5, 2, 8, 10, 4, 7, 9, 6,-4,-2,-3,-1,-9,-6,-7,-8,-5,-10], None),
+        ([6, 4, 10, 9, 3, 2, 8, 5, 7, 1, -6], None)
     ]
     for keys, want in cases:
         tree = RBTree()
@@ -474,4 +503,3 @@ def test():
 
 if __name__ == '__main__':
     test()
-
