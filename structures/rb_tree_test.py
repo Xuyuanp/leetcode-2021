@@ -13,7 +13,7 @@ def test_insert():
     for i, key in enumerate(tree):
         assert i == key
 
-def test_insert_remove():
+def test_chaos():
     tree = RBTree()
 
     N = 10000

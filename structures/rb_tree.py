@@ -27,6 +27,7 @@ class RBNode:
         if node:
             node.color = Color.BLACK
 
+    @property
     def has_red_children(self) -> bool:
         return self.left and self.left.color == Color.RED or \
             self.right and self.right.color == Color.RED
@@ -270,7 +271,7 @@ class RBTree:
                 parent=ctx.parent,
             )) if need_fix else (sibling, False)
 
-        if not sibling.has_red_children():
+        if not sibling.has_red_children:
             if parent.color == Color.BLACK:
                 # case3
                 #
