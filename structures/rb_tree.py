@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Iterator, Optional, Tuple
+from typing import Any, Iterator, Optional, Tuple
 
-KeyType = int
+KeyType = Any
 
 class Color(Enum):
     RED = auto()
@@ -222,6 +222,8 @@ class RBTree:
         assert sibling, 'double black node always has a sibling'
 
         sibling_is_left = sibling == parent.left
+
+        # parent is not None, we ignore case1 here
 
         # case2
         if sibling.color == Color.RED:
@@ -453,6 +455,7 @@ def test():
             left=RBNode(2, color=Color.BLACK),
             right=RBNode(5, color=Color.BLACK)
         )),
+        ([3,2,4,5,-4,-3,-2], RBNode(5, color=Color.BLACK)),
     ]
     for keys, want in cases:
         tree = RBTree()
@@ -465,8 +468,10 @@ def test():
         got = tree.root
         assert want == got, f"want: {want}, but got: {got}"
     print('  All Passed')
+
     print()
 
 
 if __name__ == '__main__':
     test()
+

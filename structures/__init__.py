@@ -1,6 +1,6 @@
-from .ListNode import ListNode
-from .TreeNode import TreeNode
-from .RBTree import RBTree
+from .list_node import ListNode
+from .tree_node import TreeNode
+from .rb_tree import RBTree
 
 __all__ = (
     'ListNode',
