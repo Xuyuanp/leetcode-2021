@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
 
 from typing import Any, List, Optional
@@ -23,7 +24,7 @@ class ListNode:
             self.val == o.val and self.next == o.next
 
     @staticmethod
-    def from_list(vals: List) -> Optional['ListNode']:
+    def from_list(vals: List) -> Optional[ListNode]:
         if not vals:
             return None
         head = tail = ListNode(vals[0], None)
