@@ -1,9 +1,12 @@
-from typing import List, Optional
+from __future__ import annotations
+from dataclasses import dataclass
 
+from typing import Any, List, Optional
+
+@dataclass
 class ListNode:
-    def __init__(self, val, next: Optional['ListNode']):
-        self.val = val
-        self.next = next
+    val: Any
+    next: Optional[ListNode] = None
 
     def __repr__(self) -> str:
         def helper():
