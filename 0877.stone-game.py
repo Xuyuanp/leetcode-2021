@@ -108,6 +108,20 @@ class Solution:
         a, b = helper(0, n-1)
         return a > b
 
+    # O(n^2), O(n^2)
+    def stoneGame2(self, piles: List[int]) -> bool:
+        n = len(piles)
+
+        @cache
+        def helper(i: int, j: int) -> int:
+            if i == j:
+                return piles[i]
+            return max(
+                piles[i] - helper(i+1, j),
+                piles[j] - helper(i, j-1)
+            )
+        return helper(0, n-1) > 0
+
 # @lc code=end
 def test():
     sol = Solution()
