@@ -1,3 +1,6 @@
+"""
+A no-parent-pointer Red-Black Tree
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -180,8 +183,7 @@ class RBTree:
             return child
 
         assert child.color == parent.color == Color.RED
-        assert grandp, "grand_parent must not be None when parent.color == RED"
-        assert grandp.color == Color.BLACK
+        assert grandp and grandp.color == Color.BLACK, 'a red node should have a black parent'
 
         if uncle and uncle.color == Color.RED:
             #
