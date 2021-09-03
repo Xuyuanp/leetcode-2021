@@ -44,3 +44,27 @@ def test_chaos():
     print(f'removes cost: {(remove_end-remove_start).total_seconds()}s; rotates: {tree.left_rotates, tree.right_rotates, tree.left_rotates+tree.right_rotates, tree.remove_rotates}')
 
     assert tree.count == 0
+
+
+def test_find():
+    def bench_find(n: int):
+        tree = RBTree()
+        for key in range(n):
+            tree.insert(key)
+
+        start = datetime.now()
+        for key in range(n):
+            tree.find(key)
+
+        hits = datetime.now() - start
+
+        start = datetime.now()
+        for key in range(n, n*2):
+            tree.find(key)
+
+        miss = datetime.now() - start
+        print(f'{n} nodes: {hits.total_seconds()}s(hits), {miss.total_seconds()}s(miss)')
+
+    for i in range(2, 6):
+        bench_find(10**i)
+

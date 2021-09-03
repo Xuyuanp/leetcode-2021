@@ -95,6 +95,22 @@ class RBTree:
     def count(self) -> int:
         return self._count
 
+    def _find_node(self, key: KeyType) -> Optional[RBNode]:
+        curr = self.root
+        while curr:
+            if key < curr.key:
+                curr = curr.left
+            elif key > curr.key:
+                curr = curr.right
+            else:
+                return curr
+        return None
+
+    def find(self, key: KeyType) -> Optional[KeyType]:
+        node = self._find_node(key)
+        if node:
+            return node.key
+
     def insert(self, key: KeyType):
         init_rotates = self.left_rotates + self.right_rotates
         self.root = self._insert(key, Context(current=self.root))
