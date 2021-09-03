@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Any, Iterator, Optional, Tuple
+from typing import Any, Counter, Iterator, Optional, Tuple
 
 KeyType = Any
 
@@ -74,6 +74,11 @@ class Context:
 
 class RBTree:
     root: Optional[RBNode] = None
+    left_rotates: int = 0
+    right_rotates: int = 0
+
+    insert_rotates: Counter = Counter()
+    remove_rotates: Counter = Counter()
 
     def __init__(self):
         self.root = None
@@ -91,9 +96,13 @@ class RBTree:
         return self._count
 
     def insert(self, key: KeyType):
+        init_rotates = self.left_rotates + self.right_rotates
         self.root = self._insert(key, Context(current=self.root))
         RBNode.ensure_black(self.root)
         self._count += 1
+
+        rotates = self.left_rotates + self.right_rotates - init_rotates
+        self.insert_rotates[rotates] += 1
 
     def _insert(self, key: KeyType, ctx: Context) -> RBNode:
         parent = ctx.current
@@ -199,36 +208,40 @@ class RBTree:
     def _left_rotate(self, child: RBNode, parent: RBNode):
         parent.right = child.left
         child.left = parent
+        self.left_rotates += 1
 
     def _right_rotate(self, child: RBNode, parent: RBNode):
         parent.left = child.right
         child.right = parent
+        self.right_rotates += 1
 
     def remove(self, key: KeyType):
-        self.root, _ = self._remove(key, Context(current=self.root))
+        init_rotates = self.left_rotates + self.right_rotates
+        self.root, _ = self._remove(key, self.root)
         RBNode.ensure_black(self.root)
+        rotates = self.left_rotates + self.right_rotates - init_rotates
+        self.remove_rotates[rotates] += 1
 
     def _remove_fix(self,
                     old_child: RBNode,
                     new_child: Optional[RBNode],
-                    ctx: Context
+                    parent: RBNode
                     ) -> Tuple[RBNode, bool]:
-        parent = ctx.current
-        assert parent
-
-        if not old_child:
-            return parent, False
-
         if old_child.color == Color.RED:
-            assert not new_child
+            assert not new_child, 'no red node has a single child'
             return parent, False
 
         if new_child and new_child.color == Color.RED:
+            assert not (new_child.left or new_child.right), \
+                "a black node's single red child node can NOT have children"
             new_child.color = Color.BLACK
             return parent, False
 
         # double black
         sibling = parent.left if new_child == parent.right else parent.right
+        # Why?
+        # a red node can't have a single child
+        # a black node can't have a single black child
         assert sibling, 'double black node always has a sibling'
 
         sibling_is_left = sibling == parent.left
@@ -251,13 +264,8 @@ class RBTree:
             parent.color = Color.RED
             sibling.color = Color.BLACK
 
-            parent_sibling = sibling.left if sibling_is_left else sibling.right
             # will start from case3
-            new_child, need_fix = self._remove_fix(old_child, new_child, Context(
-                current=parent,
-                sibling=parent_sibling,
-                parent=sibling
-            ))
+            new_child, need_fix = self._remove_fix(old_child, new_child, parent)
             if sibling_is_left:
                 old_child = sibling.right
                 sibling.right = new_child
@@ -265,11 +273,8 @@ class RBTree:
                 old_child = sibling.left
                 sibling.left = new_child
 
-            return self._remove_fix(old_child, new_child, Context(
-                current=sibling,
-                sibling=ctx.sibling,
-                parent=ctx.parent,
-            )) if need_fix else (sibling, False)
+            return self._remove_fix(old_child, new_child, sibling) \
+                if need_fix else (sibling, False)
 
         if not sibling.has_red_children:
             if parent.color == Color.BLACK:
@@ -360,68 +365,56 @@ class RBTree:
             RBNode.ensure_black(sibling.right)
             return sibling, False
 
-        return parent, False
+        raise Exception('unreachable')
 
-    def _remove(self, key: KeyType, ctx: Context) -> Tuple[Optional[RBNode], bool]:
-        current = ctx.current
+    def _remove(self, key: KeyType, current: Optional[RBNode]) -> Tuple[Optional[RBNode], bool]:
         if not current:
             # key not found
             return None, False
 
         if key < current.key:
             old_child = current.left
-            new_child, need_fix = self._remove(key, ctx.left)
+            new_child, need_fix = self._remove(key, current.left)
             current.left = new_child
         elif key > current.key:
             old_child = current.right
-            new_child, need_fix = self._remove(key, ctx.right)
+            new_child, need_fix = self._remove(key, current.right)
             current.right = new_child
         elif current.left and current.right:
             # current has two children
             # replace current key with the smallest key in the right subtree
             # and remove the smallest node
             old_child = current.right
-            new_child, current.key, need_fix = self._remove_smallest_node(ctx.right)
+            new_child, current.key, need_fix = \
+                self._remove_smallest_node(current.right)
             current.right = new_child
         else:
             # current has 0 or 1 child
-            return self._remove_current(ctx), True
+            return self._remove_current(current), True
 
-        return self._remove_fix(old_child, new_child, ctx) if need_fix else (current, False)
+        return self._remove_fix(old_child, new_child, current) \
+            if need_fix else (current, False)
 
-    def _remove_smallest_node(self, ctx: Context) -> Tuple[Optional[RBNode], KeyType, bool]:
-        current = ctx.current
-        assert current
+    def _remove_smallest_node(self, current: RBNode) -> Tuple[Optional[RBNode], KeyType, bool]:
         if current.left:
             old_child = current.left
-            new_child, key_of_removed, need_fix = self._remove_smallest_node(ctx.left)
+            new_child, key_of_removed, need_fix = self._remove_smallest_node(current.left)
             current.left = new_child
 
-            replaced, need_fix = self._remove_fix(old_child, new_child, ctx) \
+            replaced, need_fix = self._remove_fix(old_child, new_child, current) \
                 if need_fix else (current, False)
         else:
             key_of_removed = current.key
-            replaced = self._remove_current(ctx)
+            replaced = self._remove_current(current)
             need_fix = True
 
         return replaced, key_of_removed, need_fix
 
-    def _remove_current(self, ctx: Context) -> Optional[RBNode]:
-        current = ctx.current
-        assert current and not (current.left and current.right), \
+    def _remove_current(self, current: RBNode) -> Optional[RBNode]:
+        assert not (current.left and current.right), \
             'node should have at most one child'
 
         child = current.left if current.left else current.right
-
-        if current.color == Color.RED:
-            assert not child, 'a red node can NOT have exactly one child'
-        elif child and child.color == Color.RED:
-            # a black node has a red leaf child
-            assert not child.left and not child.right, \
-                "a black node's single red child node can NOT have children"
-        else:
-            # child is nil or black
-            pass
 
         self._count -= 1
         return child

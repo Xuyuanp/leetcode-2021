@@ -27,7 +27,12 @@ def test_chaos():
         tree.insert(key)
 
     insert_end = datetime.now()
-    print(f'inserts cost: {insert_end-start}s')
+    print(f'inserts cost: {(insert_end-start).total_seconds()}s; rotates: {tree.left_rotates, tree.right_rotates, tree.left_rotates+tree.right_rotates, tree.insert_rotates}')
+
+    assert tree.count == N
+
+    tree.left_rotates = 0
+    tree.right_rotates = 0
 
     random.shuffle(keys)
     remove_start = datetime.now()
@@ -36,6 +41,6 @@ def test_chaos():
         tree.remove(key)
 
     remove_end = datetime.now()
-    print(f'removes cost: {remove_end-remove_start}s')
+    print(f'removes cost: {(remove_end-remove_start).total_seconds()}s; rotates: {tree.left_rotates, tree.right_rotates, tree.left_rotates+tree.right_rotates, tree.remove_rotates}')
 
     assert tree.count == 0
