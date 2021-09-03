@@ -17,12 +17,6 @@ class ListNode:
                 head = head.next
         return str(list(helper()))
 
-    def __eq__(self, o) -> bool:
-        if not isinstance(o, ListNode):
-            return False
-        return self is o or \
-            self.val == o.val and self.next == o.next
-
     @staticmethod
     def from_list(vals: List) -> Optional[ListNode]:
         if not vals:
