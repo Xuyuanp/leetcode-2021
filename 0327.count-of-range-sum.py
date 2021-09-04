@@ -105,15 +105,13 @@ class Tree:
         curr = self.root
         while curr:
             parent = curr
+            curr.total += 1
             if val < curr.val:
-                curr.total += 1
                 curr = curr.left
             elif val > curr.val:
-                curr.total += 1
                 curr = curr.right
             else:
                 curr.count += 1
-                curr.total += 1
                 return
         node = Node(val)
         if not parent:
@@ -259,6 +257,7 @@ class Solution:
         tree = Tree()
         for csum in presum:
             res += tree.count_range(csum-upper, csum-lower)
+            print(csum, res)
             tree.insert(csum)
         return res
 
@@ -270,11 +269,11 @@ def test():
         print(f'Testing {method}:')
         func = getattr(sol, method)
         cases = [
-            ([[0], 0, 0], 1),
-            ([[-2,5,-1], -2, 2], 3),
-            ([[1,2,3,4,5,6,7], 3, 8], 9),
+            # ([[0], 0, 0], 1),
+            # ([[-2,5,-1], -2, 2], 3),
+            # ([[1,2,3,4,5,6,7], 3, 8], 9),
             ([[-4,0,-3,-1,1,2,1,-4], 0, 6], 13),
-            ([[-100,-100,-100,-100,-100,-100], -300, 1000], 15),
+            # ([[-100,-100,-100,-100,-100,-100], -300, 1000], 15),
         ]
         for args, want in cases:
             got = func(*args)
@@ -288,3 +287,219 @@ def test():
 
 if __name__ == '__main__':
     test()
+
+
+# go RBTree solution AC
+#
+#
+# type Color int
+#
+# const (
+# 	Red Color = iota
+# 	Black
+# )
+#
+# type Node struct {
+# 	val   int
+# 	color Color
+# 	count int
+# 	total int
+#
+# 	parent *Node
+# 	left   *Node
+# 	right  *Node
+# }
+#
+# func newNode(val int) *Node {
+# 	return &Node{
+# 		val:   val,
+# 		color: Red,
+# 		count: 1,
+# 		total: 1,
+# 	}
+# }
+#
+# type Tree struct {
+# 	root *Node
+# }
+#
+# func (t *Tree) insert(val int) {
+# 	var parent *Node
+# 	curr := t.root
+# 	for curr != nil {
+# 		parent = curr
+# 		curr.total++
+# 		if val < curr.val {
+# 			curr = curr.left
+# 		} else if val > curr.val {
+# 			curr = curr.right
+# 		} else {
+# 			curr.count++
+# 			return
+# 		}
+# 	}
+# 	node := newNode(val)
+# 	if parent == nil {
+# 		t.root = node
+# 	} else if parent.val < val {
+# 		parent.right = node
+# 	} else {
+# 		parent.left = node
+# 	}
+# 	node.parent = parent
+#
+# 	t.fixup(node)
+# }
+#
+# func (t *Tree) fixup(node *Node) {
+# 	for node.parent != nil && node.parent.color == Red {
+# 		parent := node.parent
+# 		isLeft := node == parent.left
+# 		grandp := parent.parent
+# 		parentIsLeft := parent == grandp.left
+#
+# 		uncle := grandp.left
+# 		if parentIsLeft {
+# 			uncle = grandp.right
+# 		}
+#
+# 		if uncle != nil && uncle.color == Red {
+# 			uncle.color = Black
+# 			parent.color = Black
+# 			grandp.color = Red
+#
+# 			node = grandp
+# 			continue
+# 		}
+#
+# 		if isLeft {
+# 			if parentIsLeft {
+# 				t.rightRotate(grandp)
+# 				parent.color = Black
+# 				grandp.color = Red
+# 			} else {
+# 				t.rightRotate(parent)
+# 			}
+# 		} else {
+# 			if parentIsLeft {
+# 				t.leftRotate(parent)
+# 			} else {
+# 				t.leftRotate(grandp)
+# 				parent.color = Black
+# 				grandp.color = Red
+# 			}
+# 		}
+#
+# 		node = parent
+# 	}
+# 	t.root.color = Black
+# }
+#
+# func (t *Tree) leftRotate(node *Node) {
+# 	child := node.right
+# 	total := node.total
+#
+# 	total -= child.total
+#
+# 	node.right = child.left
+# 	if child.left != nil {
+# 		child.total -= child.left.total
+# 		total += child.left.total
+# 		child.left.parent = node
+# 	}
+# 	child.parent = node.parent
+# 	if node.parent == nil {
+# 		t.root = child
+# 	} else if node == node.parent.left {
+# 		node.parent.left = child
+# 	} else {
+# 		node.parent.right = child
+# 	}
+#
+# 	child.left = node
+# 	node.parent = child
+#
+# 	child.total += total
+# 	node.total = total
+# }
+#
+# func (t *Tree) rightRotate(node *Node) {
+# 	child := node.left
+# 	total := node.total
+#
+# 	total -= child.total
+#
+# 	node.left = child.right
+# 	if child.right != nil {
+# 		child.total -= child.right.total
+# 		total += child.right.total
+# 		child.right.parent = node
+# 	}
+# 	child.parent = node.parent
+# 	if node.parent == nil {
+# 		t.root = child
+# 	} else if node == node.parent.left {
+# 		node.parent.left = child
+# 	} else {
+# 		node.parent.right = child
+# 	}
+#
+# 	child.right = node
+# 	node.parent = child
+#
+# 	child.total += total
+# 	node.total = total
+# }
+#
+# func (t *Tree) countRange(lower int, upper int) int {
+# 	node := t.root
+# 	for node != nil {
+# 		if upper < node.val {
+# 			node = node.left
+# 		} else if lower > node.val {
+# 			node = node.right
+# 		} else {
+# 			break
+# 		}
+# 	}
+# 	if node == nil {
+# 		return 0
+# 	}
+# 	return node.total - t.countLT(node.left, lower) - t.countGT(node.right, upper)
+# }
+#
+# func (t *Tree) countLT(node *Node, val int) int {
+# 	for node != nil && node.val >= val {
+# 		node = node.left
+# 	}
+# 	if node == nil {
+# 		return 0
+# 	}
+# 	return node.total - t.countGT(node.right, val-1)
+# }
+#
+# func (t *Tree) countGT(node *Node, val int) int {
+# 	for node != nil && node.val <= val {
+# 		node = node.right
+# 	}
+# 	if node == nil {
+# 		return 0
+# 	}
+# 	return node.total - t.countLT(node.left, val+1)
+# }
+#
+#
+# func countRangeSum(nums []int, lower int, upper int) int {
+#     presum := make([]int, len(nums)+1)
+# 	for i := 1; i < len(nums)+1; i++ {
+# 		presum[i] = presum[i-1] + nums[i-1]
+# 	}
+#
+# 	res := 0
+# 	tree := &Tree{}
+# 	for _, csum := range presum {
+# 		res += tree.countRange(csum-upper, csum-lower)
+# 		tree.insert(csum)
+# 	}
+#     return res
+# }
