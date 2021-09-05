@@ -170,6 +170,59 @@ class Solution:
             tree.insert(num)
         return res
 
+    # O(n*log(n)), O(n)
+    def reversePairs2(self, nums: List[int]) -> int:
+        res = 0
+
+        def merge(left: List[int], right: List[int]) -> List[int]:
+            m, n = len(left), len(right)
+
+            new_nums = [0] * (m+n)
+
+            i = j = k = 0
+            while i < m and j < n:
+                if left[i] < right[j]:
+                    new_nums[k] = left[i]
+                    i += 1
+                else:
+                    new_nums[k] = right[j]
+                    j += 1
+                k += 1
+            while i < m:
+                new_nums[k] = left[i]
+                i += 1
+                k += 1
+            while j < n:
+                new_nums[k] = right[j]
+                j += 1
+                k += 1
+
+            return new_nums
+
+        def merge_sort(nums: List[int]) -> List[int]:
+            nonlocal res
+            if len(nums) < 2:
+                return nums
+
+            mid = len(nums)//2
+            left = merge_sort(nums[:mid])
+            right = merge_sort(nums[mid:])
+
+            m, n = len(left), len(right)
+            i = j = 0
+            while i < m and j < n:
+                if left[i] <= right[j] * 2:
+                    i += 1
+                else:
+                    res += m-i
+                    j += 1
+
+            return merge(left, right)
+
+        merge_sort(nums)
+
+        return res
+
 # @lc code=end
 def test():
     sol = Solution()
@@ -181,6 +234,7 @@ def test():
             ([[1,3,2,3,1]], 2),
             ([[2,4,3,5,1]], 3),
             ([[5,4,3,2,1]], 4),
+            ([[11,11,-11,-11,-11,11]], 9),
         ]
         for args, want in cases:
             got = func(*args)
