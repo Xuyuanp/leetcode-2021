@@ -62,20 +62,106 @@ class Node:
     val: int
     count: int = 1
     total: int = 1
-    color: int = RED
-    left: Optional[Node] = None
-    right: Optional[Node] = None
-    parent: Optional[Node] = None
-
-    def __repr__(self) -> str:
-        if not self.left and not self.right:
-            return f'{{ {self.val}:{self.color}:{self.count}:{self.total} }}'
-        return f'{{ {self.val}:{self.color}:{self.count}:{self.total} [{self.left} {self.right}] }}'
+    color: int = 1
+    left: Optional['Node'] = None
+    right: Optional['Node'] = None
 
 
-@dataclass
 class Tree:
     root: Optional[Node] = None
+
+    def count_lt(self, node: Optional[Node], val: int) -> int:
+        while node and node.val >= val:
+            node = node.left
+        return node.total - self.count_gt(node.right, val-1) if node else 0
+
+    def count_gt(self, node: Optional[Node], val: int) -> int:
+        while node and node.val <= val:
+            node = node.right
+        return node.total - self.count_lt(node.left, val+1) if node else 0
+
+    def insert(self, val: int):
+        self.root = self._insert(val, self.root, None)
+        self.root.color = BLACK
+
+    def _insert(self, val: int, node: Optional[Node], parent: Optional[Node]) -> Node:
+        if not node:
+            child = Node(val)
+        elif val < node.val:
+            node.total += 1
+            node.left = self._insert(val, node.left, node)
+            child = node.left
+        elif val > node.val:
+            node.total += 1
+            node.right = self._insert(val, node.right, node)
+            child = node.right
+        else:
+            node.total += 1
+            node.count += 1
+            return node
+
+        return self._fixup(child, node, parent)
+
+    def _fixup(self, child: Node, parent: Optional[Node], grandp: Optional[Node]) -> Node:
+        if child.color == BLACK and parent:
+            return parent
+        if not parent:
+            return child
+
+        is_left = child == parent.left
+
+        if parent.color == BLACK:
+            if is_left and child.left and child.left.color == RED:
+                parent.color = RED
+                child.color = BLACK
+                self._right_rotate(child, parent)
+            elif not is_left and child.right and child.right.color == RED:
+                parent.color = RED
+                child.color = BLACK
+                self._left_rotate(child, parent)
+            else:
+                child = parent
+            return child
+
+        assert child.color == parent.color == RED
+        assert grandp and grandp.color == BLACK
+
+        parent_is_left = parent == grandp.left
+        uncle = grandp.right if parent_is_left else grandp.left
+
+        if uncle and uncle.color == RED:
+            parent.color = BLACK
+            uncle.color = BLACK
+            grandp.color = RED
+            return parent
+
+        if is_left and not parent_is_left:
+            self._right_rotate(child, parent)
+        elif not is_left and parent_is_left:
+            self._left_rotate(child, parent)
+        else:
+            child = parent
+        return child
+
+    def _left_rotate(self, child: Node, parent: Node):
+        bak = child.left.total if child.left else 0
+        parent.right = child.left
+        child.left = parent
+
+        parent.total -= child.total
+        child.total -= bak
+        parent.total += bak
+        child.total += parent.total
+
+    def _right_rotate(self, child: Node, parent: Node):
+        bak = child.right.total if child.right else 0
+        parent.left = child.right
+        child.right = parent
+
+        parent.total -= child.total
+        child.total -= bak
+        parent.total += bak
+        child.total += parent.total
 
     def count_range(self, lower: int, upper: int) -> int:
         node = self.root
@@ -88,122 +174,7 @@ class Tree:
                 break
         if not node:
             return 0
-        return node.total - self._count_lt(node.left, lower) - self._count_gt(node.right, upper)
-
-    def _count_lt(self, node: Optional[Node], val: int) -> int:
-        while node and node.val >= val:
-            node = node.left
-        return node.total - self._count_gt(node.right, val-1) if node else 0
-
-    def _count_gt(self, node: Optional[Node], val: int) -> int:
-        while node and node.val <= val:
-            node = node.right
-        return node.total - self._count_lt(node.left, val+1) if node else 0
-
-    def insert(self, val: int):
-        parent = None
-        curr = self.root
-        while curr:
-            parent = curr
-            curr.total += 1
-            if val < curr.val:
-                curr = curr.left
-            elif val > curr.val:
-                curr = curr.right
-            else:
-                curr.count += 1
-                return
-        node = Node(val)
-        if not parent:
-            self.root = node
-        elif val < parent.val:
-            parent.left = node
-        else:
-            parent.right = node
-        node.parent = parent
-        self._finxup(node)
-
-    def _left_rotate(self, node: Node):
-        total = node.total
-        child = node.right
-        assert child
-        total -= child.total
-        node.right = child.left
-        if child.left:
-            total += child.left.total
-            child.total -= child.left.total
-            child.left.parent = node
-        child.parent = node.parent
-        if not node.parent:
-            self.root = child
-        elif node == node.parent.left:
-            node.parent.left = child
-        else:
-            node.parent.right = child
-
-        child.total += total
-        node.total = total
-        child.left = node
-        node.parent = child
-
-    def _right_rotate(self, node: Node):
-        total = node.total
-        child = node.left
-        assert child
-        total -= child.total
-        node.left = child.right
-        if child.right:
-            total += child.right.total
-            child.total -= child.right.total
-            child.right.parent = node
-        child.parent = node.parent
-        if not node.parent:
-            self.root = child
-        elif node == node.parent.left:
-            node.parent.left = child
-        else:
-            node.parent.right = child
-
-        child.total += total
-        child.right = node
-        node.total = total
-        node.parent = child
-
-    def _finxup(self, node: Node):
-        while node.parent and node.parent.color == RED:
-            parent = node.parent
-            assert parent
-            grandp = parent.parent
-            assert grandp
-            is_left = node == parent.left
-            parent_is_left = parent == grandp.left
-            uncle = grandp.right if parent_is_left else grandp.left
-
-            if uncle and uncle.color == RED:
-                parent.color = BLACK
-                uncle.color = BLACK
-                grandp.color = RED
-                node = grandp
-                continue
-
-            if is_left:
-                if parent_is_left:
-                    self._right_rotate(grandp)
-                    parent.color = BLACK
-                    grandp.color = RED
-                else:
-                    self._right_rotate(parent)
-            else:
-                if parent_is_left:
-                    self._left_rotate(parent)
-                else:
-                    self._left_rotate(grandp)
-                    parent.color = BLACK
-                    grandp.color = RED
-            node = parent
-
-        assert self.root
-        self.root.color = BLACK
+        return node.total - self.count_lt(node.left, lower) - self.count_gt(node.right, upper)
 
 # @lc code=start
 class Solution:
@@ -222,7 +193,7 @@ class Solution:
             mem[csum] += 1
         return res
 
-    # TODO: WTF
+    # O(n*log(n)), O(n)
     def countRangeSum1(self, nums: List[int], lower: int, upper: int) -> int:
         # for i < j
         # lower <= sum(nums[i:j]) <= upper
@@ -257,7 +228,6 @@ class Solution:
         tree = Tree()
         for csum in presum:
             res += tree.count_range(csum-upper, csum-lower)
-            print(csum, res)
             tree.insert(csum)
         return res
 
@@ -269,11 +239,11 @@ def test():
         print(f'Testing {method}:')
         func = getattr(sol, method)
         cases = [
-            # ([[0], 0, 0], 1),
-            # ([[-2,5,-1], -2, 2], 3),
-            # ([[1,2,3,4,5,6,7], 3, 8], 9),
+            ([[0], 0, 0], 1),
+            ([[-2,5,-1], -2, 2], 3),
+            ([[1,2,3,4,5,6,7], 3, 8], 9),
             ([[-4,0,-3,-1,1,2,1,-4], 0, 6], 13),
-            # ([[-100,-100,-100,-100,-100,-100], -300, 1000], 15),
+            ([[-100,-100,-100,-100,-100,-100], -300, 1000], 15),
         ]
         for args, want in cases:
             got = func(*args)
