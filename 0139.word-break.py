@@ -98,6 +98,21 @@ class Solution:
 
         return word_break(s)
 
+    def wordBreak2(self, s: str, wordDict: List[str]) -> bool:
+        wd = set(wordDict)
+
+        @lru_cache(None)
+        def word_break(start: int) -> bool:
+            print(start)
+            if s[start:] in wd:
+                return True
+            for i in range(start+1, len(s)):
+                if s[start:i] in wd and word_break(i):
+                    return True
+            return False
+
+        return word_break(0)
+
 # @lc code=end
 def test():
     sol = Solution()
