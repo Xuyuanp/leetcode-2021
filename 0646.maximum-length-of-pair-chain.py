@@ -95,6 +95,32 @@ class Solution:
                 lis[pos] = pair[1]
         return len(lis)
 
+    # O(n*log(n)), O(n). binary search
+    def findlongestchain2(self, pairs: List[List[int]]) -> int:
+        pairs.sort(key=lambda p: p[1])
+        lis = [pairs[0]]
+
+        def binary_search(val: int) -> int:
+            left, right = 0, len(lis)
+            while left < right:
+                mid = (left+right)//2
+                if lis[mid][1] < val:
+                    left = mid + 1
+                else:
+                    right = mid
+            return left
+
+        for pair in pairs[1:]:
+            pos = binary_search(pair[0])
+            if pos == len(lis): # binary search is not needed. only compare with lis[-1] ==> greedy
+                # tails[-1]: |--------|
+                # case1:                 |-----|     -> append
+                lis.append(pair)
+            # else:
+            # tails[pos]:   |-------|
+            # case1          |---------|     -> drop
+        return len(lis)
+
 # @lc code=end
 def test():
     sol = Solution()
