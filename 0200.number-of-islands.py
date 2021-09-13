@@ -80,5 +80,66 @@ class Solution:
 
         return res
 
-# @lc code=end
+    def numIslands1(self, grid: List[List[str]]) -> int:
+        res = [0]
 
+        ufs = {}
+
+        def find(point):
+            if point not in ufs:
+                ufs[point] = point
+                res[0] += 1
+            elif ufs[point] != point:
+                ufs[point] = find(ufs[point])
+            return ufs[point]
+
+        def union(p1, p2):
+            r1, r2 = find(p1), find(p2)
+            if r1 == r2:
+                return
+            res[0] -= 1
+            ufs[r1] = r2
+
+        m, n = len(grid), len(grid[0])
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '0':
+                    continue
+                index = i*n+j
+                find(index)
+                if i > 0 and grid[i-1][j] == '1' and index-n in ufs:
+                    union(index-n, index)
+                if j > 0 and grid[i][j-1] == '1' and index-1 in ufs:
+                    union(index-1, index)
+
+        return res[0]
+
+# @lc code=end
+def test():
+    sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        func = getattr(sol, method)
+        cases = [
+            ([[["1","1","0","0","0"],
+               ["1","1","0","0","0"],
+               ["0","0","1","0","0"],
+               ["0","0","0","1","1"]]], 3),
+            ([[["1","1","1","1","0"],
+               ["1","1","0","1","0"],
+               ["1","1","0","0","0"],
+               ["0","0","0","0","0"]]], 1),
+        ]
+        for args, want in cases:
+            got = func(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    test()
