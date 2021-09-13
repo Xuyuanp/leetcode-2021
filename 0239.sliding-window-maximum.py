@@ -103,11 +103,11 @@ class Solution:
 
         queue = Queue()
 
-        for i, x in enumerate(nums):
-            if i < k-1:
-                queue.push(x)
-                continue
-            queue.push(x)
+        for i in range(k-1):
+            queue.push(nums[i])
+
+        for i in range(k-1, len(nums)):
+            queue.push(nums[i])
             res.append(queue.max())
             queue.pop(nums[i-k+1])
 
@@ -115,6 +115,28 @@ class Solution:
         return res
 
 # @lc code=end
+def test():
+    sol = Solution()
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        func = getattr(sol, method)
+        cases = [
+            ([[1], 1], [1]),
+            ([[1, -1], 1], [1,-1]),
+            ([[9, 11], 2], [11]),
+            ([[4, -2], 2], [4]),
+            ([[1,3,-1,-3,5,3,6,7], 3], [3,3,5,5,6,7]),
+        ]
+        for args, want in cases:
+            got = func(*args)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
 
-if __name__ == "__main__":
-    print(Solution().maxSlidingWindow([1,3,-1,-3,5,3,6,7], k = 3))
+
+if __name__ == '__main__':
+    test()
