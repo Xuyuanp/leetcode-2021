@@ -71,6 +71,7 @@
 # @lc code=start
 import heapq
 
+START, END = 1, 2
 
 class ExamRoom:
 
@@ -79,15 +80,13 @@ class ExamRoom:
         self.n = n
         heapq.heappush(self.heap, [-n+1, -1, n])
 
+    # O(log(n))
     def seat(self) -> int:
         _, start, end = heapq.heappop(self.heap)
 
-        if start < 0:
-            mid = 0
-        elif end == self.n:
-            mid = self.n-1
-        else:
-            mid = (start+end)//2
+        mid = 0 if start < 0 else \
+            self.n-1 if end == self.n else \
+            (start+end)//2
 
         heapq.heappush(self.heap, [-self._get_max_closed(mid, end), mid, end])
         heapq.heappush(self.heap, [-self._get_max_closed(start, mid), start, mid])
@@ -103,12 +102,29 @@ class ExamRoom:
             return (dist-1)//2
         return dist//2
 
+    def _remove_double(self, i: int, j: int):
+        if i > j:
+            i, j = j, i
+        assert i < j < len(self.heap)
+
+        if j == len(self.heap)-1:
+            self.heap.pop()
+            self.heap[i] = self.heap[-1]
+            self.heap.pop()
+        else:
+            self.heap[i] = self.heap[-1]
+            self.heap.pop()
+            self.heap[j] = self.heap[-1]
+            self.heap.pop()
+        heapq.heapify(self.heap)
+
+    # O(n)
     def leave(self, p: int) -> None:
         firsti = lasti = -1
         for i, segment in enumerate(self.heap):
-            if segment[2] == p:
+            if segment[END] == p:
                 firsti = i
-            if segment[1] == p:
+            if segment[START] == p:
                 lasti = i
             if firsti >= 0 and lasti >= 0:
                 break
@@ -117,22 +133,9 @@ class ExamRoom:
 
         first, last = self.heap[firsti], self.heap[lasti]
 
-        if lasti == len(self.heap)-1:
-            self.heap.pop()
-            self.heap[firsti] = self.heap[-1]
-            self.heap.pop()
-        elif firsti == len(self.heap)-1:
-            self.heap.pop()
-            self.heap[lasti] = self.heap[-1]
-            self.heap.pop()
-        else:
-            self.heap[lasti] = self.heap[-1]
-            self.heap[firsti] = self.heap[-2]
-            self.heap.pop()
-            self.heap.pop()
-        heapq.heapify(self.heap)
+        self._remove_double(firsti, lasti)
 
-        start, end = first[1], last[2]
+        start, end = first[START], last[END]
         heapq.heappush(self.heap, [-self._get_max_closed(start, end), start, end])
 
 
