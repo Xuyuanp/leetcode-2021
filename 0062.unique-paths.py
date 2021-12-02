@@ -68,6 +68,9 @@
 #
 
 # @lc code=start
+from functools import cache
+
+
 class Solution:
     # O(m*n), O(m*n)
     def uniquePaths1(self, m: int, n: int) -> int:
@@ -78,8 +81,19 @@ class Solution:
             if x == 1 or y == 1:
                 return 1
             if (x, y) not in mem:
-                mem[(x, y)] = helper(x-1, y) + helper(x, y-1)
-            return mem[(x, y)]
+                mem[x, y] = helper(x-1, y) + helper(x, y-1)
+            return mem[x, y]
+
+        return helper(m, n)
+
+    def uniquePaths2(self, m: int, n: int) -> int:
+        @cache
+        def helper(x: int, y: int) -> int:
+            if x <= 0 or y <= 0:
+                return 0
+            if x == 1 or y == 1:
+                return 1
+            return helper(x-1, y) + helper(x, y-1)
 
         return helper(m, n)
 
@@ -95,24 +109,28 @@ class Solution:
 
 
 # @lc code=end
-if __name__ == '__main__':
+def test():
     sol = Solution()
     methods = [name for name in dir(sol) if not name.startswith('__')]
-    cases = [
-        (dict(m=1,n=1), 1),
-        (dict(m=1,n=3), 1),
-        (dict(m=3,n=1), 1),
-        (dict(m=3,n=3), 6),
-        (dict(m=7,n=3), 28),
-    ]
     for method in methods:
         print(f'Testing {method}:')
-        fn = getattr(sol, method)
+        func = getattr(sol, method)
+        cases = [
+            ([1, 1], 1),
+            ([1, 3], 1),
+            ([3, 1], 1),
+            ([3, 3], 6),
+            ([7, 3], 28),
+        ]
         for args, want in cases:
-            got = fn(**args)
+            got = func(*args)
             if want != got:
                 print(f'  Failed => args: {args}; want: {want}, but got: {got}')
                 break
         else:
             print('  All Passed')
         print()
+
+
+if __name__ == '__main__':
+    test()
