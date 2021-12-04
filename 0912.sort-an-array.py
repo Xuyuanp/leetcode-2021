@@ -134,6 +134,55 @@ class Solution:
 
         return nums
 
+    def sortArrayQuick2(self, nums: List[int]) -> List[int]:
+        def partition(start: int, end: int) -> int:
+            pivot = nums[start]
+            i, j = start+1, end
+            while True:
+                while i <= j and nums[i] <= pivot:
+                    i += 1
+                while i <= j and nums[j] >= pivot:
+                    j -= 1
+
+                if i <= j:
+                    nums[i], nums[j] = nums[j], nums[i]
+                else:
+                    break
+            nums[start], nums[j] = nums[j], nums[start]
+            return j
+
+        def quick_sort(start: int, end: int):
+            if start >= end:
+                return
+            p = partition(start, end)
+            quick_sort(start, p-1)
+            quick_sort(p+1, end)
+
+        quick_sort(0, len(nums)-1)
+        return nums
+
+    def sortArrayQuick3(self, nums: List[int]) -> List[int]:
+        def partition(start: int, end: int) -> int:
+            pivot = nums[end]
+            i = start-1
+            for j in range(start, end+1):
+                if nums[j] <= pivot:
+                    i += 1
+                    nums[i], nums[j] = nums[j], nums[i]
+            print(pivot, i, nums[start:i+1], nums[i+1:end+1])
+            return i
+
+        def quick_sort(start: int, end: int):
+            if start >= end:
+                return
+            p = partition(start, end)
+            quick_sort(start, p-1)
+            quick_sort(p+1, end)
+
+        print('---')
+        quick_sort(0, len(nums)-1)
+        return nums
+
     def sortArrayHeap(self, nums: List[int]) -> List[int]:
         def sift_down(start: int, end: int):
             root = start
@@ -187,6 +236,8 @@ def test():
             ([[5,2,3,1]], [1, 2, 3, 5]),
             ([[5,2,3, 2,1]], [1, 2, 2, 3, 5]),
             ([[3,2,3,1,2,4,5,5,6]], [1, 2, 2, 3, 3, 4, 5, 5, 6]),
+            ([[5,1,1,2,0,0]], [0,0,1,1,2,5]),
+            ([[-1,2,-8,-10]], [-10, -8, -1, 2])
         ]
         for args, want in cases:
             got = func(*args)
@@ -216,7 +267,7 @@ def benchmark(n: int):
 if __name__ == '__main__':
     test()
 
-    print('Benchmark:')
-    for n in range(1, 5):
-        print(f'N = {10**n}')
-        benchmark(10**n)
+    # print('Benchmark:')
+    # for n in range(1, 5):
+    #     print(f'N = {10**n}')
+    #     benchmark(10**n)
