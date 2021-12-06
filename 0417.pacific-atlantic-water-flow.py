@@ -86,12 +86,6 @@ class Solution:
 
         res = []
 
-        for row in p_visited:
-            print(row)
-        print()
-        for row in a_visited:
-            print(row)
-
         for i in range(m):
             for j in range(n):
                 if p_visited[i][j] and a_visited[i][j]:
