@@ -68,7 +68,7 @@ class Solution:
             prev = node
         drops[0][0].val, drops[-1][1].val = drops[-1][1].val, drops[0][0].val
 
-    # O(n), O(log(n))
+    # O(n), O(1)
     def recoverTree1(self, root: TreeNode) -> None:
         """
         Do not return anything, modify root in-place instead.
@@ -93,19 +93,28 @@ class Solution:
         drops[0][0].val, drops[-1][1].val = drops[-1][1].val, drops[0][0].val
 
 # @lc code=end
-if __name__ == '__main__':
+def test():
     sol = Solution()
-    cases = [
-        ([1,3,None,None,2], [3,1,None,None,2]),
-        ([3,1,4,None, None, 2], [2, 1, 4, None, None, 3]),
-    ]
-    for args, want in cases:
-        root = TreeNode.from_list(args)
-        sol.recoverTree(root)
-        got = root
-        want = TreeNode.from_list(want)
-        if want != got:
-            print(f'Failed => args: {args}; want: {want}, but got: {got}')
-            break
-    else:
-        print('All Passed')
+    methods = [name for name in dir(sol) if not name.startswith('__')]
+    for method in methods:
+        print(f'Testing {method}:')
+        func = getattr(sol, method)
+        cases = [
+            ([[1,3,None,None,2]], [3,1,None,None,2]),
+            ([[3,1,4,None, None, 2]], [2, 1, 4, None, None, 3]),
+        ]
+        for args, want in cases:
+            root = TreeNode.from_list(*args)
+            func(root)
+            got = root
+            want = TreeNode.from_list(want)
+            if want != got:
+                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                break
+        else:
+            print('  All Passed')
+        print()
+
+
+if __name__ == '__main__':
+    test()
