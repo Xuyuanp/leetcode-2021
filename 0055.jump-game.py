@@ -56,7 +56,7 @@ class Solution:
     # O(n), O(1)
     def canJump(self, nums: List[int]) -> bool:
         last = len(nums) - 1
-        for i in range(len(nums)-2, -1, -1):
+        for i in range(len(nums) - 2, -1, -1):
             if nums[i] + i >= last:
                 last = i
         return last == 0
@@ -66,9 +66,9 @@ class Solution:
         n = len(nums)
         i = last = 0
         while i <= last < n:
-            last = max(last, i+nums[i])
+            last = max(last, i + nums[i])
             i += 1
-        return last >= n-1
+        return last >= n - 1
 
     # O(n*max(nums)), O(n)
     # Time Limit Exceeded sometimes
@@ -79,34 +79,35 @@ class Solution:
         def helper(start: int) -> bool:
             if n - start == 1 or nums[start] >= n - start:
                 return True
-            return any(helper(start+i) for i in range(nums[start], 0, -1))
+            return any(helper(start + i) for i in range(nums[start], 0, -1))
 
         return helper(0)
+
 
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[0]], True),
             ([[1]], True),
-            ([[1,2]], True),
-            ([[3,1,2]], True),
-            ([[3,2,1,0,4]], False),
-            ([[2,3,1,1,4]], True),
+            ([[1, 2]], True),
+            ([[3, 1, 2]], True),
+            ([[3, 2, 1, 0, 4]], False),
+            ([[2, 3, 1, 1, 4]], True),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

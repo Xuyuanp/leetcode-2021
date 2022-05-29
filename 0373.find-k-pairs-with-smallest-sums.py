@@ -68,9 +68,11 @@ from typing import List
 # @lc code=start
 class Solution:
     # O(m*n*log(m*n)). TLE
-    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+    def kSmallestPairs(
+        self, nums1: List[int], nums2: List[int], k: int
+    ) -> List[List[int]]:
         res = []
-        for _, x, y in sorted((x+y, x, y) for x in nums1 for y in nums2):
+        for _, x, y in sorted((x + y, x, y) for x in nums1 for y in nums2):
             res.append([x, y])
             k -= 1
             if k == 0:
@@ -78,15 +80,17 @@ class Solution:
         return res
 
     # O(m*n*log(k)). TLE
-    def kSmallestPairs1(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+    def kSmallestPairs1(
+        self, nums1: List[int], nums2: List[int], k: int
+    ) -> List[List[int]]:
         heap = []
         for x in nums1:
             for y in nums2:
                 if len(heap) < k:
-                    heapq.heappush(heap, (-x-y, x, y))
+                    heapq.heappush(heap, (-x - y, x, y))
                 else:
-                    if x+y < -heap[0][0]:
-                        heapq.heapreplace(heap, (-x-y, x, y))
+                    if x + y < -heap[0][0]:
+                        heapq.heapreplace(heap, (-x - y, x, y))
         res = deque()
         while heap and k > 0:
             _, x, y = heapq.heappop(heap)
@@ -96,7 +100,9 @@ class Solution:
         return list(res)
 
     # O(k*log(k)), O(k)
-    def kSmallestPairs2(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+    def kSmallestPairs2(
+        self, nums1: List[int], nums2: List[int], k: int
+    ) -> List[List[int]]:
         res = []
         m, n = len(nums1), len(nums2)
 
@@ -104,42 +110,43 @@ class Solution:
 
         visited = set()
 
-        heap = [(nums1[0]+nums2[0], 0, 0)]
+        heap = [(nums1[0] + nums2[0], 0, 0)]
         # k loops at most
         # in each loop, pop 1 and push 2, so heap size is k at most
         while heap and len(res) < k:
             _, i, j = heapq.heappop(heap)
             res.append([nums1[i], nums2[j]])
-            if i+1 < m and (i+1, j) not in visited:
-                heapq.heappush(heap, (nums1[i+1]+nums2[j], i+1, j))
-                visited.add((i+1, j))
-            if j+1 < n and (i, j+1) not in visited:
-                heapq.heappush(heap, (nums1[i]+nums2[j+1], i, j+1))
-                visited.add((i, j+1))
+            if i + 1 < m and (i + 1, j) not in visited:
+                heapq.heappush(heap, (nums1[i + 1] + nums2[j], i + 1, j))
+                visited.add((i + 1, j))
+            if j + 1 < n and (i, j + 1) not in visited:
+                heapq.heappush(heap, (nums1[i] + nums2[j + 1], i, j + 1))
+                visited.add((i, j + 1))
 
         return res
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[1,1,2],[1,2,3], 2], [[1,1],[1,1]]),
-            ([[1,1,2],[1,2,3], 4], [[1,1],[1,1],[1,2],[1,2]]),
-            ([[1,2],[3], 3], [[1,3],[2,3]]),
+            ([[1, 1, 2], [1, 2, 3], 2], [[1, 1], [1, 1]]),
+            ([[1, 1, 2], [1, 2, 3], 4], [[1, 1], [1, 1], [1, 2], [1, 2]]),
+            ([[1, 2], [3], 3], [[1, 3], [2, 3]]),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

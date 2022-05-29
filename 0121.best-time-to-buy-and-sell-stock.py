@@ -61,35 +61,36 @@ class Solution:
         start = profit = 0
         for i, p in enumerate(prices[1:]):
             if p < prices[start]:
-                start = i+1
+                start = i + 1
             else:
-                profit = max(profit, p-prices[start])
+                profit = max(profit, p - prices[start])
 
         return profit
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[1]], 0),
-            ([[1,2]], 1),
-            ([[2,1]], 0),
-            ([[7,1,5,3,6,4]], 5),
-            ([[7,6,4,3,1]], 0),
+            ([[1, 2]], 1),
+            ([[2, 1]], 0),
+            ([[7, 1, 5, 3, 6, 4]], 5),
+            ([[7, 6, 4, 3, 1]], 0),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

@@ -67,13 +67,13 @@ class Solution:
         n, m, k = len(s), len(words), len(words[0])
         counter = Counter(words)
         res = []
-        for start in range(n-m*k+1):
-            if s[start:start+k] not in counter:
+        for start in range(n - m * k + 1):
+            if s[start : start + k] not in counter:
                 continue
             window = Counter(counter)
             required = len(counter)
-            for i in range(start, start+m*k, k):
-                curr = s[i:i+k]
+            for i in range(start, start + m * k, k):
+                curr = s[i : i + k]
                 if not window[curr]:
                     break
                 window[curr] -= 1
@@ -85,27 +85,28 @@ class Solution:
 
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['barfoothefoobarman', ['foo', 'bar']], [0, 9]),
-            (['wordgoodgoodgoodbestword', ['word', 'good', 'best', 'word']], []),
-            (['barfoofoobarthefoobarman', ['bar', 'foo', 'the']], [6,9,12]),
+            (["barfoothefoobarman", ["foo", "bar"]], [0, 9]),
+            (["wordgoodgoodgoodbestword", ["word", "good", "best", "word"]], []),
+            (["barfoofoobarthefoobarman", ["bar", "foo", "the"]], [6, 9, 12]),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

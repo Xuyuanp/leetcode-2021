@@ -58,31 +58,32 @@ class Solution:
         for i, c in enumerate(s):
             right = max(right, seen[c])
             if i == right:
-                res.append(right-left+1)
-                left = i+1
+                res.append(right - left + 1)
+                left = i + 1
         return res
+
 
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            (['a'], [1]),
-            (['eccbbbbdec'], [10]),
-            (['ababcbacadefegdehijhklij'], [9,7,8]),
+            (["a"], [1]),
+            (["eccbbbbdec"], [10]),
+            (["ababcbacadefegdehijhklij"], [9, 7, 8]),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -88,15 +88,16 @@ class Solution:
         n = len(jobDifficulty)
         if n < d:
             return -1
+
         @cache
         def helper(start: int, dd: int) -> int:
             if dd == 1:
                 return max(jobDifficulty[start:])
-            res = float('inf')
+            res = float("inf")
             curr_max = -1
-            for i in range(start, n-dd+1):
+            for i in range(start, n - dd + 1):
                 curr_max = max(curr_max, jobDifficulty[i])
-                res = min(res, curr_max+helper(i+1, dd-1))
+                res = min(res, curr_max + helper(i + 1, dd - 1))
 
             return res
 
@@ -107,43 +108,45 @@ class Solution:
         n = len(jobDifficulty)
         if n < d:
             return -1
+
         @cache
         def helper(end: int, dd: int) -> int:
             if dd == 1:
                 return max(jobDifficulty[:end])
-            res = float('inf')
+            res = float("inf")
             curr_max = -1
-            for i in range(end, dd-1, -1):
-                curr_max = max(curr_max, jobDifficulty[i-1])
-                res = min(res, curr_max+helper(i-1, dd-1))
+            for i in range(end, dd - 1, -1):
+                curr_max = max(curr_max, jobDifficulty[i - 1])
+                res = min(res, curr_max + helper(i - 1, dd - 1))
 
             return res
 
         return helper(n, d)
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[6,5,4,3,2,1], 2], 7),
-            ([[9,9,9], 4], -1),
-            ([[1,1,1], 3], 3),
-            ([[7,1,7,1,7,1], 3], 15),
-            ([[11,111,22,222,33,333,44,444], 6], 843),
+            ([[6, 5, 4, 3, 2, 1], 2], 7),
+            ([[9, 9, 9], 4], -1),
+            ([[1, 1, 1], 3], 3),
+            ([[7, 1, 7, 1, 7, 1], 3], 15),
+            ([[11, 111, 22, 222, 33, 333, 44, 444], 6], 843),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

@@ -77,26 +77,33 @@ class Solution:
             res.insert(p[K], p)
         return [p for p in res]
 
+
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([[[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]], [[5,0],[7,0],[5,2],[6,1],[4,4],[7,1]]),
-            ([[[6,0],[5,0],[4,0],[3,2],[2,2],[1,4]]], [[4,0],[5,0],[2,2],[3,2],[1,4],[6,0]]),
+            (
+                [[[7, 0], [4, 4], [7, 1], [5, 0], [6, 1], [5, 2]]],
+                [[5, 0], [7, 0], [5, 2], [6, 1], [4, 4], [7, 1]],
+            ),
+            (
+                [[[6, 0], [5, 0], [4, 0], [3, 2], [2, 2], [1, 4]]],
+                [[4, 0], [5, 0], [2, 2], [3, 2], [1, 4], [6, 0]],
+            ),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

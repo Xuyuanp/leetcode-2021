@@ -130,30 +130,30 @@ from typing import List
 # @lc code=start
 class Solution:
     def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
-        res = [0]*n
+        res = [0] * n
         stack = deque()
-        stack.append([0, 0]) # dummy item here, avoid check stack later
+        stack.append([0, 0])  # dummy item here, avoid check stack later
 
         for log in logs:
-            funid, op, ts = log.split(':')
+            funid, op, ts = log.split(":")
             funid, ts = int(funid), int(ts)
-            if op == 'start':
+            if op == "start":
                 stack.append([ts, 0])
             else:
                 start, nested = stack.pop()
                 duration = ts - start + 1
                 res[funid] += duration - nested
-                stack[-1][1] += duration # don't need to check stack empty
+                stack[-1][1] += duration  # don't need to check stack empty
         return res
 
     def exclusiveTime1(self, n: int, logs: List[str]) -> List[int]:
-        res = [0]*n
+        res = [0] * n
         stack = deque()
 
         for log in logs:
-            funid, op, ts = log.split(':')
+            funid, op, ts = log.split(":")
             funid, ts = int(funid), int(ts)
-            if op == 'start':
+            if op == "start":
                 stack.append([funid, ts])
             else:
                 _, start = stack.pop()
@@ -163,32 +163,85 @@ class Solution:
                     res[stack[-1][0]] -= duration
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([1, ["0:start:0","0:end:0"]], [1]),
-            ([1, ["0:start:0","0:end:1"]], [2]),
-            ([2, ["0:start:0","0:start:1","1:start:2","1:end:3","0:end:4","0:end:5"]], [4,2]),
-            ([1, ["0:start:0","0:start:1","0:start:2","0:end:3","0:end:4","0:end:5"]], [6]),
-            ([2, ["0:start:0","1:start:1",'1:end:2','0:end:3']], [2,2]),
-            ([2, ["0:start:0","1:start:2","1:end:5","0:end:6"]], [3,4]),
-            ([2, ["0:start:0","0:start:2","0:end:5","1:start:6","1:end:6","0:end:7"]], [7,1]),
-            ([2, ["0:start:0","0:start:2","0:end:5","1:start:7","1:end:7","0:end:8"]], [8,1]),
+            ([1, ["0:start:0", "0:end:0"]], [1]),
+            ([1, ["0:start:0", "0:end:1"]], [2]),
+            (
+                [
+                    2,
+                    [
+                        "0:start:0",
+                        "0:start:1",
+                        "1:start:2",
+                        "1:end:3",
+                        "0:end:4",
+                        "0:end:5",
+                    ],
+                ],
+                [4, 2],
+            ),
+            (
+                [
+                    1,
+                    [
+                        "0:start:0",
+                        "0:start:1",
+                        "0:start:2",
+                        "0:end:3",
+                        "0:end:4",
+                        "0:end:5",
+                    ],
+                ],
+                [6],
+            ),
+            ([2, ["0:start:0", "1:start:1", "1:end:2", "0:end:3"]], [2, 2]),
+            ([2, ["0:start:0", "1:start:2", "1:end:5", "0:end:6"]], [3, 4]),
+            (
+                [
+                    2,
+                    [
+                        "0:start:0",
+                        "0:start:2",
+                        "0:end:5",
+                        "1:start:6",
+                        "1:end:6",
+                        "0:end:7",
+                    ],
+                ],
+                [7, 1],
+            ),
+            (
+                [
+                    2,
+                    [
+                        "0:start:0",
+                        "0:start:2",
+                        "0:end:5",
+                        "1:start:7",
+                        "1:end:7",
+                        "0:end:8",
+                    ],
+                ],
+                [8, 1],
+            ),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

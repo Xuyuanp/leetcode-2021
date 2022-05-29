@@ -70,19 +70,20 @@ class Solution:
         greater_tail.next = None
         return less_head.next
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             (([], 1), []),
             (([1], 1), [1]),
             (([1], 2), [1]),
             (([2], 1), [2]),
-            (([1,4,3,2,5,2], 3), [1,2,2,4,3,5]),
+            (([1, 4, 3, 2, 5, 2], 3), [1, 2, 2, 4, 3, 5]),
             (([2, 1], 2), [1, 2]),
             (([2, 1], 10), [2, 1]),
             (([2, 1], 0), [2, 1]),
@@ -91,12 +92,12 @@ def test():
             got = func(ListNode.from_list(args[0]), args[1])
             want = ListNode.from_list(want)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

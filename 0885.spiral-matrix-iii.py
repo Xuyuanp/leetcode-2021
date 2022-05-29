@@ -55,12 +55,14 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    def spiralMatrixIII(self, rows: int, cols: int, rStart: int, cStart: int) -> List[List[int]]:
+    def spiralMatrixIII(
+        self, rows: int, cols: int, rStart: int, cStart: int
+    ) -> List[List[int]]:
         res = [None] * (rows * cols)
 
         EAST, SOUTH, WEST, NORTH = 0, 1, 2, 3
         dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        bounds = [cStart+1, rStart+1, cStart-1, rStart-1]
+        bounds = [cStart + 1, rStart + 1, cStart - 1, rStart - 1]
 
         ROW, COL = 0, 1
 
@@ -68,22 +70,22 @@ class Solution:
 
         index = 0
         row, col = rStart, cStart
-        while index < rows*cols:
+        while index < rows * cols:
             if 0 <= row < rows and 0 <= col < cols:
                 res[index] = [row, col]
                 index += 1
 
             if dir == EAST and col == bounds[EAST]:
-                bounds[EAST] = min(cols, bounds[EAST]+1)
+                bounds[EAST] = min(cols, bounds[EAST] + 1)
                 dir = SOUTH
             elif dir == SOUTH and row == bounds[SOUTH]:
-                bounds[SOUTH] = min(rows, bounds[SOUTH]+1)
+                bounds[SOUTH] = min(rows, bounds[SOUTH] + 1)
                 dir = WEST
             elif dir == WEST and col == bounds[WEST]:
-                bounds[WEST] = max(-1, bounds[WEST]-1)
+                bounds[WEST] = max(-1, bounds[WEST] - 1)
                 dir = NORTH
             elif dir == NORTH and row == bounds[NORTH]:
-                bounds[NORTH] = max(-1, bounds[NORTH]-1)
+                bounds[NORTH] = max(-1, bounds[NORTH] - 1)
                 dir = EAST
 
             row += dirs[dir][ROW]
@@ -91,12 +93,14 @@ class Solution:
 
         return res
 
-    def spiralMatrixIII2(self, rows: int, cols: int, rStart: int, cStart: int) -> List[List[int]]:
+    def spiralMatrixIII2(
+        self, rows: int, cols: int, rStart: int, cStart: int
+    ) -> List[List[int]]:
         res = [None] * (rows * cols)
 
         # EAST, SOUTH, WEST, NORTH = 0, 1, 2, 3
         dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        bounds = [cStart+1, rStart+1, cStart-1, rStart-1]
+        bounds = [cStart + 1, rStart + 1, cStart - 1, rStart - 1]
 
         ROW, COL = 0, 1
 
@@ -104,41 +108,76 @@ class Solution:
 
         index = 0
         row, col = rStart, cStart
-        while index < rows*cols:
+        while index < rows * cols:
             if 0 <= row < rows and 0 <= col < cols:
                 res[index] = [row, col]
                 index += 1
 
-            if [col, row][dir%2] == bounds[dir]:
-                bounds[dir] += dirs[dir][[COL, ROW][dir%2]]
-                dir = (dir+1)%len(dirs)
+            if [col, row][dir % 2] == bounds[dir]:
+                bounds[dir] += dirs[dir][[COL, ROW][dir % 2]]
+                dir = (dir + 1) % len(dirs)
 
             row += dirs[dir][ROW]
             col += dirs[dir][COL]
 
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([1, 1, 0, 0], [[0,0]]),
-            ([1, 4, 0, 0], [[0,0],[0,1],[0,2],[0,3]]),
-            ([5,6,1,4], [[1,4],[1,5],[2,5],[2,4],[2,3],[1,3],[0,3],[0,4],[0,5],[3,5],[3,4],[3,3],[3,2],[2,2],[1,2],[0,2],[4,5],[4,4],[4,3],[4,2],[4,1],[3,1],[2,1],[1,1],[0,1],[4,0],[3,0],[2,0],[1,0],[0,0]])
+            ([1, 1, 0, 0], [[0, 0]]),
+            ([1, 4, 0, 0], [[0, 0], [0, 1], [0, 2], [0, 3]]),
+            (
+                [5, 6, 1, 4],
+                [
+                    [1, 4],
+                    [1, 5],
+                    [2, 5],
+                    [2, 4],
+                    [2, 3],
+                    [1, 3],
+                    [0, 3],
+                    [0, 4],
+                    [0, 5],
+                    [3, 5],
+                    [3, 4],
+                    [3, 3],
+                    [3, 2],
+                    [2, 2],
+                    [1, 2],
+                    [0, 2],
+                    [4, 5],
+                    [4, 4],
+                    [4, 3],
+                    [4, 2],
+                    [4, 1],
+                    [3, 1],
+                    [2, 1],
+                    [1, 1],
+                    [0, 1],
+                    [4, 0],
+                    [3, 0],
+                    [2, 0],
+                    [1, 0],
+                    [0, 0],
+                ],
+            ),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

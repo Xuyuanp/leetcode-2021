@@ -74,15 +74,18 @@ from typing import List
 # @lc code=start
 from functools import lru_cache
 
+
 class Solution:
     # O(n*k), O(n). n=amount, k=len(coins)
     def coinChange(self, coins: List[int], amount: int) -> int:
-        dp = [float('inf')] * (amount+1)
+        dp = [float("inf")] * (amount + 1)
         dp[0] = 0
-        for a in range(1, amount+1):
-            dp[a] = min(dp[a], 1+min(dp[a-c] if c<=a else float('inf') for c in coins))
+        for a in range(1, amount + 1):
+            dp[a] = min(
+                dp[a], 1 + min(dp[a - c] if c <= a else float("inf") for c in coins)
+            )
 
-        return dp[amount] if dp[amount] != float('inf') else -1
+        return dp[amount] if dp[amount] != float("inf") else -1
 
     def coinChange1(self, coins: List[int], amount: int) -> int:
         coins = set(coins)
@@ -93,25 +96,26 @@ class Solution:
                 return 0
             if amount in coins:
                 return 1
-            min_cnt = float('inf')
+            min_cnt = float("inf")
             for c in coins:
                 if c > amount:
                     continue
-                rest = helper(amount-c)
+                rest = helper(amount - c)
                 if rest < 0:
                     continue
                 min_cnt = min(min_cnt, rest)
 
-            return min_cnt+1 if min_cnt != float('inf') else -1
+            return min_cnt + 1 if min_cnt != float("inf") else -1
 
         return helper(amount)
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             (([2], 3), -1),
@@ -122,12 +126,12 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

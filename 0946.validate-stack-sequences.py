@@ -65,26 +65,27 @@ class Solution:
                 j += 1
         return not stack
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[1,2,3,4,5],[4,5,3,2,1]], True),
-            ([[1,2,3,4,5],[4,3,5,1,2]], False),
+            ([[1, 2, 3, 4, 5], [4, 5, 3, 2, 1]], True),
+            ([[1, 2, 3, 4, 5], [4, 3, 5, 1, 2]], False),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

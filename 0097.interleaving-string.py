@@ -74,20 +74,23 @@ class Solution:
     # O(m*n), O(m*n)
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
         m, n = len(s1), len(s2)
-        if m+n != len(s3):
+        if m + n != len(s3):
             return False
-        dp = [[False]*(n+1) for _ in range(m+1)]
+        dp = [[False] * (n + 1) for _ in range(m + 1)]
         dp[0][0] = True
-        for i in range(1, m+1):
-            dp[i][0] = dp[i-1][0] and s1[i-1] == s3[i-1]
-        for j in range(1, n+1):
-            dp[0][j] = dp[0][j-1] and s2[j-1] == s3[j-1]
+        for i in range(1, m + 1):
+            dp[i][0] = dp[i - 1][0] and s1[i - 1] == s3[i - 1]
+        for j in range(1, n + 1):
+            dp[0][j] = dp[0][j - 1] and s2[j - 1] == s3[j - 1]
 
-        for i in range(1, m+1):
-            for j in range(1, n+1):
-                dp[i][j] = \
-                    dp[i-1][j] and s1[i-1] == s3[i+j-1] or \
-                    dp[i][j-1] and s2[j-1] == s3[i+j-1]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                dp[i][j] = (
+                    dp[i - 1][j]
+                    and s1[i - 1] == s3[i + j - 1]
+                    or dp[i][j - 1]
+                    and s2[j - 1] == s3[i + j - 1]
+                )
 
         return dp[m][n]
 
@@ -96,20 +99,24 @@ class Solution:
         if len(s1) < len(s2):
             s1, s2 = s2, s1
         m, n = len(s1), len(s2)
-        if m+n != len(s3):
+        if m + n != len(s3):
             return False
 
-        dp = [False] * (n+1)
+        dp = [False] * (n + 1)
         dp[0] = True
-        for j in range(1, n+1):
-            dp[j] = dp[j-1] and s2[j-1] == s3[j-1]
+        for j in range(1, n + 1):
+            dp[j] = dp[j - 1] and s2[j - 1] == s3[j - 1]
 
-        for i in range(1, m+1):
-            next_dp = [False] * (n+1)
-            next_dp[0] = dp[0] and s1[i-1] == s3[i-1]
-            for j in range(1, n+1):
-                next_dp[j] = dp[j] and s1[i-1] == s3[i+j-1] or \
-                    next_dp[j-1] and s2[j-1] == s3[i+j-1]
+        for i in range(1, m + 1):
+            next_dp = [False] * (n + 1)
+            next_dp[0] = dp[0] and s1[i - 1] == s3[i - 1]
+            for j in range(1, n + 1):
+                next_dp[j] = (
+                    dp[j]
+                    and s1[i - 1] == s3[i + j - 1]
+                    or next_dp[j - 1]
+                    and s2[j - 1] == s3[i + j - 1]
+                )
             dp = next_dp
 
         return dp[n]
@@ -119,7 +126,7 @@ class Solution:
         if len(s1) < len(s2):
             s1, s2 = s2, s1
         m, n = len(s1), len(s2)
-        if m+n != len(s3):
+        if m + n != len(s3):
             return False
 
         @lru_cache(None)
@@ -129,8 +136,12 @@ class Solution:
             if len(s2) == 0:
                 return s1 == s3
 
-            return s1[0] == s3[0] and is_interleave(s1[1:], s2, s3[1:]) or \
-                s2[0] == s3[0] and is_interleave(s1, s2[1:], s3[1:])
+            return (
+                s1[0] == s3[0]
+                and is_interleave(s1[1:], s2, s3[1:])
+                or s2[0] == s3[0]
+                and is_interleave(s1, s2[1:], s3[1:])
+            )
 
         return is_interleave(s1, s2, s3)
 
@@ -139,44 +150,49 @@ class Solution:
         if len(s1) < len(s2):
             s1, s2 = s2, s1
         m, n = len(s1), len(s2)
-        if m+n != len(s3):
+        if m + n != len(s3):
             return False
 
         @lru_cache(None)
         def is_interleave(i1: int, i2: int) -> bool:
-            i3 = i1+i2
+            i3 = i1 + i2
             if i1 == m:
                 return s2[i2:] == s3[i3:]
             if i2 == n:
                 return s1[i1:] == s3[i3:]
 
-            return s1[i1] == s3[i3] and is_interleave(i1+1, i2) or \
-                s2[i2] == s3[i3] and is_interleave(i1, i2+1)
+            return (
+                s1[i1] == s3[i3]
+                and is_interleave(i1 + 1, i2)
+                or s2[i2] == s3[i3]
+                and is_interleave(i1, i2 + 1)
+            )
 
         return is_interleave(0, 0)
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['', '', ''], True),
-            (['a', '', 'c'], False),
-            (['aabcc', 'dbbca', 'aadbbcbcac'], True),
-            (['aabcc', 'dbbca', 'aadbbbaccc'], False),
+            (["", "", ""], True),
+            (["a", "", "c"], False),
+            (["aabcc", "dbbca", "aadbbcbcac"], True),
+            (["aabcc", "dbbca", "aadbbbaccc"], False),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

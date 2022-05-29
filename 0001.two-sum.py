@@ -68,21 +68,22 @@ class Solution:
         for i, n in enumerate(nums):
             if n in seen:
                 return [seen[n], i]
-            seen[target-n] = i
+            seen[target - n] = i
         return []
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
-        (([3, 3], 6), [0,1]),
+        (([3, 3], 6), [0, 1]),
         (([3, 2, 4], 6), [1, 2]),
         (([2, 7, 11, 15], 9), [0, 1]),
     ]
     for (nums, target), want in cases:
         got = sol.twoSum(nums, target)
         if want != got:
-            print(f'Failed => args: {(nums, target)}; want: {want}, but got: {got}')
+            print(f"Failed => args: {(nums, target)}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

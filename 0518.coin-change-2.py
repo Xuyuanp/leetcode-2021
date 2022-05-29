@@ -69,13 +69,13 @@ from typing import Counter, List
 class Solution:
     # O(n*amount), O(amount)
     def change(self, amount: int, coins: List[int]) -> int:
-        dp = [0] * (amount+1)
+        dp = [0] * (amount + 1)
         dp[0] = 1
 
         for j in range(len(coins)):
-            for i in range(1, amount+1):
+            for i in range(1, amount + 1):
                 if i >= coins[j]:
-                    dp[i] += dp[i-coins[j]]
+                    dp[i] += dp[i - coins[j]]
         return dp[amount]
 
     # O(n*amount), O(amount)
@@ -84,33 +84,33 @@ class Solution:
         dp[0] = 1
 
         for c in coins:
-            for i in range(1, amount+1):
+            for i in range(1, amount + 1):
                 if i >= c:
-                    dp[i] += dp[i-c]
+                    dp[i] += dp[i - c]
         return dp[amount]
 
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([10, [10]], 1),
             ([3, [2]], 0),
-            ([5, [1,2,5]], 4),
+            ([5, [1, 2, 5]], 4),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

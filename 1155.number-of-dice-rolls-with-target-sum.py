@@ -84,54 +84,56 @@ from functools import cache
 
 class Solution:
     def numRollsToTarget(self, d: int, f: int, target: int) -> int:
-        mod = 10**9+7
+        mod = 10**9 + 7
+
         @cache
         def helper(d: int, target: int) -> int:
-            if target < d or target > d*f:
+            if target < d or target > d * f:
                 return 0
             if d == 1 and target <= f:
                 return 1
 
-            return sum(helper(d-1, target-x) for x in range(1, f+1))%mod
+            return sum(helper(d - 1, target - x) for x in range(1, f + 1)) % mod
 
         return helper(d, target)
 
     def numRollsToTarget1(self, d: int, f: int, target: int) -> int:
-        if not (d <= target <= d*f):
+        if not (d <= target <= d * f):
             return 0
         dp = defaultdict(int)
         dp[0] = 1
         for _ in range(d):
             next_dp = defaultdict(int)
             for i, cnt in dp.items():
-                for x in range(1, f+1):
-                    next_dp[i+x] += cnt
+                for x in range(1, f + 1):
+                    next_dp[i + x] += cnt
             dp = next_dp
-        return dp[target]%(10**9+7)
+        return dp[target] % (10**9 + 7)
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([1,2,3], 0),
-            ([2,5,10], 1),
-            ([2,6,7], 6),
-            ([1,6,3],1),
-            ([30,30,500], 222616187),
+            ([1, 2, 3], 0),
+            ([2, 5, 10], 1),
+            ([2, 6, 7], 6),
+            ([1, 6, 3], 1),
+            ([30, 30, 500], 222616187),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

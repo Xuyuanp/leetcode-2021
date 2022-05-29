@@ -74,7 +74,7 @@ class Solution:
 
         left, right = max(nums), sum(nums)
         while left < right:
-            mid = left + (right-left)//2
+            mid = left + (right - left) // 2
             if num_of_subarrays_sum_lt_val(mid) <= m:
                 right = mid
             else:
@@ -91,11 +91,11 @@ class Solution:
                 return sum(nums[start:])
 
             curr_sum = 0
-            res = float('inf')
+            res = float("inf")
 
-            for i in range(start, n-mm+1):
+            for i in range(start, n - mm + 1):
                 curr_sum += nums[i]
-                res = min(res, max(curr_sum, helper(i+1, mm-1)))
+                res = min(res, max(curr_sum, helper(i + 1, mm - 1)))
 
             return res
 
@@ -111,11 +111,11 @@ class Solution:
                 return sum(nums[:end])
 
             curr = 0
-            res = float('inf')
+            res = float("inf")
 
-            for i in range(end, mm-1, -1):
-                curr+= nums[i-1]
-                res = min(res, max(curr, helper(i-1, mm-1)))
+            for i in range(end, mm - 1, -1):
+                curr += nums[i - 1]
+                res = min(res, max(curr, helper(i - 1, mm - 1)))
 
             return res
 
@@ -124,16 +124,16 @@ class Solution:
     # O(n*n*m), O(n*m)
     def splitArray1(self, nums: List[int], m: int) -> int:
         n = len(nums)
-        dp = [[float('inf')]*(m+1) for _ in range(n+1)]
+        dp = [[float("inf")] * (m + 1) for _ in range(n + 1)]
         dp[0][1] = 0
 
-        for i in range(1, n+1):
-            dp[i][1] = nums[i-1] + dp[i-1][1]
-            for mm in range(2, min(i, m)+1):
+        for i in range(1, n + 1):
+            dp[i][1] = nums[i - 1] + dp[i - 1][1]
+            for mm in range(2, min(i, m) + 1):
                 curr = 0
-                for j in range(i, mm-1, -1):
-                    curr += nums[j-1]
-                    dp[i][mm] = min(dp[i][mm], max(curr, dp[j-1][mm-1]))
+                for j in range(i, mm - 1, -1):
+                    curr += nums[j - 1]
+                    dp[i][mm] = min(dp[i][mm], max(curr, dp[j - 1][mm - 1]))
 
         return dp[n][m]
 
@@ -141,21 +141,21 @@ class Solution:
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[7,2,5,10,8], 2], 18),
-            ([[1,2,3,4,5], 2], 9),
-            ([[1,4,4], 3], 4),
+            ([[7, 2, 5, 10, 8], 2], 18),
+            ([[1, 2, 3, 4, 5], 2], 9),
+            ([[1, 4, 4], 3], 4),
         ]
         for args, want in cases:
             got = func(*args)
-            assert want == got, f'Failed => args: {args}; want: {want}, but got: {got}'
-        print('  All Passed')
+            assert want == got, f"Failed => args: {args}; want: {want}, but got: {got}"
+        print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

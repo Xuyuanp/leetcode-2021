@@ -73,35 +73,36 @@ class Solution:
                 res += 1
 
             if node.left:
-                calc(node.left, target-node.val)
+                calc(node.left, target - node.val)
             if node.right:
-                calc(node.right, target-node.val)
+                calc(node.right, target - node.val)
 
         dfs(root, targetSum)
 
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[], 1], 0),
-            ([[10,5,-3,3,2,None,11,3,-2,None,1], 8], 3),
-            ([[5,4,8,11,None,13,4,7,2,None,None,5,1], 22], 3),
+            ([[10, 5, -3, 3, 2, None, 11, 3, -2, None, 1], 8], 3),
+            ([[5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1], 22], 3),
         ]
         for args, want in cases:
             got = func(TreeNode.from_list(args[0]), args[1])
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

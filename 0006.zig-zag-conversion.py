@@ -78,42 +78,43 @@ class Solution:
             return s
         rows = [[] for _ in range(numRows)]
 
-        directions = [[1, numRows-1], [-1, 0]]
+        directions = [[1, numRows - 1], [-1, 0]]
         curr_dir = 0
         row = 0
         for c in s:
             rows[row].append(c)
 
             if row == directions[curr_dir][1]:
-                curr_dir = (curr_dir+1)%2
+                curr_dir = (curr_dir + 1) % 2
 
             row += directions[curr_dir][0]
 
-        return ''.join(''.join(row) for row in rows)
+        return "".join("".join(row) for row in rows)
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['A', 1], 'A'),
-            (['ABC', 1], 'ABC'),
-            (['ABC', 2], 'ACB'),
-            (['PAYPALISHIRING', 4], 'PINALSIGYAHRPI'),
-            (['PAYPALISHIRING', 3], 'PAHNAPLSIIGYIR'),
+            (["A", 1], "A"),
+            (["ABC", 1], "ABC"),
+            (["ABC", 2], "ACB"),
+            (["PAYPALISHIRING", 4], "PINALSIGYAHRPI"),
+            (["PAYPALISHIRING", 3], "PAHNAPLSIIGYIR"),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

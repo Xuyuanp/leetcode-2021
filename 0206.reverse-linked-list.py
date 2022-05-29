@@ -96,6 +96,7 @@ class Solution:
             new_head, curr, new_head.next = curr, curr.next, new_head
         return new_head
 
+
 # @lc code=end
 
 if __name__ == "__main__":
@@ -103,14 +104,14 @@ if __name__ == "__main__":
     cases = [
         ([], []),
         ([1], [1]),
-        ([1,2], [2,1]),
-        ([1,2,3], [3,2,1]),
+        ([1, 2], [2, 1]),
+        ([1, 2, 3], [3, 2, 1]),
     ]
     for args, want in cases:
         got = sol.reverseList(ListNode.from_list(args))
         want = ListNode.from_list(want)
         if got != want:
-            print(f'Failed => args: {args}; want: {want}, but got: {got}')
+            print(f"Failed => args: {args}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

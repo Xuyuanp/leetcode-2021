@@ -53,14 +53,14 @@ class Solution:
     def rotateRight(self, head: ListNode, k: int) -> ListNode:
         if not head or k == 0:
             return head
-        sentinel = ListNode(float('inf'), next=head)
+        sentinel = ListNode(float("inf"), next=head)
         slow = fast = sentinel
         kk = 0
         while fast.next and kk < k:
             fast = fast.next
             kk += 1
         if not fast.next:
-            return self.rotateRight(head, k%kk)
+            return self.rotateRight(head, k % kk)
 
         while fast.next and slow.next:
             fast = fast.next
@@ -69,6 +69,7 @@ class Solution:
         sentinel.next = slow.next
         slow.next = None
         return sentinel.next
+
 
 # @lc code=end
 
@@ -94,4 +95,4 @@ if __name__ == "__main__":
             print(f"Falied => args: {head}, {k}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

@@ -52,43 +52,44 @@ from typing import List
 class Solution:
     def sortedSquares(self, nums: List[int]) -> List[int]:
         n = len(nums)
-        res = [0]*n
+        res = [0] * n
 
-        left, right = 0, n-1
-        index = n-1
+        left, right = 0, n - 1
+        index = n - 1
         while left <= right:
             if abs(nums[left]) > nums[right]:
-                res[index] = nums[left]**2
-                left+=1
+                res[index] = nums[left] ** 2
+                left += 1
             else:
-                res[index] = nums[right]**2
-                right-=1
-            index-=1
+                res[index] = nums[right] ** 2
+                right -= 1
+            index -= 1
 
         return res
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-                ([[1,2,3]], [1,4,9]),
-                ([[-3,-2,-1]], [1,4,9]),
-                ([[-4,-1,0,3,10]], [0,1,9,16,100]),
-                ([[-7,-3,2,3,11]], [4,9,9,49,121]),
-                ]
+            ([[1, 2, 3]], [1, 4, 9]),
+            ([[-3, -2, -1]], [1, 4, 9]),
+            ([[-4, -1, 0, 3, 10]], [0, 1, 9, 16, 100]),
+            ([[-7, -3, 2, 3, 11]], [4, 9, 9, 49, 121]),
+        ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

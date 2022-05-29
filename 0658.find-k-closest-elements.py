@@ -48,46 +48,46 @@ from typing import List
 # @lc code=start
 class Solution:
     def findClosestElements(self, nums: List[int], k: int, x: int) -> List[int]:
-
         def closer(a: int, b: int) -> bool:
-            da, db = abs(a-x), abs(b-x)
+            da, db = abs(a - x), abs(b - x)
             return da < db or da == db and a < b
 
-        left, right = 0, len(nums)-k
+        left, right = 0, len(nums) - k
         # left ... mid ... mid+k ... right
         while left < right:
-            mid = left + (right-left)//2
-            if closer(nums[mid+k], nums[mid]):
+            mid = left + (right - left) // 2
+            if closer(nums[mid + k], nums[mid]):
                 # if x is closer to nums[mid+k] than nums[mid], shrink left bound
                 left = mid + 1
             else:
                 right = mid
 
-        return nums[left:left+k]
+        return nums[left : left + k]
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[1], 1, 1], [1]),
             ([[1], 1, -1], [1]),
-            ([[1, 2, 3, 4, 5], 4, 3], [1,2,3,4]),
-            ([[1, 2, 3, 4, 5], 4, -1], [1,2,3,4]),
+            ([[1, 2, 3, 4, 5], 4, 3], [1, 2, 3, 4]),
+            ([[1, 2, 3, 4, 5], 4, -1], [1, 2, 3, 4]),
             ([[1, 2, 30, 31, 32], 3, 30], [30, 31, 32]),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

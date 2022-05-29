@@ -52,22 +52,22 @@ class Solution:
     # O(n), O(n)
     def findRepeatedDnaSequences(self, s: str) -> List[str]:
         bitmap = {
-            'A': 0,
-            'C': 1,
-            'G': 2,
-            'T': 3,
+            "A": 0,
+            "C": 1,
+            "G": 2,
+            "T": 3,
         }
         n = len(s)
         res = []
         counter = Counter()
-        for i in range(0, n-9):
+        for i in range(0, n - 9):
             seq = 0
             for j in range(10):
                 seq = seq << 2
-                seq |= bitmap[s[i+j]]
+                seq |= bitmap[s[i + j]]
             counter[seq] += 1
             if counter[seq] == 2:
-                res.append(s[i:i+10])
+                res.append(s[i : i + 10])
 
         return res
 
@@ -76,34 +76,35 @@ class Solution:
         n = len(s)
         res = []
         counter = Counter()
-        for i in range(0, n-9):
-            curr = s[i:i+10]
+        for i in range(0, n - 9):
+            curr = s[i : i + 10]
             counter[curr] += 1
             if counter[curr] == 2:
                 res.append(curr)
 
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['AAAAAAAAAAAAA'], ['AAAAAAAAAA']),
-            (['AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT'], ["AAAAACCCCC","CCCCCAAAAA"]),
+            (["AAAAAAAAAAAAA"], ["AAAAAAAAAA"]),
+            (["AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"], ["AAAAACCCCC", "CCCCCAAAAA"]),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

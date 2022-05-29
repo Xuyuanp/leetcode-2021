@@ -80,6 +80,7 @@ from structures import ListNode
 #         self.val = x
 #         self.next = None
 
+
 class Solution:
     def deleteNode(self, node: ListNode):
         """
@@ -92,5 +93,5 @@ class Solution:
         node.val = node.next.val
         node.next = None
 
-# @lc code=end
 
+# @lc code=end

@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from typing import Any, List, Optional
 
+
 @dataclass
 class ListNode:
     val: Any
@@ -15,6 +16,7 @@ class ListNode:
             while head:
                 yield head.val
                 head = head.next
+
         return str(list(helper()))
 
     @staticmethod

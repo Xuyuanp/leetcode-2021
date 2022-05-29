@@ -55,20 +55,21 @@ class Solution:
 
         return res
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         ([30], [0]),
         ([30, 40], [1, 0]),
         ([50, 40, 30], [0, 0, 0]),
         ([30, 40, 50, 60], [1, 1, 1, 0]),
-        ([73,74,75,71,69,72,76,73], [1,1,4,2,1,1,0,0]),
+        ([73, 74, 75, 71, 69, 72, 76, 73], [1, 1, 4, 2, 1, 1, 0, 0]),
     ]
     for temperatures, want in cases:
         got = sol.dailyTemperatures(temperatures)
         if want != got:
-            print(f'Failed => args: {temperatures}; want: {want}, but got: {got}')
+            print(f"Failed => args: {temperatures}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

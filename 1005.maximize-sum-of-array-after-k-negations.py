@@ -74,35 +74,36 @@ class Solution:
                 nums[i] *= -1
                 k -= 1
         else:
-            nums[-1] *= (-1)**(k%2)
+            nums[-1] *= (-1) ** (k % 2)
 
         return sum(nums)
+
 
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[1], 1], -1),
             ([[1], 2], 1),
             ([[1, -2], 1], 3),
             ([[1, -2], 2], 1),
-            ([[4,2,3], 1], 5),
-            ([[3,-1,0,2], 3], 6),
-            ([[2,-3,-1,5,-4], 2], 13),
+            ([[4, 2, 3], 1], 5),
+            ([[3, -1, 0, 2], 3], 6),
+            ([[2, -3, -1, 5, -4], 2], 13),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

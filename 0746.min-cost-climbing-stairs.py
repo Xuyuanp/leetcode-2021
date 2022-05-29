@@ -56,30 +56,31 @@ class Solution:
     def minCostClimbingStairs(self, cost: List[int]) -> int:
         x, y = 0, 0
         for a, b in zip(cost, cost[1:]):
-            x, y = y, min(x+a, y+b)
+            x, y = y, min(x + a, y + b)
         return y
 
     # O(n), O(n)
     def minCostClimbingStairs1(self, cost: List[int]) -> int:
         n = len(cost)
-        dp = [0] * (n+1)
-        for i in range(2, n+1):
-            dp[i] = min(dp[i-2]+cost[i-2], dp[i-1]+cost[i-1])
+        dp = [0] * (n + 1)
+        for i in range(2, n + 1):
+            dp[i] = min(dp[i - 2] + cost[i - 2], dp[i - 1] + cost[i - 1])
         return dp[n]
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         ([1, 2], 1),
         ([2, 1], 1),
         ([10, 15, 20], 15),
-        ([1,100,1,1,1,100,1,1,100,1], 6),
+        ([1, 100, 1, 1, 1, 100, 1, 1, 100, 1], 6),
     ]
     for args, want in cases:
         got = sol.minCostClimbingStairs(args)
         if want != got:
-            print(f'Failed => args: {args}; want: {want}, but got: {got}')
+            print(f"Failed => args: {args}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

@@ -1,6 +1,7 @@
 # https://leetcode-cn.com/problems/number-of-islands-ii/
 from typing import List, Tuple
 
+
 class Solution:
     def numIslands2(self, m: int, n: int, positions: List[List[int]]) -> List[int]:
         res = []
@@ -27,7 +28,7 @@ class Solution:
 
         for x, y in positions:
             find((x, y))
-            for dx, dy in [(0,1), (1, 0), (0,-1), (-1, 0)]:
+            for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
                 nx, ny = x + dx, y + dy
                 if 0 <= nx < m and 0 <= ny < n and (nx, ny) in ufs:
                     union((x, y), (nx, ny))
@@ -35,24 +36,25 @@ class Solution:
 
         return res
 
+
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([3, 3, [[0,0], [0,1], [1,2], [2,1]]], [1,1,2,3]),
+            ([3, 3, [[0, 0], [0, 1], [1, 2], [2, 1]]], [1, 1, 2, 3]),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

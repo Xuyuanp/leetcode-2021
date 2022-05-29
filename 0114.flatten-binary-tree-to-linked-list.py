@@ -95,7 +95,7 @@ class Solution:
 if __name__ == "__main__":
     sol = Solution()
     cases = [
-        ([1,2,5,3,4,None,6], [1,None,2,None,3,None,4,None,5,None,6])
+        ([1, 2, 5, 3, 4, None, 6], [1, None, 2, None, 3, None, 4, None, 5, None, 6])
     ]
     for args, want in cases:
         root = TreeNode.from_list(args)
@@ -106,4 +106,4 @@ if __name__ == "__main__":
             print(f"Falied => args: {args}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

@@ -65,38 +65,39 @@ class Solution:
     def findContentChildren(self, g: List[int], s: List[int]) -> int:
         g.sort()
         s.sort()
-        gi, si = len(g)-1, len(s)-1
+        gi, si = len(g) - 1, len(s) - 1
         res = 0
-        while gi >= 0 and si >=0:
+        while gi >= 0 and si >= 0:
             if g[gi] <= s[si]:
                 res += 1
                 si -= 1
             gi -= 1
         return res
 
+
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[1], []], 0),
-            ([[1,2], [1,2,3]], 2),
-            ([[1,2,3],[1,1]], 1),
-            ([[2,3],[1,1]], 0),
-            ([[1,2],[1]], 1),
+            ([[1, 2], [1, 2, 3]], 2),
+            ([[1, 2, 3], [1, 1]], 1),
+            ([[2, 3], [1, 1]], 0),
+            ([[1, 2], [1]], 1),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

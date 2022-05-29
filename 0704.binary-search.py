@@ -54,9 +54,9 @@ class Solution:
     def search3(self, nums: List[int], target: int) -> int:
         if not nums:
             return -1
-        left, right = 0, len(nums)-1
+        left, right = 0, len(nums) - 1
         while left + 1 < right:
-            mid = left + (right-left)//2
+            mid = left + (right - left) // 2
             if nums[mid] == target:
                 return mid
             if nums[mid] < target:
@@ -72,11 +72,11 @@ class Solution:
     def search2(self, nums: List[int], target: int) -> int:
         left, right = 0, len(nums)
         while left < right:
-            mid = left + (right-left)//2
+            mid = left + (right - left) // 2
             if nums[mid] == target:
                 return mid
             if nums[mid] < target:
-                left = mid+1
+                left = mid + 1
             else:
                 right = mid
         if left < len(nums) and nums[left] == target:
@@ -84,9 +84,9 @@ class Solution:
         return -1
 
     def search1(self, nums: List[int], target: int) -> int:
-        left, right = 0, len(nums)-1
+        left, right = 0, len(nums) - 1
         while left <= right:
-            mid = left + (right-left)//2
+            mid = left + (right - left) // 2
             if nums[mid] == target:
                 return mid
             if nums[mid] < target:
@@ -95,31 +95,32 @@ class Solution:
                 right = mid - 1
         return -1
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[], 1], -1),
             ([[1], 1], 0),
             ([[1], 2], -1),
-            ([[1,2,3], 0], -1),
-            ([[1,2,3], 1], 0),
-            ([[1,2,3], 2], 1),
-            ([[1,2,3], 3], 2),
-            ([[1,2,3], 4], -1),
-            ([[1,2,3], 4], -1),
-            ([[-1,0,3,5,9,12], 9], 4),
-            ([[-1,0,3,5,9,12], 2], -1),
+            ([[1, 2, 3], 0], -1),
+            ([[1, 2, 3], 1], 0),
+            ([[1, 2, 3], 2], 1),
+            ([[1, 2, 3], 3], 2),
+            ([[1, 2, 3], 4], -1),
+            ([[1, 2, 3], 4], -1),
+            ([[-1, 0, 3, 5, 9, 12], 9], 4),
+            ([[-1, 0, 3, 5, 9, 12], 2], -1),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

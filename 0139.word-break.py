@@ -106,36 +106,37 @@ class Solution:
             print(start)
             if s[start:] in wd:
                 return True
-            for i in range(start+1, len(s)):
+            for i in range(start + 1, len(s)):
                 if s[start:i] in wd and word_break(i):
                     return True
             return False
 
         return word_break(0)
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['abc', ['ab', 'bc']], False),
-            (['abcd', ['ab', 'cd', 'de']], True),
-            (['leetcode', ['leet', 'code']], True),
-            (['applepenapple', ['apple', 'pen']], True),
-            (['catsandog', ['cats', 'dog', 'sand', 'and', 'cat']], False),
+            (["abc", ["ab", "bc"]], False),
+            (["abcd", ["ab", "cd", "de"]], True),
+            (["leetcode", ["leet", "code"]], True),
+            (["applepenapple", ["apple", "pen"]], True),
+            (["catsandog", ["cats", "dog", "sand", "and", "cat"]], False),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

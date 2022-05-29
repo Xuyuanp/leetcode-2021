@@ -90,11 +90,11 @@ from collections import deque
 class Solution:
     def longestSubsequenceRepeatedK(self, s: str, k: int) -> str:
         freq = [0] * 26
-        orda = ord('a')
+        orda = ord("a")
         for c in s:
-            freq[ord(c)-orda] += 1
+            freq[ord(c) - orda] += 1
 
-        candidates = [chr(i+97) for i, f in enumerate(freq) if f >= k]
+        candidates = [chr(i + 97) for i, f in enumerate(freq) if f >= k]
 
         # O(n)
         def is_k_subseq(ss: str) -> bool:
@@ -113,40 +113,47 @@ class Solution:
             return False
 
         queue = deque()
-        queue.append('')
-        res = ''
+        queue.append("")
+        res = ""
         while queue:
             ss = queue.popleft()
             for c in candidates:
-                new_ss = ss+c
+                new_ss = ss + c
                 if is_k_subseq(new_ss):
                     res = new_ss
                     queue.append(new_ss)
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['ab', 2], ''),
-            (['bb', 2], 'b'),
-            (['letsleetcode', 2], 'let'),
-            (['bbabbabbbbabaababab', 3], 'bbbb'),
-            (["exhmepeeeeeekeeetelqyeeeeudtdsjeeyeweeeeekqeizesieqnddzeaefqeyeeezesxfreveeeeyeeeseregoneiftemerujfveysezkeeiofsbeeerheueeehedkluoedeeemeweeekeefeqaleb", 65], 'e')
+            (["ab", 2], ""),
+            (["bb", 2], "b"),
+            (["letsleetcode", 2], "let"),
+            (["bbabbabbbbabaababab", 3], "bbbb"),
+            (
+                [
+                    "exhmepeeeeeekeeetelqyeeeeudtdsjeeyeweeeeekqeizesieqnddzeaefqeyeeezesxfreveeeeyeeeseregoneiftemerujfveysezkeeiofsbeeerheueeehedkluoedeeemeweeekeefeqaleb",
+                    65,
+                ],
+                "e",
+            ),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

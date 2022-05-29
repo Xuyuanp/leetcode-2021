@@ -41,14 +41,15 @@ from typing import List, Optional
 
 BLACK, RED = 0, 1
 
+
 @dataclass
 class Node:
     val: int
     count: int = 1
     total: int = 1
     color: int = 1
-    left: Optional['Node'] = None
-    right: Optional['Node'] = None
+    left: Optional["Node"] = None
+    right: Optional["Node"] = None
 
 
 class Tree:
@@ -57,12 +58,12 @@ class Tree:
     def count_lt(self, node: Optional[Node], val: int) -> int:
         while node and node.val >= val:
             node = node.left
-        return node.total - self.count_gt(node.right, val-1) if node else 0
+        return node.total - self.count_gt(node.right, val - 1) if node else 0
 
     def count_gt(self, node: Optional[Node], val: int) -> int:
         while node and node.val <= val:
             node = node.right
-        return node.total - self.count_lt(node.left, val+1) if node else 0
+        return node.total - self.count_lt(node.left, val + 1) if node else 0
 
     def insert(self, val: int):
         self.root = self._insert(val, self.root, None)
@@ -86,7 +87,9 @@ class Tree:
 
         return self._fixup(child, node, parent)
 
-    def _fixup(self, child: Node, parent: Optional[Node], grandp: Optional[Node]) -> Node:
+    def _fixup(
+        self, child: Node, parent: Optional[Node], grandp: Optional[Node]
+    ) -> Node:
         if child.color == BLACK and parent:
             return parent
         if not parent:
@@ -156,7 +159,7 @@ class Solution:
         res = 0
         for j in range(1, n):
             for i in range(j):
-                if nums[i] > 2*nums[j]:
+                if nums[i] > 2 * nums[j]:
                     res += 1
         return res
 
@@ -165,7 +168,7 @@ class Solution:
         tree = Tree()
         res = 0
         for num in nums:
-            cnt = tree.count_gt(tree.root, 2*num)
+            cnt = tree.count_gt(tree.root, 2 * num)
             res += cnt
             tree.insert(num)
         return res
@@ -177,7 +180,7 @@ class Solution:
         def merge(left: List[int], right: List[int]) -> List[int]:
             m, n = len(left), len(right)
 
-            new_nums = [0] * (m+n)
+            new_nums = [0] * (m + n)
 
             i = j = k = 0
             while i < m and j < n:
@@ -204,7 +207,7 @@ class Solution:
             if len(nums) < 2:
                 return nums
 
-            mid = len(nums)//2
+            mid = len(nums) // 2
             left = merge_sort(nums[:mid])
             right = merge_sort(nums[mid:])
 
@@ -214,7 +217,7 @@ class Solution:
                 if left[i] <= right[j] * 2:
                     i += 1
                 else:
-                    res += m-i
+                    res += m - i
                     j += 1
 
             return merge(left, right)
@@ -223,28 +226,29 @@ class Solution:
 
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[1,3,2,3,1]], 2),
-            ([[2,4,3,5,1]], 3),
-            ([[5,4,3,2,1]], 4),
-            ([[11,11,-11,-11,-11,11]], 9),
+            ([[1, 3, 2, 3, 1]], 2),
+            ([[2, 4, 3, 5, 1]], 3),
+            ([[5, 4, 3, 2, 1]], 4),
+            ([[11, 11, -11, -11, -11, 11]], 9),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

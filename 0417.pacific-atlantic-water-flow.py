@@ -65,24 +65,27 @@ class Solution:
         m, n = len(heights), len(heights[0])
 
         p_visited = [[i == 0 or j == 0 for j in range(n)] for i in range(m)]
-        a_visited = [[i == m-1 or j == n-1 for j in range(n)] for i in range(m)]
+        a_visited = [[i == m - 1 or j == n - 1 for j in range(n)] for i in range(m)]
 
         def dfs(i: int, j: int, visited: List[List[bool]]):
             visited[i][j] = True
             for di, dj in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
-                x, y = i+di, j+dj
-                if 0 <= x < m and 0 <= y < n and \
-                        heights[x][y] >= heights[i][j] and \
-                        not visited[x][y]:
+                x, y = i + di, j + dj
+                if (
+                    0 <= x < m
+                    and 0 <= y < n
+                    and heights[x][y] >= heights[i][j]
+                    and not visited[x][y]
+                ):
                     dfs(x, y, visited)
 
         for i in range(m):
             dfs(i, 0, p_visited)
-            dfs(i, n-1, a_visited)
+            dfs(i, n - 1, a_visited)
 
         for j in range(n):
             dfs(0, j, p_visited)
-            dfs(m-1, j, a_visited)
+            dfs(m - 1, j, a_visited)
 
         res = []
 
@@ -97,23 +100,34 @@ class Solution:
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[[2,1], [1,2]]], [[0,0],[0,1],[1,0],[1,1]]),
-            ([[[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]], [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]])
+            ([[[2, 1], [1, 2]]], [[0, 0], [0, 1], [1, 0], [1, 1]]),
+            (
+                [
+                    [
+                        [1, 2, 2, 3, 5],
+                        [3, 2, 3, 4, 4],
+                        [2, 4, 5, 3, 1],
+                        [6, 7, 1, 4, 5],
+                        [5, 1, 1, 2, 4],
+                    ]
+                ],
+                [[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]],
+            ),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

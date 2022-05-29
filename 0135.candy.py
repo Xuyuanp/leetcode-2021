@@ -72,26 +72,26 @@ class Solution:
 
         while i < n:
             j = i
-            while j < n and ratings[j] == ratings[j-1]:
+            while j < n and ratings[j] == ratings[j - 1]:
                 pre = 1
                 res += 1
                 j += 1
 
-            while j < n and ratings[j] > ratings[j-1]:
+            while j < n and ratings[j] > ratings[j - 1]:
                 pre += 1
                 res += pre
                 j += 1
 
             top = j
-            while j < n and ratings[j] < ratings[j-1]:
+            while j < n and ratings[j] < ratings[j - 1]:
                 pre -= 1
                 res += pre
                 j += 1
 
             if pre > 1:
-                res -= (pre-1) * (j-top)
+                res -= (pre - 1) * (j - top)
             elif pre < 1:
-                res -= (pre-1) * (j-top+1)
+                res -= (pre - 1) * (j - top + 1)
 
             pre = 1
             i = j
@@ -105,12 +105,12 @@ class Solution:
         i = 0
         while i < n:
             j = i
-            pre = 1 if i > 0 and ratings[i] > ratings[i-1] else 0
+            pre = 1 if i > 0 and ratings[i] > ratings[i - 1] else 0
             # increasing sequence
             while j < n:
                 pre += 1
                 res += pre
-                if j+1 == n or ratings[j] >= ratings[j+1]:
+                if j + 1 == n or ratings[j] >= ratings[j + 1]:
                     break
                 j += 1
 
@@ -119,7 +119,7 @@ class Solution:
 
             # decreacing sequence
             k = j + 1
-            while k < n and ratings[k] < ratings[k-1]:
+            while k < n and ratings[k] < ratings[k - 1]:
                 pre -= 1
                 res += pre
                 k += 1
@@ -134,7 +134,7 @@ class Solution:
                     # 0 ---------------------------
                     #      1 2 3 4 2 1
                     #
-                    res -= (pre-1) * (k-j-1)
+                    res -= (pre - 1) * (k - j - 1)
                 elif pre < 1:
                     #
                     #
@@ -145,7 +145,7 @@ class Solution:
                     #          + + + + +
                     #      1 2 5 4 3 2 1
                     #
-                    res += (1-pre) * (k-j)
+                    res += (1 - pre) * (k - j)
 
             i = k
 
@@ -156,14 +156,14 @@ class Solution:
         n = len(ratings)
         candies = [1] * n
         for i in range(1, n):
-            if ratings[i-1] < ratings[i]:
-                candies[i] = candies[i-1] + 1
+            if ratings[i - 1] < ratings[i]:
+                candies[i] = candies[i - 1] + 1
 
         pre = 1
         res = max(candies[-1], pre)
-        for i in range(n-2, -1, -1):
-            if ratings[i] > ratings[i+1]:
-                pre+=1
+        for i in range(n - 2, -1, -1):
+            if ratings[i] > ratings[i + 1]:
+                pre += 1
                 candies[i] = max(candies[i], pre)
             else:
                 pre = 1
@@ -177,12 +177,12 @@ class Solution:
         candies_left = [1] * n
         candies_right = [1] * n
         for i in range(1, n):
-            if ratings[i-1] < ratings[i]:
-                candies_left[i] = candies_left[i-1] + 1
+            if ratings[i - 1] < ratings[i]:
+                candies_left[i] = candies_left[i - 1] + 1
 
-        for i in range(n-2, -1, -1):
-            if ratings[i] > ratings[i+1]:
-                candies_right[i] = candies_right[i+1] + 1
+        for i in range(n - 2, -1, -1):
+            if ratings[i] > ratings[i + 1]:
+                candies_right[i] = candies_right[i + 1] + 1
 
         return sum(max(candies_left[i], candies_right[i]) for i in range(n))
 
@@ -190,34 +190,34 @@ class Solution:
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[1]], 1),
-            ([[1,1,1,1]], 4),
-            ([[1,2,4,3,2,1]], 13),
-            ([[1,2,4,3,2]], 9),
-            ([[1,0,2]], 5),
-            ([[1,2,2]], 4),
-            ([[1,2,3]], 6),
-            ([[3,2,1]], 6),
-            ([[2,2,2,1]], 5),
-            ([[1,2,2,4,3,2,2,1]], 13),
-            ([[1,3,4,5,2]], 11),
-            ([[1,2,3,1]], 7),
-            ([[1,2,3,1,2,3]], 12),
+            ([[1, 1, 1, 1]], 4),
+            ([[1, 2, 4, 3, 2, 1]], 13),
+            ([[1, 2, 4, 3, 2]], 9),
+            ([[1, 0, 2]], 5),
+            ([[1, 2, 2]], 4),
+            ([[1, 2, 3]], 6),
+            ([[3, 2, 1]], 6),
+            ([[2, 2, 2, 1]], 5),
+            ([[1, 2, 2, 4, 3, 2, 2, 1]], 13),
+            ([[1, 3, 4, 5, 2]], 11),
+            ([[1, 2, 3, 1]], 7),
+            ([[1, 2, 3, 1, 2, 3]], 12),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

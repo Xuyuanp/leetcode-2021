@@ -90,9 +90,7 @@ class Solution:
         n = len(aliceValues)
 
         indexes = sorted(
-            list(range(n)),
-            key=lambda i: aliceValues[i]+bobValues[i],
-            reverse=True
+            list(range(n)), key=lambda i: aliceValues[i] + bobValues[i], reverse=True
         )
 
         values = [aliceValues, bobValues]
@@ -101,33 +99,34 @@ class Solution:
 
         for i in indexes:
             points[player] += values[player][i]
-            player = (player+1)%2
+            player = (player + 1) % 2
 
         diff = points[0] - points[1]
         return 1 if diff > 0 else -1 if diff < 0 else 0
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[1], [2]], 1),
-            ([[1,3], [2,1]], 1),
-            ([[1,2], [3,1]], 0),
-            ([[2,4,3], [1,6,7]], -1)
+            ([[1, 3], [2, 1]], 1),
+            ([[1, 2], [3, 1]], 0),
+            ([[2, 4, 3], [1, 6, 7]], -1),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

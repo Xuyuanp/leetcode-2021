@@ -58,21 +58,21 @@ class Solution:
     # O(n), O(n). dp
     def maxSubArray(self, nums: List[int]) -> int:
         n = len(nums)
-        dp = [0]*n
+        dp = [0] * n
         dp[0] = nums[0]
         for i in range(1, n):
-            dp[i] = max(nums[i], dp[i-1]+nums[i])
+            dp[i] = max(nums[i], dp[i - 1] + nums[i])
         return max(dp)
 
     # O(n), O(n).
     def maxSubArray1(self, nums: List[int]) -> int:
         n = len(nums)
-        dp = [0]*n
+        dp = [0] * n
         dp[0] = nums[0]
         res = dp[0]
         for i in range(1, n):
             # dp[i] only need dp[i-1] => reduce dim
-            dp[i] = max(nums[i], dp[i-1]+nums[i])
+            dp[i] = max(nums[i], dp[i - 1] + nums[i])
             res = max(res, dp[i])
         return res
 
@@ -98,8 +98,8 @@ class Solution:
     def maxSubArray4(self, nums: List[int]) -> int:
         res = nums[0]
         for i in range(1, len(nums)):
-            if nums[i-1] > 0:
-                nums[i] += nums[i-1]
+            if nums[i - 1] > 0:
+                nums[i] += nums[i - 1]
             res = max(nums[i], res)
         return res
 
@@ -107,26 +107,26 @@ class Solution:
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[1]], 1),
-            ([[-2,1]], 1),
-            ([[-2,-1]], -1),
-            ([[-2,1,-3,4,-1,2,1,-5,4]], 6),
-            ([[5,4,-1,7,8]], 23),
+            ([[-2, 1]], 1),
+            ([[-2, -1]], -1),
+            ([[-2, 1, -3, 4, -1, 2, 1, -5, 4]], 6),
+            ([[5, 4, -1, 7, 8]], 23),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

@@ -67,9 +67,11 @@ class Solution:
         if not p and not q:
             return True
         if p and q:
-            return p.vall == q.val and \
-                self.isSameTree(p.left, q.right) and \
-                self.isSameTree(p.right, q.right)
+            return (
+                p.vall == q.val
+                and self.isSameTree(p.left, q.right)
+                and self.isSameTree(p.right, q.right)
+            )
         return False
 
     def isSameTree1(self, p: TreeNode, q: TreeNode) -> bool:
@@ -92,4 +94,3 @@ class Solution:
 
 
 # @lc code=end
-

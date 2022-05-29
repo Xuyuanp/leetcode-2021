@@ -49,10 +49,10 @@ class Solution:
         k -= 1
         while k > 0:
             count = 0
-            interval = [res, res+1]
+            interval = [res, res + 1]
             while interval[0] <= n:
-                count += min(n+1, interval[1]) - interval[0]
-                interval = [interval[0]*10, interval[1]*10]
+                count += min(n + 1, interval[1]) - interval[0]
+                interval = [interval[0] * 10, interval[1] * 10]
             if k >= count:
                 res += 1
                 k -= count
@@ -61,8 +61,9 @@ class Solution:
                 k -= 1
         return res
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         ([13, 2], 10),
@@ -74,7 +75,7 @@ if __name__ == '__main__':
     for (n, k), want in cases:
         got = sol.findKthNumber(n, k)
         if want != got:
-            print(f'Failed => args: {(n, k)}; want: {want}, but got: {got}')
+            print(f"Failed => args: {(n, k)}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

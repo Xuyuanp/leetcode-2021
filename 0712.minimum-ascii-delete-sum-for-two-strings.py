@@ -61,20 +61,19 @@ class Solution:
     # O(m*n), O(m*n)=>O(min(m, n))
     def minimumDeleteSum(self, s1: str, s2: str) -> int:
         m, n = len(s1), len(s2)
-        dp = [[0]*(n+1) for _ in range(m+1)]
-        for i in range(1, m+1):
-            dp[i][0] = ord(s1[i-1]) + dp[i-1][0]
-        for j in range(1, n+1):
-            dp[0][j] = ord(s2[j-1]) + dp[0][j-1]
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(1, m + 1):
+            dp[i][0] = ord(s1[i - 1]) + dp[i - 1][0]
+        for j in range(1, n + 1):
+            dp[0][j] = ord(s2[j - 1]) + dp[0][j - 1]
 
-        for i in range(1, m+1):
-            for j in range(1, n+1):
-                if s1[i-1] == s2[j-1]:
-                    dp[i][j] = dp[i-1][j-1]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if s1[i - 1] == s2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
                 else:
                     dp[i][j] = min(
-                        ord(s1[i-1]) + dp[i-1][j],
-                        ord(s2[j-1]) + dp[i][j-1]
+                        ord(s1[i - 1]) + dp[i - 1][j], ord(s2[j - 1]) + dp[i][j - 1]
                     )
 
         return dp[m][n]
@@ -84,20 +83,20 @@ class Solution:
         if len(s1) < len(s2):
             s1, s2 = s2, s1
         m, n = len(s1), len(s2)
-        dp = [0] * (n+1)
-        for j in range(1, n+1):
-            dp[j] = ord(s2[j-1]) + dp[j-1]
+        dp = [0] * (n + 1)
+        for j in range(1, n + 1):
+            dp[j] = ord(s2[j - 1]) + dp[j - 1]
 
-        for i in range(1, m+1):
-            next_dp = [0]*(n+1)
-            next_dp[0] = ord(s1[i-1]) + dp[0]
-            for j in range(1, n+1):
-                if s1[i-1] == s2[j-1]:
-                    next_dp[j] = dp[j-1]
+        for i in range(1, m + 1):
+            next_dp = [0] * (n + 1)
+            next_dp[0] = ord(s1[i - 1]) + dp[0]
+            for j in range(1, n + 1):
+                if s1[i - 1] == s2[j - 1]:
+                    next_dp[j] = dp[j - 1]
                 else:
                     next_dp[j] = min(
-                        ord(s1[i-1]) + dp[j],
-                        ord(s2[j-1]) + next_dp[j-1],
+                        ord(s1[i - 1]) + dp[j],
+                        ord(s2[j - 1]) + next_dp[j - 1],
                     )
             dp = next_dp
 
@@ -112,39 +111,37 @@ class Solution:
             if i == m and j == n:
                 return 0
             if i == m:
-                return ord(s2[j]) + helper(i, j+1)
+                return ord(s2[j]) + helper(i, j + 1)
             if j == n:
-                return ord(s1[i]) + helper(i+1, j)
+                return ord(s1[i]) + helper(i + 1, j)
             if s1[i] == s2[j]:
-                return helper(i+1, j+1)
-            return min(
-                ord(s1[i]) + helper(i+1, j),
-                ord(s2[j]) + helper(i, j+1)
-            )
+                return helper(i + 1, j + 1)
+            return min(ord(s1[i]) + helper(i + 1, j), ord(s2[j]) + helper(i, j + 1))
 
         return helper(0, 0)
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['a', 'b'], ord('a')+ord('b')),
-            (['sea', 'eat'], 231),
-            (['delete', 'leet'], 403)
+            (["a", "b"], ord("a") + ord("b")),
+            (["sea", "eat"], 231),
+            (["delete", "leet"], 403),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

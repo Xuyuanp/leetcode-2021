@@ -47,12 +47,11 @@ from functools import lru_cache
 class Solution:
     # O(n^2), O(n). memoization
     def numTrees(self, n: int) -> int:
-
         @lru_cache(None)
         def helper(m: int):
             if m < 2:
                 return 1
-            return sum(helper(i)*helper(m-i-1) for i in range(m))
+            return sum(helper(i) * helper(m - i - 1) for i in range(m))
 
         return helper(n)
 
@@ -60,17 +59,18 @@ class Solution:
     def numTrees1(self, n: int) -> int:
         if n < 2:
             return n
-        dp = [1] * (n+1)
-        for i in range(2, n+1):
-            dp[i] = sum(dp[j]*dp[i-j-1] for j in range(i))
+        dp = [1] * (n + 1)
+        for i in range(2, n + 1):
+            dp[i] = sum(dp[j] * dp[i - j - 1] for j in range(i))
         return dp[-1]
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([1], 1),
@@ -83,12 +83,12 @@ def test():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

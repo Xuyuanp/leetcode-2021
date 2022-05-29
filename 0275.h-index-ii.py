@@ -62,44 +62,45 @@ from typing import List
 class Solution:
     def hIndex(self, citations: List[int]) -> int:
         n = len(citations)
-        left, right = 0, n-1
+        left, right = 0, n - 1
         while left <= right:
-            mid = (left+right)//2
-            if citations[mid] == n-mid:
+            mid = (left + right) // 2
+            if citations[mid] == n - mid:
                 return citations[mid]
-            if citations[mid] > n-mid:
-                right = mid-1
+            if citations[mid] > n - mid:
+                right = mid - 1
             else:
-                left = mid+1
+                left = mid + 1
 
         return n - left
+
 
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[0]], 0),
             ([[1]], 1),
             ([[100]], 1),
-            ([[1,100]], 1),
-            ([[2,2]], 2),
-            ([[1,2,100]], 2),
-            ([[1,3,100]], 2),
-            ([[0,1,3,5,6]], 3),
+            ([[1, 100]], 1),
+            ([[2, 2]], 2),
+            ([[1, 2, 100]], 2),
+            ([[1, 3, 100]], 2),
+            ([[0, 1, 3, 5, 6]], 3),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

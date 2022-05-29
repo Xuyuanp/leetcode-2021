@@ -80,30 +80,28 @@ class Solution:
         # count of nodes in a full tree = 2^depth-1
         # so, total count of the full sub tree and the root is 2^depth
         if left_depth == right_depth:
-            return (1<<left_depth) + self.countNodes(root.right)
+            return (1 << left_depth) + self.countNodes(root.right)
         else:
-            return (1<<right_depth) + self.countNodes(root.left)
+            return (1 << right_depth) + self.countNodes(root.left)
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
-        cases = [
-            ([TreeNode.from_list(list(range(n)))], n)
-            for n in range(1, 100)
-        ]
+        cases = [([TreeNode.from_list(list(range(n)))], n) for n in range(1, 100)]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

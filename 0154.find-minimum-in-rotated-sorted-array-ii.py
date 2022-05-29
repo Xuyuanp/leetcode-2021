@@ -62,9 +62,9 @@ from typing import List
 class Solution:
     def findMin(self, nums: List[int]) -> int:
         n = len(nums)
-        left, right = 0, n-1
+        left, right = 0, n - 1
         while left < right:
-            mid = left + (right-left)//2
+            mid = left + (right - left) // 2
             if nums[mid] > nums[right]:
                 left = mid + 1
             elif nums[mid] == nums[right]:
@@ -74,12 +74,13 @@ class Solution:
 
         return nums[left]
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[1]], 1),
@@ -93,8 +94,8 @@ if __name__ == '__main__':
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

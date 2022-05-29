@@ -68,35 +68,36 @@ class Solution:
         for x in nums:
             find(x)
             if x - 1 in ufs:
-                union(x-1, x)
+                union(x - 1, x)
             if x + 1 in ufs:
-                union(x, x+1)
+                union(x, x + 1)
 
         counter = Counter()
         for x in ufs:
             counter[find(x)] += 1
         return counter.most_common(1)[0][1]
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[100,4,200,1,3,2]], 4),
-            ([[0,3,7,2,5,8,4,6,0,1]], 9),
+            ([[100, 4, 200, 1, 3, 2]], 4),
+            ([[0, 3, 7, 2, 5, 8, 4, 6, 0, 1]], 9),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

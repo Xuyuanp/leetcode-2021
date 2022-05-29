@@ -69,18 +69,20 @@ from structures import ListNode
 #         self.next = next
 class Solution:
     # O(m+n), O(1)
-    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+    def addTwoNumbers(
+        self, l1: Optional[ListNode], l2: Optional[ListNode]
+    ) -> Optional[ListNode]:
         x = y = 0
 
         while l1:
-            x = x*10 + l1.val
+            x = x * 10 + l1.val
             l1 = l1.next
 
         while l2:
-            y = y*10 + l2.val
+            y = y * 10 + l2.val
             l2 = l2.next
 
-        total, curr = divmod(x+y, 10)
+        total, curr = divmod(x + y, 10)
         head = ListNode(curr)
 
         while total:
@@ -89,28 +91,29 @@ class Solution:
 
         return head
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[0],[0]], [0]),
-            ([[1],[9]], [1,0]),
-            ([[1,1],[9]], [2,0]),
-            ([[7,2,4,3],[5,6,4]], [7,8,0,7]),
+            ([[0], [0]], [0]),
+            ([[1], [9]], [1, 0]),
+            ([[1, 1], [9]], [2, 0]),
+            ([[7, 2, 4, 3], [5, 6, 4]], [7, 8, 0, 7]),
         ]
         for args, want in cases:
             got = func(ListNode.from_list(args[0]), ListNode.from_list(args[1]))
             if ListNode.from_list(want) != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

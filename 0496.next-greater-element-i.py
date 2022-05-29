@@ -70,7 +70,7 @@ from typing import List
 class Solution:
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
         res = [-1] * len(nums1)
-        stack = [float('inf')]
+        stack = [float("inf")]
         dic = {}
         for n in nums2:
             while stack[-1] < n:
@@ -82,8 +82,9 @@ class Solution:
 
         return res
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         (([], []), []),
@@ -93,7 +94,7 @@ if __name__ == '__main__':
     for (nums1, nums2), want in cases:
         got = sol.nextGreaterElement(nums1, nums2)
         if want != got:
-            print(f'Failed => args: {(nums1, nums2)}; want: {want}, but got: {got}')
+            print(f"Failed => args: {(nums1, nums2)}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

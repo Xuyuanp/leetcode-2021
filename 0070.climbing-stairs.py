@@ -54,50 +54,55 @@ class Solution:
     # O(n), O(1)
     def climbStairs(self, n: int) -> int:
         x, y = 1, 1
-        for _ in range(2, n+1):
-            y, x = x+y, y
+        for _ in range(2, n + 1):
+            y, x = x + y, y
         return y
 
     # O(n), O(n)
     def climbStairs3(self, n: int) -> int:
         if n < 2:
             return 1
+
         def helper(n: int, x: int, y: int):
             if n == 0:
                 return y
-            return helper(n-1, y, x+y)
-        return helper(n-1, 1, 1)
+            return helper(n - 1, y, x + y)
+
+        return helper(n - 1, 1, 1)
 
     # O(n), O(n)
     def climbStairs2(self, n: int) -> int:
         dp = {0: 1, 1: 1}
+
         def helper(n: int) -> int:
             if n not in dp:
-                dp[n] = helper(n-1) + helper(n-2)
+                dp[n] = helper(n - 1) + helper(n - 2)
             return dp[n]
+
         return helper(n)
 
     # O(n), O(n)
     def climbStairs1(self, n: int) -> int:
-        dp = [1] * (n+1)
-        for i in range(2, n+1):
-            dp[i] = dp[i-1] + dp[i-2]
+        dp = [1] * (n + 1)
+        for i in range(2, n + 1):
+            dp[i] = dp[i - 1] + dp[i - 2]
 
-        return dp[n];
+        return dp[n]
 
     # O(2^n) O(n)
     def climbStairs0(self, n: int) -> int:
         def helper(n: int) -> int:
             if n < 2:
                 return 1
-            return helper(n-1) + helper(n-2)
+            return helper(n - 1) + helper(n - 2)
+
         return helper(n)
 
 
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     cases = [
         ([0], 1),
         ([1], 1),
@@ -108,13 +113,13 @@ if __name__ == '__main__':
         ([6], 13),
     ]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

@@ -61,7 +61,7 @@ class Solution:
                 return True
             if j == n:
                 return False
-            return s[i] == t[j] and helper(i+1, j+1) or helper(i, j+1)
+            return s[i] == t[j] and helper(i + 1, j + 1) or helper(i, j + 1)
 
         return helper(0, 0)
 
@@ -75,35 +75,34 @@ class Solution:
         while i < m and j < n:
             if s[i] == t[j]:
                 i += 1
-            j+=1
+            j += 1
 
         return i == m
-
 
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['', 'ab'], True),
-            (['a', 'ab'], True),
-            (['a', 'ba'], True),
-            (['abc', 'ahbgdc'], True),
-            (['axc', 'ahbgdc'], False),
+            (["", "ab"], True),
+            (["a", "ab"], True),
+            (["a", "ba"], True),
+            (["abc", "ahbgdc"], True),
+            (["axc", "ahbgdc"], False),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

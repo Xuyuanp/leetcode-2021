@@ -61,17 +61,17 @@ from typing import List
 class Solution:
     # O(n), O(1). sliding window
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
-        res = float('inf')
+        res = float("inf")
         left = sum_ = 0
         for right, n in enumerate(nums):
             sum_ += n
             # when we got a subarray sum >= target, shrink the left bound
             while sum_ >= target:
-                res = min(res, right-left+1)
+                res = min(res, right - left + 1)
                 sum_ -= nums[left]
                 left += 1
 
-        return res if res != float('inf') else 0
+        return res if res != float("inf") else 0
 
     # O(n*log(n)), O(1)
     def minSubArrayLen1(self, target: int, nums: List[int]) -> int:
@@ -80,40 +80,41 @@ class Solution:
             if sum_ >= target:
                 return True
             for i in range(length, len(nums)):
-                sum_ += nums[i] - nums[i-length]
+                sum_ += nums[i] - nums[i - length]
                 if sum_ >= target:
                     return True
             return False
 
         left, right = 1, len(nums)
         while left < right:
-            mid = (left+right)//2
+            mid = (left + right) // 2
             if possible(mid):
                 right = mid
             else:
                 left = mid + 1
         return left if possible(left) else 0
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([4, [1,4,4]], 1),
-            ([7, [2,3,1,2,4,3]], 2),
-            ([11, [1,1,1,1,1,1,1,1]], 0),
-            ([15, [1,2,3,4,5]], 5),
-            ([213, [12,28,83,4,25,26,25,2,25,25,25,12]], 8),
-            ([1, [9,8,7,6,5,4,3,2,1]], 1),
+            ([4, [1, 4, 4]], 1),
+            ([7, [2, 3, 1, 2, 4, 3]], 2),
+            ([11, [1, 1, 1, 1, 1, 1, 1, 1]], 0),
+            ([15, [1, 2, 3, 4, 5]], 5),
+            ([213, [12, 28, 83, 4, 25, 26, 25, 2, 25, 25, 25, 12]], 8),
+            ([1, [9, 8, 7, 6, 5, 4, 3, 2, 1]], 1),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

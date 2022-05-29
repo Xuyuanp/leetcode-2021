@@ -128,9 +128,9 @@ class Solution:
     def stoneGameV(self, stoneValue: List[int]) -> int:
         n = len(stoneValue)
 
-        presum = [0] * (n+1)
+        presum = [0] * (n + 1)
         for i in range(n):
-            presum[i+1] += presum[i] + stoneValue[i]
+            presum[i + 1] += presum[i] + stoneValue[i]
 
         # helper returns the answer of stoneValue[start:end]
         @cache
@@ -138,9 +138,9 @@ class Solution:
             if start + 1 == end:
                 return 0
             res = 0
-            for k in range(start+1, end): # split stones into [start:k] and [k:end]
-                left = presum[k] - presum[start] # sum(stoneValue[start:k])
-                right = presum[end] - presum[k] # sum(stoneValue[k:end])
+            for k in range(start + 1, end):  # split stones into [start:k] and [k:end]
+                left = presum[k] - presum[start]  # sum(stoneValue[start:k])
+                right = presum[end] - presum[k]  # sum(stoneValue[k:end])
                 if left > right:
                     res = max(res, right + helper(k, end))
                 elif left < right:
@@ -156,16 +156,16 @@ class Solution:
     def stoneGameV1(self, stoneValue: List[int]) -> int:
         n = len(stoneValue)
 
-        presum = [0] * (n+1)
+        presum = [0] * (n + 1)
         for i in range(n):
-            presum[i+1] += presum[i] + stoneValue[i]
+            presum[i + 1] += presum[i] + stoneValue[i]
 
-        dp = [[0] * (n+1) for _ in range(n+1)]
+        dp = [[0] * (n + 1) for _ in range(n + 1)]
 
-        for length in range(2, n+1):
-            for i in range(n-length+1):
+        for length in range(2, n + 1):
+            for i in range(n - length + 1):
                 j = i + length
-                for k in range(i+1, j):
+                for k in range(i + 1, j):
                     left = presum[k] - presum[i]
                     right = presum[j] - presum[k]
                     if left > right:
@@ -179,31 +179,32 @@ class Solution:
 
     # TODO: Optimize => O(n^2)
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[4]], 0),
-            ([[1,2]], 1),
-            ([[6,2,3,4,5,5]], 18),
-            ([[7,7,7,7,7,7,7]], 28),
-            ([[98,77,24,49,6,12,2,44,51]], 259),
-            ([[77,24,49,6,12,2,44,51,96]], 265),
-            ([[98,77,24,49,6,12,2,44,51,96]], 330),
+            ([[1, 2]], 1),
+            ([[6, 2, 3, 4, 5, 5]], 18),
+            ([[7, 7, 7, 7, 7, 7, 7]], 28),
+            ([[98, 77, 24, 49, 6, 12, 2, 44, 51]], 259),
+            ([[77, 24, 49, 6, 12, 2, 44, 51, 96]], 265),
+            ([[98, 77, 24, 49, 6, 12, 2, 44, 51, 96]], 330),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

@@ -51,9 +51,9 @@ class Solution:
             return [-1, -1]
 
         def search_left():
-            left, right = 0, len(nums)-1
+            left, right = 0, len(nums) - 1
             while left < right:
-                mid = left + (right-left)//2
+                mid = left + (right - left) // 2
                 if nums[mid] == target:
                     right = mid
                 elif nums[mid] < target:
@@ -63,9 +63,9 @@ class Solution:
             return left if nums[left] == target else -1
 
         def search_right():
-            left, right = 0, len(nums)-1
+            left, right = 0, len(nums) - 1
             while left < right:
-                mid = left + (right-left)//2 + 1
+                mid = left + (right - left) // 2 + 1
                 if nums[mid] == target:
                     left = mid
                 elif nums[mid] > target:
@@ -83,11 +83,11 @@ class Solution:
 
 
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[], 1], [-1, -1]),
@@ -95,14 +95,14 @@ if __name__ == '__main__':
             ([[1, 1], 1], [0, 1]),
             ([[1, 1, 2, 3, 4], 1], [0, 1]),
             ([[1, 2, 3, 4, 4, 4], 4], [3, 5]),
-            ([[5,7,7,8,8,10], 8], [3, 4]),
-            ([[5,7,7,8,8,10], 9], [-1, -1]),
+            ([[5, 7, 7, 8, 8, 10], 8], [3, 4]),
+            ([[5, 7, 7, 8, 8, 10], 9], [-1, -1]),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

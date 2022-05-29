@@ -72,7 +72,7 @@ class Solution:
             #     |       |        |        |
             #    left   right    left''   right''
 
-        if fast and right: # odd
+        if fast and right:  # odd
             right = right.next
 
         while left and right:
@@ -105,6 +105,7 @@ class Solution:
             n2 = n2.next
         return not n1 or not n1.next
 
+
 # @lc code=end
 
 if __name__ == "__main__":
@@ -121,8 +122,7 @@ if __name__ == "__main__":
     for args, want in cases:
         got = sol.isPalindrome(ListNode.from_list(args))
         if got != want:
-            print(f'Failed => args {args}, want: {want}, but got: {got}')
+            print(f"Failed => args {args}, want: {want}, but got: {got}")
             break
     else:
         print("All Passed")
-

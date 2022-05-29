@@ -67,8 +67,11 @@
 #         self.left = None
 #         self.right = None
 
+
 class Solution:
-    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+    def lowestCommonAncestor(
+        self, root: TreeNode, p: TreeNode, q: TreeNode
+    ) -> TreeNode:
         if root in (p, q, None):
             return root
 
@@ -78,5 +81,5 @@ class Solution:
             return root
         return l if l else r
 
-# @lc code=end
 
+# @lc code=end

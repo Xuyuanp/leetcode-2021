@@ -94,37 +94,38 @@ class Solution:
             one_fix = 1 if length > 1 else 0
             two_fix = 1 if length > 2 else 0
             curr = segments[0]
-            res = max(res, curr[END]-curr[START]+one_fix)
+            res = max(res, curr[END] - curr[START] + one_fix)
             for i in range(1, length):
-                pre, curr = segments[i-1], segments[i]
-                res = max(res, curr[END]-curr[START]+one_fix)
+                pre, curr = segments[i - 1], segments[i]
+                res = max(res, curr[END] - curr[START] + one_fix)
                 if curr[START] - pre[END] == 1:
-                    res = max(res, curr[END]-pre[START]-1+two_fix)
+                    res = max(res, curr[END] - pre[START] - 1 + two_fix)
         return res
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['abcdef'], 1),
-            (['ababa'], 3),
-            (['aaabaaa'], 6),
-            (['aaabbaaa'], 4),
-            (['aaaaa'], 5),
+            (["abcdef"], 1),
+            (["ababa"], 3),
+            (["aaabaaa"], 6),
+            (["aaabbaaa"], 4),
+            (["aaaaa"], 5),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

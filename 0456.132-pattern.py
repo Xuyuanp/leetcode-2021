@@ -62,9 +62,9 @@ class Solution:
     # O(n), O(n)
     def find132pattern(self, nums: List[int]) -> bool:
         stack = []
-        z = float('-inf')
+        z = float("-inf")
         for x in nums[::-1]:
-            if x < z: # x is nums[i], stack[-1] is nums[j] and z is nums[k]
+            if x < z:  # x is nums[i], stack[-1] is nums[j] and z is nums[k]
                 return True
             while stack and stack[-1] < x:
                 z = stack.pop()
@@ -76,15 +76,16 @@ class Solution:
         n = len(nums)
         if n < 3:
             return False
-        for i in range(n-2):
-            for j in range(i+1, n-1):
-                for k in range(j+1, n):
+        for i in range(n - 2):
+            for j in range(i + 1, n - 1):
+                for k in range(j + 1, n):
                     if nums[i] < nums[k] < nums[j]:
                         return True
         return False
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         ([1, 2, 3, 4], False),
@@ -95,7 +96,7 @@ if __name__ == '__main__':
     for nums, want in cases:
         got = sol.find132pattern(nums)
         if want != got:
-            print(f'Failed => args: {nums}; want: {want}, but got: {got}')
+            print(f"Failed => args: {nums}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

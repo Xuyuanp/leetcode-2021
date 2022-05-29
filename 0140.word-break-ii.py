@@ -67,10 +67,10 @@ class Solution:
         wordDict = set(wordDict)
 
         def dfs(curr: str, sentence: List[str]):
-            if curr == '':
-                res.append(' '.join(sentence))
+            if curr == "":
+                res.append(" ".join(sentence))
 
-            for i in range(1, len(curr)+1):
+            for i in range(1, len(curr) + 1):
                 if curr[:i] in wordDict:
                     sentence.append(curr[:i])
                     dfs(curr[i:], sentence)
@@ -84,13 +84,13 @@ class Solution:
         res = []
 
         def dfs(curr: str, sentence: List[str]):
-            if curr == '':
-                res.append(' '.join(sentence))
+            if curr == "":
+                res.append(" ".join(sentence))
 
             for word in wordDict:
                 if curr.startswith(word):
                     sentence.append(word)
-                    dfs(curr[len(word):], sentence)
+                    dfs(curr[len(word) :], sentence)
                     sentence.pop(-1)
 
         dfs(s, [])
@@ -101,40 +101,50 @@ class Solution:
         @cache
         def dfs(curr: str) -> List[str]:
             res = []
-            if curr == '':
-                return ['']
+            if curr == "":
+                return [""]
             for word in wordDict:
                 if curr.startswith(word):
-                    for suffix in dfs(curr[len(word):]):
+                    for suffix in dfs(curr[len(word) :]):
                         if suffix:
-                            res.append(word+' '+suffix)
+                            res.append(word + " " + suffix)
                         else:
                             res.append(word)
             return res
 
         return dfs(s)
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['catsanddog', ["cat","cats","and","sand","dog"]], ["cats and dog","cat sand dog"]),
-            (['pineapplepenapple', ['apple', 'pen', 'applepen', 'pine', 'pineapple']], ["pine apple pen apple","pineapple pen apple","pine applepen apple"]),
-            (['catsandog', ['cats', 'dog', 'sand', 'and', 'cat']], []),
+            (
+                ["catsanddog", ["cat", "cats", "and", "sand", "dog"]],
+                ["cats and dog", "cat sand dog"],
+            ),
+            (
+                [
+                    "pineapplepenapple",
+                    ["apple", "pen", "applepen", "pine", "pineapple"],
+                ],
+                ["pine apple pen apple", "pineapple pen apple", "pine applepen apple"],
+            ),
+            (["catsandog", ["cats", "dog", "sand", "and", "cat"]], []),
         ]
         for args, want in cases:
             got = func(*args)
             if sorted(want) != sorted(got):
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

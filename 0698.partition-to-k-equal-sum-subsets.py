@@ -47,17 +47,16 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    def canPartitionKSubsets1(self, nums: List[int],
-                             k: int) -> bool:
+    def canPartitionKSubsets1(self, nums: List[int], k: int) -> bool:
         if k > len(nums):
             return False
         nums.sort(reverse=True)
         total = sum(nums)
-        if total%k != 0:
+        if total % k != 0:
             return False
 
-        target = total//k
-        bucket = [0]*k
+        target = total // k
+        bucket = [0] * k
 
         def backtrack(index: int) -> bool:
             if index == len(nums):
@@ -67,7 +66,7 @@ class Solution:
                 if bucket[i] + nums[index] > target:
                     continue
                 bucket[i] += nums[index]
-                if backtrack(index+1):
+                if backtrack(index + 1):
                     return True
                 bucket[i] -= nums[index]
 
@@ -75,28 +74,27 @@ class Solution:
 
         return backtrack(0)
 
-    def canPartitionKSubsets(self, nums: List[int],
-                              k: int) -> bool:
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
         if k > len(nums):
             return False
         total = sum(nums)
-        if total%k != 0:
+        if total % k != 0:
             return False
-        used = [False]*len(nums)
-        target = total//k
+        used = [False] * len(nums)
+        target = total // k
 
         def backtrack(kk: int, curr: int, start: int) -> bool:
-            if kk == k-1:
+            if kk == k - 1:
                 return True
             if curr == target:
-                return backtrack(kk+1, 0, 0)
+                return backtrack(kk + 1, 0, 0)
 
             for i in range(start, len(nums)):
                 x = nums[i]
                 if used[i] or curr + x > target:
                     continue
                 used[i] = True
-                if backtrack(kk, curr+x, i+1):
+                if backtrack(kk, curr + x, i + 1):
                     return True
                 used[i] = False
 
@@ -104,8 +102,31 @@ class Solution:
 
         return backtrack(0, 0, 0)
 
+
 # @lc code=end
 
 
-if __name__ == '__main__':
-    print(Solution().canPartitionKSubsets([815,625,3889,4471,60,494,944,1118,4623,497,771,679,1240,202,601,883], 3))
+if __name__ == "__main__":
+    print(
+        Solution().canPartitionKSubsets(
+            [
+                815,
+                625,
+                3889,
+                4471,
+                60,
+                494,
+                944,
+                1118,
+                4623,
+                497,
+                771,
+                679,
+                1240,
+                202,
+                601,
+                883,
+            ],
+            3,
+        )
+    )

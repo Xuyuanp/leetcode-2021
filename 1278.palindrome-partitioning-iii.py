@@ -73,18 +73,20 @@ class Solution:
         def make_palindrome(start: int, end: int) -> int:
             if start >= end:
                 return 0
-            return make_palindrome(start+1, end-1) + (0 if s[start] == s[end] else 1)
+            return make_palindrome(start + 1, end - 1) + (
+                0 if s[start] == s[end] else 1
+            )
 
         @cache
         def helper(start: int, kk: int) -> int:
             if kk == 1:
-                return make_palindrome(start, n-1)
+                return make_palindrome(start, n - 1)
 
-            res = float('inf')
+            res = float("inf")
 
-            for i in range(start, n-kk+1):
+            for i in range(start, n - kk + 1):
                 curr = make_palindrome(start, i)
-                res = min(res, curr+helper(i+1, kk-1))
+                res = min(res, curr + helper(i + 1, kk - 1))
 
             return res
 
@@ -97,18 +99,20 @@ class Solution:
         def make_palindrome(start: int, end: int) -> int:
             if start >= end:
                 return 0
-            return make_palindrome(start+1, end-1) + (0 if s[start] == s[end] else 1)
+            return make_palindrome(start + 1, end - 1) + (
+                0 if s[start] == s[end] else 1
+            )
 
         @cache
         def helper(end: int, kk: int) -> int:
             if kk == 1:
-                return make_palindrome(0, end-1)
+                return make_palindrome(0, end - 1)
 
-            res = float('inf')
+            res = float("inf")
 
-            for i in range(end, kk-1, -1):
-                curr = make_palindrome(i-1, end-1)
-                res = min(res, curr+helper(i-1, kk-1))
+            for i in range(end, kk - 1, -1):
+                curr = make_palindrome(i - 1, end - 1)
+                res = min(res, curr + helper(i - 1, kk - 1))
 
             return res
 
@@ -116,44 +120,47 @@ class Solution:
 
     def palindromePartition2(self, s: str, k: int) -> int:
         n = len(s)
-        dp = [[float('inf')]*(k+1) for _ in range(n+1)]
+        dp = [[float("inf")] * (k + 1) for _ in range(n + 1)]
 
         @cache
         def make_palindrome(start: int, end: int) -> int:
             if start >= end:
                 return 0
-            return make_palindrome(start+1, end-1) + (0 if s[start] == s[end] else 1)
+            return make_palindrome(start + 1, end - 1) + (
+                0 if s[start] == s[end] else 1
+            )
 
-        for i in range(1, n+1):
-            dp[i][1] = make_palindrome(0, i-1)
-            for kk in range(2, min(i, k)+1):
-                for j in range(i, kk-1, -1):
-                    curr = make_palindrome(j-1, i-1)
-                    dp[i][kk] = min(dp[i][kk], curr+dp[j-1][kk-1])
+        for i in range(1, n + 1):
+            dp[i][1] = make_palindrome(0, i - 1)
+            for kk in range(2, min(i, k) + 1):
+                for j in range(i, kk - 1, -1):
+                    curr = make_palindrome(j - 1, i - 1)
+                    dp[i][kk] = min(dp[i][kk], curr + dp[j - 1][kk - 1])
 
         return dp[n][k]
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['abc', 2], 1),
-            (['aabbc', 3], 0),
-            (['leetcode', 8], 0),
+            (["abc", 2], 1),
+            (["aabbc", 3], 0),
+            (["leetcode", 8], 0),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

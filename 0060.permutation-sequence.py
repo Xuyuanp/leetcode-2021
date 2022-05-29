@@ -53,32 +53,34 @@
 # @lc code=start
 import math
 
+
 class Solution:
     def getPermutation(self, n: int, k: int) -> str:
-        res = ''
+        res = ""
 
-        nums = [i for i in range(1, n+1)]
-        k-=1
+        nums = [i for i in range(1, n + 1)]
+        k -= 1
         for _ in range(n):
-            j, k = divmod(k, math.factorial(len(nums)-1))
+            j, k = divmod(k, math.factorial(len(nums) - 1))
             res += str(nums[j])
             nums.remove(nums[j])
 
         return res
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
-        ((3, 3), '213'),
-        ((4, 9), '2314'),
-        ((3, 1), '123'),
-        ((8, 100), '12384675'),
+        ((3, 3), "213"),
+        ((4, 9), "2314"),
+        ((3, 1), "123"),
+        ((8, 100), "12384675"),
     ]
     for (n, k), want in cases:
         got = sol.getPermutation(n, k)
         if want != got:
-            print(f'Failed => args: {(n, k)}; want: {want}, but got: {got}')
+            print(f"Failed => args: {(n, k)}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

@@ -101,34 +101,35 @@ class Solution:
                 continue
             tank = 0
             for j in range(n):
-                index = (i+j)%n
-                tank += gas[index]-cost[index]
+                index = (i + j) % n
+                tank += gas[index] - cost[index]
                 if tank < 0:
                     break
             else:
                 return i
         return -1
 
+
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([[1,2,3,4,5], [3,4,5,1,2]], 3),
-            ([[2,3,4], [3,4,3]], -1),
+            ([[1, 2, 3, 4, 5], [3, 4, 5, 1, 2]], 3),
+            ([[2, 3, 4], [3, 4, 3]], -1),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

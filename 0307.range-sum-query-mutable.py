@@ -74,8 +74,8 @@ class Node:
     start: int
     end: int
     val: int
-    left: Optional['Node'] = None
-    right: Optional['Node'] = None
+    left: Optional["Node"] = None
+    right: Optional["Node"] = None
 
     def update(self, index: int, val: int):
         if self.start == self.end == index:
@@ -98,14 +98,15 @@ class Node:
 
         assert self.left and self.right
 
-        mid = (self.start + self.end)//2
+        mid = (self.start + self.end) // 2
 
         if i > mid:
             return self.right.query(i, j)
         if j <= mid:
             return self.left.query(i, j)
 
-        return self.left.query(i, mid) + self.right.query(mid+1, j)
+        return self.left.query(i, mid) + self.right.query(mid + 1, j)
+
 
 class NumArray:
     root: Node
@@ -114,13 +115,13 @@ class NumArray:
         if start == end:
             self.end = end
             return Node(start, end, vals[start])
-        mid = (start+end)//2
+        mid = (start + end) // 2
         left = self.build_tree(start, mid, vals)
-        right = self.build_tree(mid+1, end, vals)
+        right = self.build_tree(mid + 1, end, vals)
         return Node(start, end, left.val + right.val, left, right)
 
     def __init__(self, nums: List[int]):
-        self.root = self.build_tree(0, len(nums)-1, nums)
+        self.root = self.build_tree(0, len(nums) - 1, nums)
 
     def update(self, index: int, val: int) -> None:
         self.root.update(index, val)
@@ -129,10 +130,8 @@ class NumArray:
         return self.root.query(left, right)
 
 
-
 # Your NumArray object will be instantiated and called as such:
 # obj = NumArray(nums)
 # obj.update(index,val)
 # param_2 = obj.sumRange(left,right)
 # @lc code=end
-

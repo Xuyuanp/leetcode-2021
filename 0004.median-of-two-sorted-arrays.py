@@ -77,29 +77,36 @@ class Solution:
         m, n = len(nums1), len(nums2)
         if m > n:
             return self.findMedianSortedArrays(nums2, nums1)
-        mid = (m+n+1)//2
+        mid = (m + n + 1) // 2
         left, right = 0, m
         while left < right:
-            mid1 = left + (right-left)//2
+            mid1 = left + (right - left) // 2
             mid2 = mid - mid1
-            if nums1[mid1] < nums2[mid2-1]:
-                left = mid1+1
+            if nums1[mid1] < nums2[mid2 - 1]:
+                left = mid1 + 1
             else:
                 right = mid1
         mid1 = left
-        mid2 = mid-mid1
-        c1 = max(float('-inf') if mid1 < 1 else nums1[mid1-1], float('-inf') if mid2 < 1 else nums2[mid2-1])
-        if (m+n)%2 == 1:
+        mid2 = mid - mid1
+        c1 = max(
+            float("-inf") if mid1 < 1 else nums1[mid1 - 1],
+            float("-inf") if mid2 < 1 else nums2[mid2 - 1],
+        )
+        if (m + n) % 2 == 1:
             return c1
-        c2 = min(float('inf') if mid1 >= m else nums1[mid1], float('inf') if mid2 >= n else nums2[mid2])
-        return (c1+c2)/2
+        c2 = min(
+            float("inf") if mid1 >= m else nums1[mid1],
+            float("inf") if mid2 >= n else nums2[mid2],
+        )
+        return (c1 + c2) / 2
+
 
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[], [2]], 2),
@@ -110,8 +117,8 @@ if __name__ == '__main__':
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

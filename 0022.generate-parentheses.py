@@ -45,26 +45,26 @@ class Solution:
                 if right == 0:
                     res.append(pat)
                     return
-                backtrack(pat + '(', left-1, right)
-                backtrack(pat + ')', left, right-1)
+                backtrack(pat + "(", left - 1, right)
+                backtrack(pat + ")", left, right - 1)
 
-
-        backtrack('', n, n)
+        backtrack("", n, n)
 
         return res
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
-        (1, ['()']),
-        (2, ['()()', '(())']),
-        (3, ['()()()', '((()))', '(())()', '()(())', '(()())']),
+        (1, ["()"]),
+        (2, ["()()", "(())"]),
+        (3, ["()()()", "((()))", "(())()", "()(())", "(()())"]),
     ]
     for n, want in cases:
         got = sol.generateParenthesis(n)
         if sorted(want) != sorted(got):
-            print(f'Failed => args: {n}; want: {want}, but got: {got}')
+            print(f"Failed => args: {n}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

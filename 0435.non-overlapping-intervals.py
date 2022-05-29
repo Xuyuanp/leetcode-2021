@@ -75,11 +75,11 @@ class Solution:
                 # we can use the curr's endi replacing the prev's
                 pre = curr
             # else:
-                # pre:  |-----|
-                # curr:   |-----|
-                # the current interval has no contribute to new increasing sequence
+            # pre:  |-----|
+            # curr:   |-----|
+            # the current interval has no contribute to new increasing sequence
 
-        return len(intervals)-cnt
+        return len(intervals) - cnt
 
     def eraseOverlapIntervals1(self, intervals: List[List[int]]) -> int:
         """
@@ -96,35 +96,36 @@ class Solution:
                 cnt += 1
                 pre = curr
             # else:
-                # pre:  |-----|
-                # curr:   |------|
-                #   or |--------|
-                # the current interval has no contribute to new increasing sequence
+            # pre:  |-----|
+            # curr:   |------|
+            #   or |--------|
+            # the current interval has no contribute to new increasing sequence
 
-        return len(intervals)-cnt
+        return len(intervals) - cnt
+
 
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([[[1,2],[2,3],[3,4],[1,3]]], 1),
-            ([[[1,2],[1,2],[1,2]]], 2),
-            ([[[1,2],[2,3]]], 0),
-            ([[[1,100],[11,22],[1,11],[2,12]]], 2),
+            ([[[1, 2], [2, 3], [3, 4], [1, 3]]], 1),
+            ([[[1, 2], [1, 2], [1, 2]]], 2),
+            ([[[1, 2], [2, 3]]], 0),
+            ([[[1, 100], [11, 22], [1, 11], [2, 12]]], 2),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

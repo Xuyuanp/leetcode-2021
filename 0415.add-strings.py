@@ -57,33 +57,33 @@ from itertools import zip_longest
 # @lc code=start
 class Solution:
     def addStrings(self, num1: str, num2: str) -> str:
-        ascii_zero = ord('0')
+        ascii_zero = ord("0")
         curry = 0
         res = []
-        for c1, c2 in zip_longest(reversed(num1), reversed(num2), fillvalue='0'):
+        for c1, c2 in zip_longest(reversed(num1), reversed(num2), fillvalue="0"):
             n1, n2 = ord(c1) - ascii_zero, ord(c2) - ascii_zero
             sum_ = n1 + n2 + curry
             res.append(chr(sum_ % 10 + ascii_zero))
             curry = sum_ // 10
         if curry > 0:
-            res.append('1')
+            res.append("1")
 
-        return ''.join(reversed(res))
+        return "".join(reversed(res))
 
 
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
-        (('0', '1'), '1'),
-        (('1', '1'), '2'),
-        (('9', '1'), '10'),
-        (('91', '9'), '100'),
+        (("0", "1"), "1"),
+        (("1", "1"), "2"),
+        (("9", "1"), "10"),
+        (("91", "9"), "100"),
     ]
     for (nums1, nums2), want in cases:
         got = sol.addStrings(nums1, nums2)
         if want != got:
-            print(f'Failed => args: {(nums1, nums2)}; want: {want}, but got: {got}')
+            print(f"Failed => args: {(nums1, nums2)}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

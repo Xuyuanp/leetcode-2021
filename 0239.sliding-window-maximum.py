@@ -80,6 +80,7 @@ from typing import List
 
 # @lc code=start
 
+
 class Queue:
     def __init__(self):
         self._data = deque()
@@ -103,40 +104,40 @@ class Solution:
 
         queue = Queue()
 
-        for i in range(k-1):
+        for i in range(k - 1):
             queue.push(nums[i])
 
-        for i in range(k-1, len(nums)):
+        for i in range(k - 1, len(nums)):
             queue.push(nums[i])
             res.append(queue.max())
-            queue.pop(nums[i-k+1])
-
+            queue.pop(nums[i - k + 1])
 
         return res
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[1], 1], [1]),
-            ([[1, -1], 1], [1,-1]),
+            ([[1, -1], 1], [1, -1]),
             ([[9, 11], 2], [11]),
             ([[4, -2], 2], [4]),
-            ([[1,3,-1,-3,5,3,6,7], 3], [3,3,5,5,6,7]),
+            ([[1, 3, -1, -3, 5, 3, 6, 7], 3], [3, 3, 5, 5, 6, 7]),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

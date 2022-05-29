@@ -63,22 +63,22 @@ from typing import List
 
 KEEP, SWAP = 0, 1
 
-class Solution:
 
+class Solution:
     def minSwap(self, nums1: List[int], nums2: List[int]) -> int:
         prev = [0, 1]
         curr = [0, 0]
         for i in range(1, len(nums1)):
-            if nums1[i] > nums1[i-1] and nums2[i] > nums2[i-1]:
+            if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
                 curr[KEEP] = prev[KEEP]
-                curr[SWAP] = prev[SWAP]+1
+                curr[SWAP] = prev[SWAP] + 1
             else:
                 curr[KEEP] = prev[SWAP]
-                curr[SWAP] = prev[KEEP]+1
+                curr[SWAP] = prev[KEEP] + 1
 
-            if nums1[i] > nums2[i-1] and nums2[i] > nums1[i-1]:
+            if nums1[i] > nums2[i - 1] and nums2[i] > nums1[i - 1]:
                 curr[KEEP] = min(curr[KEEP], prev[SWAP])
-                curr[SWAP] = min(curr[SWAP], prev[KEEP]+1)
+                curr[SWAP] = min(curr[SWAP], prev[KEEP] + 1)
 
             prev[KEEP] = curr[KEEP]
             prev[SWAP] = curr[SWAP]
@@ -90,38 +90,39 @@ class Solution:
         dp[0][SWAP] = 1
 
         for i in range(1, len(nums1)):
-            if nums1[i] > nums1[i-1] and nums2[i] > nums2[i-1]:
-                dp[i][KEEP] = dp[i-1][KEEP]
-                dp[i][SWAP] = dp[i-1][SWAP]+1
+            if nums1[i] > nums1[i - 1] and nums2[i] > nums2[i - 1]:
+                dp[i][KEEP] = dp[i - 1][KEEP]
+                dp[i][SWAP] = dp[i - 1][SWAP] + 1
             else:
-                dp[i][KEEP] = dp[i-1][SWAP]
-                dp[i][SWAP] = dp[i-1][KEEP]+1
+                dp[i][KEEP] = dp[i - 1][SWAP]
+                dp[i][SWAP] = dp[i - 1][KEEP] + 1
 
-            if nums1[i] > nums2[i-1] and nums2[i] > nums1[i-1]:
-                dp[i][KEEP] = min(dp[i-1][SWAP], dp[i][KEEP])
-                dp[i][SWAP] = min(dp[i-1][KEEP]+1, dp[i][SWAP])
+            if nums1[i] > nums2[i - 1] and nums2[i] > nums1[i - 1]:
+                dp[i][KEEP] = min(dp[i - 1][SWAP], dp[i][KEEP])
+                dp[i][SWAP] = min(dp[i - 1][KEEP] + 1, dp[i][SWAP])
 
         return min(dp[-1])
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([[1,2],[3,4]], 0),
-            ([[3,2],[1,4]], 1),
-            ([[1,3,5,4], [1,2,3,7]], 1),
-            ([[0,3,5,8,9],[2,1,4,6,9]], 1),
-            ([[0,4,4,5,9],[0,1,6,8,10]], 1),
+            ([[1, 2], [3, 4]], 0),
+            ([[3, 2], [1, 4]], 1),
+            ([[1, 3, 5, 4], [1, 2, 3, 7]], 1),
+            ([[0, 3, 5, 8, 9], [2, 1, 4, 6, 9]], 1),
+            ([[0, 4, 4, 5, 9], [0, 1, 6, 8, 10]], 1),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

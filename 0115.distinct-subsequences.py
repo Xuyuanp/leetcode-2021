@@ -66,7 +66,6 @@ from functools import lru_cache
 class Solution:
     # O(m*n), O(m*n)
     def numDistinct(self, s: str, t: str) -> int:
-
         @lru_cache(None)
         def helper(s: str, t: str) -> int:
             if len(s) < len(t):
@@ -77,43 +76,43 @@ class Solution:
                 return helper(s[1:], t)
 
             res = 0
-            for i in range(len(s)-len(t)+1):
+            for i in range(len(s) - len(t) + 1):
                 if s[i] == t[0]:
-                    res += helper(s[i+1:], t[1:])
+                    res += helper(s[i + 1 :], t[1:])
             return res
 
         return helper(s, t)
 
     def numDistinct1(self, s: str, t: str) -> int:
-
         @lru_cache(None)
         def helper(len_s: int, len_t: int) -> int:
             if len_s < len_t:
                 return 0
             if len_t == 1:
-                if s[len_s-1] == t[len_t-1]:
-                    return 1 + helper(len_s-1, len_t)
-                return helper(len_s-1, len_t)
+                if s[len_s - 1] == t[len_t - 1]:
+                    return 1 + helper(len_s - 1, len_t)
+                return helper(len_s - 1, len_t)
 
             res = 0
-            for i in range(len_s-len_t+1):
-                if s[len_s-i-1] == t[len_t-1]:
-                    res += helper(len_s-i-1, len_t-1)
+            for i in range(len_s - len_t + 1):
+                if s[len_s - i - 1] == t[len_t - 1]:
+                    res += helper(len_s - i - 1, len_t - 1)
             return res
 
         return helper(len(s), len(t))
 
     def numDistinct2(self, s: str, t: str) -> int:
         m, n = len(s), len(t)
+
         @lru_cache(None)
         def helper(si: int, ti: int) -> int:
             if ti == n:
                 return 1
-            if m-si < n-ti:
+            if m - si < n - ti:
                 return 0
-            res = helper(si+1, ti)
+            res = helper(si + 1, ti)
             if s[si] == t[ti]:
-                res += helper(si+1, ti+1)
+                res += helper(si + 1, ti + 1)
             return res
 
         return helper(0, 0)
@@ -149,33 +148,33 @@ class Solution:
         m, n = len(s), len(t)
         if m < n:
             return 0
-        dp = [[1 if j == 0 else 0 for j in range(n+1) ] for _ in range(m+1)]
+        dp = [[1 if j == 0 else 0 for j in range(n + 1)] for _ in range(m + 1)]
 
-        for i in range(1, m+1):
-            for j in range(1, n+1):
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
                 if i < j:
                     continue
-                dp[i][j] = dp[i-1][j]
-                if s[i-1] == t[j-1]:
-                    dp[i][j] += dp[i-1][j-1]
+                dp[i][j] = dp[i - 1][j]
+                if s[i - 1] == t[j - 1]:
+                    dp[i][j] += dp[i - 1][j - 1]
         return dp[m][n]
 
     def numDistinct5(self, s: str, t: str) -> int:
         m, n = len(s), len(t)
         if m < n:
             return 0
-        dp = [0] * (n+1)
+        dp = [0] * (n + 1)
         dp[0] = 1
 
-        for i in range(1, m+1):
-            next_dp = [0]*(n+1)
+        for i in range(1, m + 1):
+            next_dp = [0] * (n + 1)
             next_dp[0] = 1
-            for j in range(1, n+1):
+            for j in range(1, n + 1):
                 if i < j:
                     continue
                 next_dp[j] = dp[j]
-                if s[i-1] == t[j-1]:
-                    next_dp[j] += dp[j-1]
+                if s[i - 1] == t[j - 1]:
+                    next_dp[j] += dp[j - 1]
             dp = next_dp
         return dp[n]
 
@@ -183,26 +182,26 @@ class Solution:
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['a', 'a'], 1),
-            (['a', 'b'], 0),
-            (['rabbbit', 'rabbit'], 3),
-            (['babgbag', 'bag'], 5),
-            (['bakjsdfgakbsjdfhasgdfasdfbag', 'bag'], 14),
+            (["a", "a"], 1),
+            (["a", "b"], 0),
+            (["rabbbit", "rabbit"], 3),
+            (["babgbag", "bag"], 5),
+            (["bakjsdfgakbsjdfhasgdfasdfbag", "bag"], 14),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

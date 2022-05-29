@@ -100,7 +100,7 @@ class Solution:
                 return
 
             cells.remove((i, j))
-            for x, y in [(i+1,j),(i,j+1),(i-1,j),(i,j-1)]:
+            for x, y in [(i + 1, j), (i, j + 1), (i - 1, j), (i, j - 1)]:
                 if 0 <= x < m and 0 <= y < n and (x, y) in cells:
                     dfs(x, y)
 
@@ -109,27 +109,28 @@ class Solution:
         dfs(*start)
         return res[0]
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[[0,1],[2,0]]], 0),
-            ([[[1,0,0,0],[0,0,0,0],[0,0,2,-1]]], 2),
-            ([[[1,0,0,0],[0,0,0,0],[0,0,0,2]]], 4),
+            ([[[0, 1], [2, 0]]], 0),
+            ([[[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 2, -1]]], 2),
+            ([[[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 2]]], 4),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

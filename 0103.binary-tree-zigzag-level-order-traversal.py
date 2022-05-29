@@ -79,11 +79,12 @@ class Solution:
             else:
                 res[-1] = [node.val] + res[-1]
             if node.left:
-                q.append((node.left, level+1))
+                q.append((node.left, level + 1))
             if node.right:
-                q.append((node.right, level+1))
+                q.append((node.right, level + 1))
 
         return res
+
 
 # @lc code=end
 
@@ -94,12 +95,12 @@ if __name__ == "__main__":
     cases = [
         ([], []),
         ([1], [[1]]),
-        ([1,2,3,4,None,None,5], [[1],[3,2],[4,5]])
+        ([1, 2, 3, 4, None, None, 5], [[1], [3, 2], [4, 5]]),
     ]
     for args, want in cases:
         got = sol.zigzagLevelOrder(TreeNode.from_list(args))
         if got != want:
-            print(f'Failed => args: {args}; want: {want} but got: {got}')
+            print(f"Failed => args: {args}; want: {want} but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

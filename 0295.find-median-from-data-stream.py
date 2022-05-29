@@ -79,14 +79,13 @@ import heapq
 
 
 class MedianFinder:
-
     def __init__(self):
         """
         initialize your data structure here.
         """
         # fill two heaps with dummy value to avoid empty checking later
-        self.greater = [float('inf')] # minheap
-        self.smaller = [float('inf')] # maxheap
+        self.greater = [float("inf")]  # minheap
+        self.smaller = [float("inf")]  # maxheap
 
     def addNum(self, num: int) -> None:
         if num <= -self.smaller[0]:
@@ -103,7 +102,7 @@ class MedianFinder:
         length = len(self.greater) + len(self.smaller)
         if length % 2 == 1:
             return -self.smaller[0]
-        return (self.greater[0]-self.smaller[0])/2
+        return (self.greater[0] - self.smaller[0]) / 2
 
 
 # Your MedianFinder object will be instantiated and called as such:
@@ -114,20 +113,107 @@ class MedianFinder:
 def test():
     null = None
     cases = [
-        ([["MedianFinder", "addNum", "addNum", "findMedian", "addNum", "findMedian"],
-          [[], [1], [2], [], [3], []]],
-         [null, null, null, 1.5, null, 2.0]),
-        ([["MedianFinder","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian"],
-         [[],[6],[],[10],[],[2],[],[6],[],[5],[],[0],[],[6],[],[3],[],[1],[],[0],[],[0],[]]],
-         [null,null,6.00000,null,8.00000,null,6.00000,null,6.00000,null,6.00000,null,5.50000,null,6.00000,null,5.50000,null,5.00000,null,4.00000,null,3.00000]),
+        (
+            [
+                [
+                    "MedianFinder",
+                    "addNum",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                ],
+                [[], [1], [2], [], [3], []],
+            ],
+            [null, null, null, 1.5, null, 2.0],
+        ),
+        (
+            [
+                [
+                    "MedianFinder",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                    "addNum",
+                    "findMedian",
+                ],
+                [
+                    [],
+                    [6],
+                    [],
+                    [10],
+                    [],
+                    [2],
+                    [],
+                    [6],
+                    [],
+                    [5],
+                    [],
+                    [0],
+                    [],
+                    [6],
+                    [],
+                    [3],
+                    [],
+                    [1],
+                    [],
+                    [0],
+                    [],
+                    [0],
+                    [],
+                ],
+            ],
+            [
+                null,
+                null,
+                6.00000,
+                null,
+                8.00000,
+                null,
+                6.00000,
+                null,
+                6.00000,
+                null,
+                6.00000,
+                null,
+                5.50000,
+                null,
+                6.00000,
+                null,
+                5.50000,
+                null,
+                5.00000,
+                null,
+                4.00000,
+                null,
+                3.00000,
+            ],
+        ),
     ]
     for (actions, args), wants in cases:
         finder = MedianFinder()
         for action, arg, want in zip(actions[1:], args[1:], wants[1:]):
             got = getattr(finder, action)(*arg)
-            assert got == want, f'{action}({arg}): {got} != {want}'
-    print('  All Passed')
+            assert got == want, f"{action}({arg}): {got} != {want}"
+    print("  All Passed")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

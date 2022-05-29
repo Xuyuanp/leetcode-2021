@@ -75,6 +75,7 @@ from structures import ListNode
 #         self.next = next
 from typing import Tuple
 
+
 class Solution:
     def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
         if k == 1:
@@ -108,8 +109,9 @@ class Solution:
 
         return head
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         (([1, 2, 3], 1), [1, 2, 3]),
@@ -122,7 +124,7 @@ if __name__ == '__main__':
         got = sol.reverseKGroup(ListNode.from_list(vals), k)
         want = ListNode.from_list(want)
         if want != got:
-            print(f'Failed => args: {vals, k}; want: {want}, but got: {got}')
+            print(f"Failed => args: {vals, k}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

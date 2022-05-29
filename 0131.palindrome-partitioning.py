@@ -51,7 +51,7 @@ class Solution:
             if i >= j:
                 return True
             if (i, j) not in mem:
-                mem[(i, j)] = s[i] == s[j] and is_palindrome(i+1, j-1)
+                mem[(i, j)] = s[i] == s[j] and is_palindrome(i + 1, j - 1)
             return mem[(i, j)]
 
         def backtrack(i: int, pat: List[str]):
@@ -60,8 +60,8 @@ class Solution:
                 return
             for j in range(i, n):
                 if is_palindrome(i, j):
-                    pat.append(s[i:j+1])
-                    backtrack(j+1, pat)
+                    pat.append(s[i : j + 1])
+                    backtrack(j + 1, pat)
                     pat.pop(-1)
 
         backtrack(0, [])
@@ -76,7 +76,7 @@ class Solution:
         def is_palindrome(i: int, j: int) -> bool:
             if i >= j:
                 return True
-            return s[i] == s[j] and is_palindrome(i+1, j-1)
+            return s[i] == s[j] and is_palindrome(i + 1, j - 1)
 
         def backtrack(i: int, pat: List[str]):
             if i == n:
@@ -84,8 +84,8 @@ class Solution:
                 return
             for j in range(i, n):
                 if is_palindrome(i, j):
-                    pat.append(s[i:j+1])
-                    backtrack(j+1, pat)
+                    pat.append(s[i : j + 1])
+                    backtrack(j + 1, pat)
                     pat.pop(-1)
 
         backtrack(0, [])
@@ -96,7 +96,7 @@ class Solution:
         res = []
         n = len(s)
 
-        dp = [[i==j for i in range(n)] for j in range(n)]
+        dp = [[i == j for i in range(n)] for j in range(n)]
 
         def fill_dp(i: int, j: int):
             while 0 <= i <= j < n and s[i] == s[j]:
@@ -109,39 +109,40 @@ class Solution:
                 res.append(list(pat))
                 return
             fill_dp(i, i)
-            fill_dp(i, i+1)
+            fill_dp(i, i + 1)
             for j in range(i, n):
                 if dp[i][j]:
-                    pat.append(s[i:j+1])
-                    backtrack(j+1, pat)
+                    pat.append(s[i : j + 1])
+                    backtrack(j + 1, pat)
                     pat.pop(-1)
 
         backtrack(0, [])
         return res
 
+
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            (['a'], [['a']]),
-            (['aab'], [['a','a','b'], ['aa','b']]),
-            (['aba'], [['a','b','a'], ['aba']]),
-            (['aabc'], [['a','a','b', 'c'], ['aa','b', 'c']]),
-            (['aaa'], [['a','a','a'], ['aa','a'], ['a', 'aa'], ['aaa']]),
+            (["a"], [["a"]]),
+            (["aab"], [["a", "a", "b"], ["aa", "b"]]),
+            (["aba"], [["a", "b", "a"], ["aba"]]),
+            (["aabc"], [["a", "a", "b", "c"], ["aa", "b", "c"]]),
+            (["aaa"], [["a", "a", "a"], ["aa", "a"], ["a", "aa"], ["aaa"]]),
         ]
         for args, want in cases:
             got = fn(*args)
             if sorted(want) != sorted(got):
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

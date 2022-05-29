@@ -49,21 +49,22 @@ class Solution:
     def maximumSwap(self, num: int) -> int:
         if num < 10:
             return num
-        zero = ord('0')
+        zero = ord("0")
         s_num = str(num)
-        mem = {ord(c)-zero: i for i, c in enumerate(s_num)}
+        mem = {ord(c) - zero: i for i, c in enumerate(s_num)}
 
         for i, c in enumerate(s_num):
             n = ord(c) - zero
             for j in range(9, n, -1):
                 if j in mem and mem[j] > i:
-                    c1, c2 = 10**(len(s_num)-mem[j]-1), 10**(len(s_num)-i-1)
-                    num = num - n*c2 - j*c1 + j*c2 + n*c1
+                    c1, c2 = 10 ** (len(s_num) - mem[j] - 1), 10 ** (len(s_num) - i - 1)
+                    num = num - n * c2 - j * c1 + j * c2 + n * c1
                     return num
         return num
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         (1, 1),
@@ -78,7 +79,7 @@ if __name__ == '__main__':
     for num, want in cases:
         got = sol.maximumSwap(num)
         if want != got:
-            print(f'Failed => args: {num}; want: {want}, but got: {got}')
+            print(f"Failed => args: {num}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

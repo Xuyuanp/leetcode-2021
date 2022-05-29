@@ -69,10 +69,10 @@ class Solution:
         dp = Counter()
         dp[0] = 1
 
-        for i in range(1, target+1):
+        for i in range(1, target + 1):
             for x in nums:
                 if x <= i:
-                    dp[i] += dp[i-x]
+                    dp[i] += dp[i - x]
 
         return dp[target]
 
@@ -84,31 +84,32 @@ class Solution:
             res = 0
             for x in nums:
                 if x <= target:
-                    res += helper(target-x)
+                    res += helper(target - x)
             return res
 
         return helper(target)
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[1,2,3],4], 7),
+            ([[1, 2, 3], 4], 7),
             ([[9], 3], 0),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

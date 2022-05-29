@@ -91,28 +91,32 @@ class Solution:
 
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[1,2], 1], []),
-            ([[1,2], 0], []),
-            ([[1,2,3], 5], []),
-            ([[5,4,8,11,None,13,4,7,2,None,None,5,1], 22], [[5,4,11,2],[5,8,4,5]]),
+            ([[1, 2], 1], []),
+            ([[1, 2], 0], []),
+            ([[1, 2, 3], 5], []),
+            (
+                [[5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1], 22],
+                [[5, 4, 11, 2], [5, 8, 4, 5]],
+            ),
         ]
         for args, want in cases:
             got = func(TreeNode.from_list(args[0]), args[1])
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

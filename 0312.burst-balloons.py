@@ -61,13 +61,18 @@ class Solution:
         nums = [1] + nums + [1]
 
         # dp[i][j] = answer of nums[i:j+1]
-        dp = [[0]*(n+2) for _ in range(n+2)]
+        dp = [[0] * (n + 2) for _ in range(n + 2)]
 
-        for l in range(1, n+1):
-            for i in range(1, n-l+2):
+        for l in range(1, n + 1):
+            for i in range(1, n - l + 2):
                 j = i + l - 1
-                for k in range(i, j+1):
-                    dp[i][j] = max(dp[i][j], dp[i][k-1] + nums[i-1]*nums[k]*nums[j+1] + dp[k+1][j])
+                for k in range(i, j + 1):
+                    dp[i][j] = max(
+                        dp[i][j],
+                        dp[i][k - 1]
+                        + nums[i - 1] * nums[k] * nums[j + 1]
+                        + dp[k + 1][j],
+                    )
 
         return dp[1][n]
 
@@ -79,32 +84,38 @@ class Solution:
         @cache
         def helper(i: int, j: int) -> int:
             res = 0
-            for k in range(i, j+1):
-                res = max(res, helper(i, k-1) + nums[i-1]*nums[k]*nums[j+1] + helper(k+1, j))
+            for k in range(i, j + 1):
+                res = max(
+                    res,
+                    helper(i, k - 1)
+                    + nums[i - 1] * nums[k] * nums[j + 1]
+                    + helper(k + 1, j),
+                )
             return res
 
         return helper(1, n)
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[1,5]], 10),
-            ([[3,1,5,8]], 167),
+            ([[1, 5]], 10),
+            ([[3, 1, 5, 8]], 167),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

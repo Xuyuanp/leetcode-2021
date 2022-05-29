@@ -73,6 +73,7 @@ from structures import ListNode
 
 # @lc code=start
 
+
 class Solution:
     def detectCycle(self, head: ListNode) -> ListNode:
         if not head or head.next == head:
@@ -94,5 +95,5 @@ class Solution:
 
         return slow
 
-# @lc code=end
 
+# @lc code=end

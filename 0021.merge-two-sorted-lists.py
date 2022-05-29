@@ -83,21 +83,22 @@ class Solution:
         head.next = self.mergeTwoLists(l1.next, l2)
         return head
 
+
 # @lc code=end
 
 if __name__ == "__main__":
     sol = Solution()
     cases = [
-        (([],[]), []),
-        (([1,2,4], []), [1,2,4]),
-        (([], [1,2,4]), [1,2,4]),
-        (([1,2,4], [1,3,4]), [1,1,2,3,4,4]),
+        (([], []), []),
+        (([1, 2, 4], []), [1, 2, 4]),
+        (([], [1, 2, 4]), [1, 2, 4]),
+        (([1, 2, 4], [1, 3, 4]), [1, 1, 2, 3, 4, 4]),
     ]
     for (l1, l2), want in cases:
         got = sol.mergeTwoLists(ListNode.from_list(l1), ListNode.from_list(l2))
         want = ListNode.from_list(want)
         if got != want:
-            print(f'Failed => args: {l1}, {l2}; want: {want}, but got: {got}')
+            print(f"Failed => args: {l1}, {l2}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

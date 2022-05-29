@@ -64,52 +64,52 @@ class Solution:
             yield int(expression[i:j])
             if j < n:
                 yield expression[j]
-                yield from parse_tokens(j+1)
+                yield from parse_tokens(j + 1)
 
         tokens = list(parse_tokens(0))
 
         ops = {
-            '+': lambda x, y: x+y,
-            '-': lambda x, y: x-y,
-            '*': lambda x, y: x*y
+            "+": lambda x, y: x + y,
+            "-": lambda x, y: x - y,
+            "*": lambda x, y: x * y,
         }
 
         def helper(i: int, j: int) -> List[int]:
             if j - i == 0:
                 return [tokens[i]]
             res = []
-            for k in range(i+1, j, 2):
-                left = helper(i, k-1)
+            for k in range(i + 1, j, 2):
+                left = helper(i, k - 1)
                 op = ops[tokens[k]]
-                right = helper(k+1, j)
+                right = helper(k + 1, j)
                 for x in left:
                     for y in right:
                         res.append(op(x, y))
             return res
 
+        return helper(0, len(tokens) - 1)
 
-        return helper(0, len(tokens)-1)
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['2-1-1'], [0,2]),
-            (['2*3-4*5'], [-34,-14,-10,-10,10]),
+            (["2-1-1"], [0, 2]),
+            (["2*3-4*5"], [-34, -14, -10, -10, 10]),
         ]
         for args, want in cases:
             got = func(*args)
             if sorted(want) != sorted(got):
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

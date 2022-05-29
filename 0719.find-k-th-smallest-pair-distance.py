@@ -72,15 +72,15 @@ class Solution:
             j = 1
             for i in range(n):
                 while j < n and nums[j] - nums[i] <= dist:
-                    j+=1
+                    j += 1
                 count += j - i - 1
 
             return count >= k
 
         nums.sort()
-        left, right = 0, nums[-1]-nums[0]
+        left, right = 0, nums[-1] - nums[0]
         while left < right:
-            mid = left + (right-left)//2
+            mid = left + (right - left) // 2
             if possible(mid):
                 right = mid
             else:
@@ -90,10 +90,11 @@ class Solution:
     # O(n^2*log(k)), O(k), TLE
     def smallestDistancePair1(self, nums: List[int], k: int) -> int:
         n = len(nums)
+
         def gen_dists():
-            for i in range(n-1):
-                for j in range(i+1, n):
-                    yield -abs(nums[i]-nums[j])
+            for i in range(n - 1):
+                for j in range(i + 1, n):
+                    yield -abs(nums[i] - nums[j])
 
         dists = gen_dists()
         heap = []
@@ -106,23 +107,20 @@ class Solution:
 
         return -heap[0]
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
-        cases = [
-            ([[1, 3, 1], 1], 0),
-            ([[1, 1, 1], 2], 0),
-            ([[1, 6, 1], 3], 5)
-        ]
+        cases = [([[1, 3, 1], 1], 0), ([[1, 1, 1], 2], 0), ([[1, 6, 1], 3], 5)]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

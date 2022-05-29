@@ -92,18 +92,18 @@ class Solution:
     # O(n^2), O(n). TLE
     def stoneGameVIII(self, stones: List[int]) -> int:
         n = len(stones)
-        presum = [0] * (n+1)
-        for i in range(1, n+1):
-            presum[i] = presum[i-1] + stones[i-1]
+        presum = [0] * (n + 1)
+        for i in range(1, n + 1):
+            presum[i] = presum[i - 1] + stones[i - 1]
 
         @cache
         def helper(i: int) -> int:
-            if n-i == 1:
+            if n - i == 1:
                 return 0
 
-            res = -float('inf')
-            for x in range(2, n-i+1):
-                res = max(res, presum[i+x] - helper(i+x-1))
+            res = -float("inf")
+            for x in range(2, n - i + 1):
+                res = max(res, presum[i + x] - helper(i + x - 1))
             return res
 
         return helper(0)
@@ -111,16 +111,16 @@ class Solution:
     # O(n^2), O(n). TLE
     def stoneGameVIII1(self, stones: List[int]) -> int:
         n = len(stones)
-        presum = [0] * (n+1)
-        for i in range(1, n+1):
-            presum[i] = presum[i-1] + stones[i-1]
+        presum = [0] * (n + 1)
+        for i in range(1, n + 1):
+            presum[i] = presum[i - 1] + stones[i - 1]
 
-        dp = [-float('inf')] * n
+        dp = [-float("inf")] * n
         dp[-1] = 0
 
-        for i in range(n-2, -1, -1):
-            for x in range(2, n-i+1):
-                dp[i] = max(dp[i], presum[i+x]-dp[i+x-1])
+        for i in range(n - 2, -1, -1):
+            for x in range(2, n - i + 1):
+                dp[i] = max(dp[i], presum[i + x] - dp[i + x - 1])
 
         return dp[0]
 
@@ -133,36 +133,36 @@ class Solution:
     # O(n), O(n).
     def stoneGameVIII2(self, stones: List[int]) -> int:
         n = len(stones)
-        presum = [0] * (n+1)
+        presum = [0] * (n + 1)
 
-        for i in range(1, n+1):
-            presum[i] = presum[i-1] + stones[i-1]
+        for i in range(1, n + 1):
+            presum[i] = presum[i - 1] + stones[i - 1]
 
-        dp = [-float('inf')] * n
+        dp = [-float("inf")] * n
         dp[-1] = 0
         dp[-2] = presum[-1]
 
-        for i in range(n-3, -1, -1):
-            dp[i] = max(presum[i+2]-dp[i+1], dp[i+1])
+        for i in range(n - 3, -1, -1):
+            dp[i] = max(presum[i + 2] - dp[i + 1], dp[i + 1])
 
         return dp[0]
 
     # O(n), O(n)
     def stoneGameVIII3(self, stones: List[int]) -> int:
         n = len(stones)
-        presum = [0] * (n+1)
-        for i in range(1, n+1):
-            presum[i] = presum[i-1] + stones[i-1]
+        presum = [0] * (n + 1)
+        for i in range(1, n + 1):
+            presum[i] = presum[i - 1] + stones[i - 1]
 
         @cache
         def helper(i: int) -> int:
-            if n-i == 1:
+            if n - i == 1:
                 return 0
-            if n-i == 2:
+            if n - i == 2:
                 return presum[n]
 
-            next_score = helper(i+1)
-            res = max(presum[i+2]-next_score, next_score)
+            next_score = helper(i + 1)
+            res = max(presum[i + 2] - next_score, next_score)
             return res
 
         return helper(0)
@@ -172,38 +172,39 @@ class Solution:
         n = len(stones)
 
         for i in range(1, n):
-            stones[i] += stones[i-1]
+            stones[i] += stones[i - 1]
 
         res = stones[-1]
-        for i in range(n-2, 0, -1):
-            res = max(stones[i]-res, res)
+        for i in range(n - 2, 0, -1):
+            res = max(stones[i] - res, res)
 
         return res
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[1,2]], 3),
-            ([[1,2,3]], 6),
-            ([[-1,-2,-3]], 3),
+            ([[1, 2]], 3),
+            ([[1, 2, 3]], 6),
+            ([[-1, -2, -3]], 3),
             ([[-10, -12]], -22),
-            ([[7,-6,5,10,5,-2,-6]], 13),
-            ([[-1,2,-3,4,-5]], 5)
+            ([[7, -6, 5, 10, 5, -2, -6]], 13),
+            ([[-1, 2, -3, 4, -5]], 5),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

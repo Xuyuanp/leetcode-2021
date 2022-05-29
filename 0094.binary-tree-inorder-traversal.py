@@ -76,6 +76,7 @@ from structures import TreeNode
 #         self.left = left
 #         self.right = right
 
+
 class Solution:
     def inorderTraversal(self, root: TreeNode) -> List[int]:
         def traverse(node: TreeNode):
@@ -91,7 +92,7 @@ class Solution:
 
         stack = deque()
 
-        current = root # root of the current sub stree
+        current = root  # root of the current sub stree
         while stack or current:
             while current:
                 stack.append(current)
@@ -104,32 +105,33 @@ class Solution:
 
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[]], []),
             ([[1]], [1]),
-            ([[1,2]], [2,1]),
-            ([[1,2,3]], [2,1,3]),
-            ([[1,None,2]], [1, 2]),
-            ([[1,None,2,3]], [1,3,2]),
+            ([[1, 2]], [2, 1]),
+            ([[1, 2, 3]], [2, 1, 3]),
+            ([[1, None, 2]], [1, 2]),
+            ([[1, None, 2, 3]], [1, 3, 2]),
         ]
         for args, want in cases:
             got = func(TreeNode.from_list(*args))
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()
 # if __name__ == '__main__':
 #     sol = Solution()

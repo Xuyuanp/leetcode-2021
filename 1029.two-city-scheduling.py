@@ -72,12 +72,12 @@ class Solution:
     # so we should find the n smallest price_a - price_b
     # O(N*log(N)), O(N), N=len(costs) = 2*n
     def twoCitySchedCost(self, costs: List[List[int]]) -> int:
-        n = len(costs)//2
+        n = len(costs) // 2
         heap = []
         A, B = 0, 1
 
         for i, cost in enumerate(costs):
-            heapq.heappush(heap, (cost[A]-cost[B], i))
+            heapq.heappush(heap, (cost[A] - cost[B], i))
         res = 0
 
         for _ in range(n):
@@ -91,7 +91,7 @@ class Solution:
 
     # O(N*log(n)), O(n), N=2*n
     def twoCitySchedCost1(self, costs: List[List[int]]) -> int:
-        n = len(costs)//2
+        n = len(costs) // 2
         A, B = 0, 1
         heap = []
         res = 0
@@ -99,11 +99,11 @@ class Solution:
         for i in range(n):
             cost = costs[i]
             res += cost[A]
-            heapq.heappush(heap, (cost[B]-cost[A], i))
+            heapq.heappush(heap, (cost[B] - cost[A], i))
 
-        for i in range(n, 2*n):
+        for i in range(n, 2 * n):
             cost = costs[i]
-            curr = (cost[B]-cost[A], i)
+            curr = (cost[B] - cost[A], i)
             top = heap[0]
             if curr[0] > top[0]:
                 heapq.heapreplace(heap, curr)
@@ -115,41 +115,68 @@ class Solution:
 
     # O(N*log(N)), O(N), N=2*n
     def twoCitySchedCost2(self, costs: List[List[int]]) -> int:
-        n = len(costs)//2
+        n = len(costs) // 2
         A, B = 0, 1
-        costs.sort(key=lambda c: c[A]-c[B])
+        costs.sort(key=lambda c: c[A] - c[B])
         res = 0
 
         for i in range(n):
             res += costs[i][A]
-        for i in range(n, 2*n):
+        for i in range(n, 2 * n):
             res += costs[i][B]
 
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[[10, 20],[30,40]]], 50),
-            ([[[10, 20],[40,30]]], 40),
-            ([[[10,20],[30,200],[400,50],[30,20]]], 110),
-            ([[[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]]], 1859),
-            ([[[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,359],[631,42]]], 3086),
+            ([[[10, 20], [30, 40]]], 50),
+            ([[[10, 20], [40, 30]]], 40),
+            ([[[10, 20], [30, 200], [400, 50], [30, 20]]], 110),
+            (
+                [
+                    [
+                        [259, 770],
+                        [448, 54],
+                        [926, 667],
+                        [184, 139],
+                        [840, 118],
+                        [577, 469],
+                    ]
+                ],
+                1859,
+            ),
+            (
+                [
+                    [
+                        [515, 563],
+                        [451, 713],
+                        [537, 709],
+                        [343, 819],
+                        [855, 779],
+                        [457, 60],
+                        [650, 359],
+                        [631, 42],
+                    ]
+                ],
+                3086,
+            ),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

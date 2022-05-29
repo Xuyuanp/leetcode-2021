@@ -74,12 +74,18 @@ class Solution:
             if not node:
                 return 0
             match [dfs(node.left), dfs(node.right)]:
-                case [1, _] | [_, 1]: # if any child is not covered by a camera, we should place a camera here
+                case [1, _] | [
+                    _,
+                    1,
+                ]:  # if any child is not covered by a camera, we should place a camera here
                     res += 1
                     return 2
-                case [2, _] | [_, 2]: # else if any child placed a camera, we are coverd
+                case [2, _] | [
+                    _,
+                    2,
+                ]:  # else if any child placed a camera, we are coverd
                     return 0
-                case _:               # otherwise, we need a camera
+                case _:  # otherwise, we need a camera
                     return 1
 
         if dfs(root) == 1:
@@ -110,27 +116,28 @@ class Solution:
             res += 1
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[]], 0),
-            ([[0,0,None,0,0]], 1),
-            ([[0,0,None,0,None,0,None,None,0]], 2),
+            ([[0, 0, None, 0, 0]], 1),
+            ([[0, 0, None, 0, None, 0, None, None, 0]], 2),
         ]
         for args, want in cases:
             got = fn(TreeNode.from_list(*args))
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

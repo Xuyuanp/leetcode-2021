@@ -79,37 +79,38 @@ class Solution:
     def nextGreatestLetter(self, letters: List[str], target: str) -> str:
         if target < letters[0] or target >= letters[-1]:
             return letters[0]
-        left, right = 0, len(letters)-1
+        left, right = 0, len(letters) - 1
         while left <= right:
-            mid = left + (right-left)//2
+            mid = left + (right - left) // 2
             if letters[mid] <= target:
                 left = mid + 1
             else:
                 right = mid - 1
         return letters[0] if left == len(letters) else letters[left]
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([list('cfj'), 'a'], 'c'),
-            ([list('cfj'), 'c'], 'f'),
-            ([list('cfj'), 'd'], 'f'),
-            ([list('cfj'), 'f'], 'j'),
-            ([list('cfj'), 'g'], 'j'),
-            ([list('cfj'), 'j'], 'c'),
-            ([list('cfj'), 'k'], 'c'),
-            ([list('abbc'), 'b'], 'c'),
+            ([list("cfj"), "a"], "c"),
+            ([list("cfj"), "c"], "f"),
+            ([list("cfj"), "d"], "f"),
+            ([list("cfj"), "f"], "j"),
+            ([list("cfj"), "g"], "j"),
+            ([list("cfj"), "j"], "c"),
+            ([list("cfj"), "k"], "c"),
+            ([list("abbc"), "b"], "c"),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

@@ -62,12 +62,12 @@ class Solution:
         filled = set()
 
         def is_empty(row: int, col: int):
-            return board[row][col] == '.'
+            return board[row][col] == "."
 
         def get_candidates(row: int, col: int) -> Set[str]:
             filled.clear()
-            anchor_row = (row//3)*3
-            anchor_col = (col//3)*3
+            anchor_row = (row // 3) * 3
+            anchor_col = (col // 3) * 3
 
             for i in range(9):
                 if not is_empty(row, i):
@@ -90,7 +90,7 @@ class Solution:
             board[row][col] = x
 
         def clear_cell(row: int, col: int):
-            board[row][col] = '.'
+            board[row][col] = "."
 
         def backtrack(row: int, col: int) -> bool:
             if row == 9:
@@ -110,5 +110,6 @@ class Solution:
             return False
 
         backtrack(0, 0)
+
 
 # @lc code=end

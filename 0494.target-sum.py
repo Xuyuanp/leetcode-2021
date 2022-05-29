@@ -76,23 +76,22 @@ class Solution:
                 if index == len(nums):
                     mem[index, curr] = 1 if curr == target else 0
                 else:
-                    positive = helper(index+1, curr+nums[index])
-                    negative = helper(index+1, curr-nums[index])
-                    mem[index, curr] = positive+negative
+                    positive = helper(index + 1, curr + nums[index])
+                    negative = helper(index + 1, curr - nums[index])
+                    mem[index, curr] = positive + negative
             return mem[index, curr]
 
         return helper(0, 0)
 
     def findTargetSumWays1(self, nums: List[int], target: int) -> int:
-
         @lru_cache(None)
         def helper(index: int, curr: int) -> int:
             if index == len(nums):
                 return 1 if curr == target else 0
 
-            positive = helper(index+1, curr+nums[index])
-            negative = helper(index+1, curr-nums[index])
-            return positive+negative
+            positive = helper(index + 1, curr + nums[index])
+            negative = helper(index + 1, curr - nums[index])
+            return positive + negative
 
         return helper(0, 0)
 
@@ -102,8 +101,8 @@ class Solution:
         for x in nums:
             next_counter = defaultdict(int)
             for i in counter:
-                next_counter[i+x] += counter[i]
-                next_counter[i-x] += counter[i]
+                next_counter[i + x] += counter[i]
+                next_counter[i - x] += counter[i]
             counter = next_counter
         return counter[target]
 
@@ -119,31 +118,59 @@ class Solution:
             total += x
             next_counter = Counter(counter)
             for i in counter:
-                next_counter[i+x] += counter[i]
+                next_counter[i + x] += counter[i]
             counter = next_counter
-        if (total+target)%2 == 1:
+        if (total + target) % 2 == 1:
             return 0
-        return counter[(total+target)//2]
+        return counter[(total + target) // 2]
+
 
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[1], 1], 1),
             ([[1], 3], 0),
             ([[1, 0], 1], 2),
-            ([[1,1,1,1,1], 3], 5),
-            ([[0,38,42,31,13,10,11,12,44,16,38,17,22,28,9,27,20,35,34,39], 2], 6666),
+            ([[1, 1, 1, 1, 1], 3], 5),
+            (
+                [
+                    [
+                        0,
+                        38,
+                        42,
+                        31,
+                        13,
+                        10,
+                        11,
+                        12,
+                        44,
+                        16,
+                        38,
+                        17,
+                        22,
+                        28,
+                        9,
+                        27,
+                        20,
+                        35,
+                        34,
+                        39,
+                    ],
+                    2,
+                ],
+                6666,
+            ),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

@@ -66,6 +66,7 @@ class Solution:
                 pre = pre.next
         return sentinel.next
 
+
 # @lc code=end
 
 if __name__ == "__main__":
@@ -82,7 +83,7 @@ if __name__ == "__main__":
         got = sol.removeElements(ListNode.from_list(args), val)
         want = ListNode.from_list(want)
         if got != want:
-            print(f'Failed => args: {args}; want: {want}, but got: {got}')
+            print(f"Failed => args: {args}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

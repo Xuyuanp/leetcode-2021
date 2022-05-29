@@ -84,14 +84,15 @@ class Solution:
             tails[idx].next = curr
             tails[idx] = curr
             curr = curr.next
-            idx = (idx+1)%2
+            idx = (idx + 1) % 2
 
         tails[EVEN].next = None
         tails[ODD].next = heads[EVEN].next
         return heads[ODD].next
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         ([], []),
@@ -99,13 +100,13 @@ if __name__ == '__main__':
         ([1, 2], [1, 2]),
         ([1, 2, 3], [1, 3, 2]),
         ([1, 2, 3, 4], [1, 3, 2, 4]),
-        ([1,2,3,4,5], [1,3,5,2,4]),
+        ([1, 2, 3, 4, 5], [1, 3, 5, 2, 4]),
     ]
     for vals, want in cases:
         got = sol.oddEvenList(ListNode.from_list(vals))
         want = ListNode.from_list(want)
         if want != got:
-            print(f'Failed => args: {vals}; want: {want}, but got: {got}')
+            print(f"Failed => args: {vals}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

@@ -74,7 +74,7 @@ class Solution:
             right.next, left, right = left, right, right.next
 
         tail = None
-        if fast and right: # odd case. tail is the mid node
+        if fast and right:  # odd case. tail is the mid node
             tail = right
             right = right.next
             tail.next = None
@@ -122,8 +122,8 @@ if __name__ == "__main__":
     cases = [
         ([1], [1]),
         ([1, 2], [1, 2]),
-        ([1,2,3,4], [1,4,2,3]),
-        ([1,2,3,4,5], [1,5,2,4,3])
+        ([1, 2, 3, 4], [1, 4, 2, 3]),
+        ([1, 2, 3, 4, 5], [1, 5, 2, 4, 3]),
     ]
     for args, want in cases:
         head = ListNode.from_list(args)
@@ -131,7 +131,7 @@ if __name__ == "__main__":
         want = ListNode.from_list(want)
         got = head
         if got != want:
-            print(f'Failed => args: {args}, want: {want}, but got: {got}')
+            print(f"Failed => args: {args}, want: {want}, but got: {got}")
             break
     else:
         print("All passed")

@@ -62,20 +62,20 @@ class Solution:
         if not digits:
             return []
         table = {
-            '2': ['a', 'b', 'c'],
-            '3': ['d', 'e', 'f'],
-            '4': ['g', 'h', 'i'],
-            '5': ['j', 'k', 'l'],
-            '6': ['m', 'n', 'o'],
-            '7': ['p', 'q', 'r', 's'],
-            '8': ['t', 'u', 'v'],
-            '9': ['w', 'x', 'y', 'z']
+            "2": ["a", "b", "c"],
+            "3": ["d", "e", "f"],
+            "4": ["g", "h", "i"],
+            "5": ["j", "k", "l"],
+            "6": ["m", "n", "o"],
+            "7": ["p", "q", "r", "s"],
+            "8": ["t", "u", "v"],
+            "9": ["w", "x", "y", "z"],
         }
         res = []
 
         def backtrack(digits: str, pat: List[str]):
             if not digits:
-                res.append(''.join(pat))
+                res.append("".join(pat))
                 return
             for c in table[digits[0]]:
                 pat.append(c)
@@ -88,17 +88,17 @@ class Solution:
 
 
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
-        ('', []),
-        ('2', ['a', 'b', 'c']),
-        ('23', ["ad","ae","af","bd","be","bf","cd","ce","cf"]),
+        ("", []),
+        ("2", ["a", "b", "c"]),
+        ("23", ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]),
     ]
     for args, want in cases:
         got = sol.letterCombinations(args)
         if want != got:
-            print(f'Failed => args: {args}; want: {want}, but got: {got}')
+            print(f"Failed => args: {args}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

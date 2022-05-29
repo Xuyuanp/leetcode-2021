@@ -57,13 +57,13 @@ from typing import List
 class Solution:
     def search(self, nums: List[int], target: int) -> bool:
         n = len(nums)
-        left, right = 0, n-1
+        left, right = 0, n - 1
         while left <= right:
-            while left < right and nums[left] == nums[left+1]:
+            while left < right and nums[left] == nums[left + 1]:
                 left += 1
-            while right > left and nums[right] == nums[right-1]:
+            while right > left and nums[right] == nums[right - 1]:
                 right -= 1
-            mid = left + (right-left)//2
+            mid = left + (right - left) // 2
             if nums[mid] == target:
                 return True
             if nums[left] <= nums[mid]:
@@ -78,28 +78,29 @@ class Solution:
                     right = mid - 1
         return False
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[1], 1], True),
             ([[1], 0], False),
             ([[1, 1], 1], True),
             ([[1, 1], 0], False),
-            ([[2,5,6,0,0,1,2], 0], True),
-            ([[2,5,6,0,0,1,2], 3], False),
-            ([[2,2,2,3,2,2,2], 3], True),
-            ([[1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1], 2], True)
+            ([[2, 5, 6, 0, 0, 1, 2], 0], True),
+            ([[2, 5, 6, 0, 0, 1, 2], 3], False),
+            ([[2, 2, 2, 3, 2, 2, 2], 3], True),
+            ([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1], 2], True),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

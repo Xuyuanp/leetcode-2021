@@ -70,13 +70,13 @@ class Solution:
     # O(m*n), O(m*n). DP
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         m, n = len(text1), len(text2)
-        dp = [[0]*(n+1) for _ in range(m+1)]
-        for i in range(1, m+1):
-            for j in range(1, n+1):
-                if text1[i-1] == text2[j-1]:
-                    dp[i][j] = dp[i-1][j-1] + 1
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if text1[i - 1] == text2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1] + 1
                 else:
-                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
         return dp[m][n]
 
     # O(m*n), O(m*n).
@@ -88,8 +88,8 @@ class Solution:
             if i == m or j == n:
                 return 0
             if text1[i] == text2[j]:
-                return 1 + helper(i+1, j+1)
-            return max(helper(i+1, j), helper(i, j+1))
+                return 1 + helper(i + 1, j + 1)
+            return max(helper(i + 1, j), helper(i, j + 1))
 
         return helper(0, 0)
 
@@ -98,42 +98,43 @@ class Solution:
         if len(text1) < len(text2):
             text1, text2 = text2, text1
         m, n = len(text1), len(text2)
-        dp = [0] * (n+1)
-        for i in range(1, m+1):
-            next_dp = [0] * (n+1)
-            for j in range(1, n+1):
-                if text1[i-1] == text2[j-1]:
-                    next_dp[j] = dp[j-1] + 1
+        dp = [0] * (n + 1)
+        for i in range(1, m + 1):
+            next_dp = [0] * (n + 1)
+            for j in range(1, n + 1):
+                if text1[i - 1] == text2[j - 1]:
+                    next_dp[j] = dp[j - 1] + 1
                 else:
-                    next_dp[j] = max(dp[j], next_dp[j-1])
+                    next_dp[j] = max(dp[j], next_dp[j - 1])
             dp = next_dp
         return dp[n]
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            (['a', 'a'], 1),
-            (['a', 'b'], 0),
-            (['a', 'ab'], 1),
-            (['ab', 'a'], 1),
-            (['abc', 'def'], 0),
-            (['abc', 'abc'], 3),
-            (['abcde', 'ace'], 3),
+            (["a", "a"], 1),
+            (["a", "b"], 0),
+            (["a", "ab"], 1),
+            (["ab", "a"], 1),
+            (["abc", "def"], 0),
+            (["abc", "abc"], 3),
+            (["abcde", "ace"], 3),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

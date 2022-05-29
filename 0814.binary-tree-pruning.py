@@ -75,31 +75,33 @@ class Solution:
                 node.right = None
 
             return node.val == 1 or node.left or node.right
+
         return root if prune(root) else None
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[1]], [1]),
             ([[0]], []),
-            ([[1,None,0,0,1]], [1,None,0,None,1]),
-            ([[1,1,0,1,1,0,1,0]], [1,1,0,1,1,None,1]),
-            ([[1,0,1,0,0,0,1]], [1,None,1,None,1])
+            ([[1, None, 0, 0, 1]], [1, None, 0, None, 1]),
+            ([[1, 1, 0, 1, 1, 0, 1, 0]], [1, 1, 0, 1, 1, None, 1]),
+            ([[1, 0, 1, 0, 0, 0, 1]], [1, None, 1, None, 1]),
         ]
         for args, want in cases:
             got = func(TreeNode.from_list(*args))
             if TreeNode.from_list(want) != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

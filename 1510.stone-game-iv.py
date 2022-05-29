@@ -92,8 +92,8 @@ class Solution:
             if i == 0:
                 return False
             j = 1
-            while (curr := j*j) <= i:
-                if not helper(i-curr):
+            while (curr := j * j) <= i:
+                if not helper(i - curr):
                     return True
                 j += 1
             return False
@@ -102,22 +102,23 @@ class Solution:
 
     # O(n*sqrt(n)), O(n)
     def winnerSquareGame1(self, n: int) -> bool:
-        dp = [False] * (n+1)
-        for i in range(1, n+1):
+        dp = [False] * (n + 1)
+        for i in range(1, n + 1):
             j = 1
-            while (curr := j*j) <= i:
-                if not dp[i-curr]:
+            while (curr := j * j) <= i:
+                if not dp[i - curr]:
                     dp[i] = True
                     break
                 j += 1
         return dp[n]
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([1], True),
@@ -134,12 +135,12 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

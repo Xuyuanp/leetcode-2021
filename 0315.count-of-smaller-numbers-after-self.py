@@ -67,18 +67,22 @@ class Solution:
         def merge_sort(nums: List[Tuple[int, int]]) -> List[int]:
             if len(nums) < 2:
                 return nums
-            mid = len(nums)//2
+            mid = len(nums) // 2
             left = merge_sort(nums[:mid])
             right = merge_sort(nums[mid:])
 
-            new_nums = [0] * (len(left)+len(right))
+            new_nums = [0] * (len(left) + len(right))
             i = j = k = 0
             while i < len(left) or j < len(right):
-                while j < len(right) and (i == len(left) or left[i][VALUE] > right[j][VALUE]):
+                while j < len(right) and (
+                    i == len(left) or left[i][VALUE] > right[j][VALUE]
+                ):
                     new_nums[k] = right[j]
                     j += 1
                     k += 1
-                while i < len(left) and (j == len(right) or left[i][VALUE] <= right[j][VALUE]):
+                while i < len(left) and (
+                    j == len(right) or left[i][VALUE] <= right[j][VALUE]
+                ):
                     new_nums[k] = left[i]
                     res[left[i][INDEX]] += j
                     i += 1
@@ -90,31 +94,118 @@ class Solution:
 
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[-1,-1]], [0,0]),
+            ([[-1, -1]], [0, 0]),
             ([[-1]], [0]),
-            ([[5,2,6,1]], [2,1,1,0]),
-            ([[1,2,3,4]], [0,0,0,0]),
-            ([[4,3,2,1]], [3,2,1,0]),
-            ([[26,78,27,100,33,67,90,23,66,5,38,7,35,23,52,22,83,51,98,69,81,32,78,28,94,13,2,97,3,76,99,51,9,21,84,66,65,36,100,41]],
-             [10,27,10,35,12,22,28,8,19,2,12,2,9,6,12,5,17,9,19,12,14,6,12,5,12,3,0,10,0,7,8,4,0,0,4,3,2,0,1,0]),
+            ([[5, 2, 6, 1]], [2, 1, 1, 0]),
+            ([[1, 2, 3, 4]], [0, 0, 0, 0]),
+            ([[4, 3, 2, 1]], [3, 2, 1, 0]),
+            (
+                [
+                    [
+                        26,
+                        78,
+                        27,
+                        100,
+                        33,
+                        67,
+                        90,
+                        23,
+                        66,
+                        5,
+                        38,
+                        7,
+                        35,
+                        23,
+                        52,
+                        22,
+                        83,
+                        51,
+                        98,
+                        69,
+                        81,
+                        32,
+                        78,
+                        28,
+                        94,
+                        13,
+                        2,
+                        97,
+                        3,
+                        76,
+                        99,
+                        51,
+                        9,
+                        21,
+                        84,
+                        66,
+                        65,
+                        36,
+                        100,
+                        41,
+                    ]
+                ],
+                [
+                    10,
+                    27,
+                    10,
+                    35,
+                    12,
+                    22,
+                    28,
+                    8,
+                    19,
+                    2,
+                    12,
+                    2,
+                    9,
+                    6,
+                    12,
+                    5,
+                    17,
+                    9,
+                    19,
+                    12,
+                    14,
+                    6,
+                    12,
+                    5,
+                    12,
+                    3,
+                    0,
+                    10,
+                    0,
+                    7,
+                    8,
+                    4,
+                    0,
+                    0,
+                    4,
+                    3,
+                    2,
+                    0,
+                    1,
+                    0,
+                ],
+            ),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

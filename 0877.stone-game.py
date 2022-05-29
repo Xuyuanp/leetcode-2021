@@ -76,18 +76,18 @@ class Solution:
         # (0, n-2), (1, n-1)
         # (0, n-1)
         for shift in range(1, n):
-            for i in range(0, n-shift):
+            for i in range(0, n - shift):
                 j = shift + i
 
-                left  = piles[i] + dp[i+1][j][SECOND]
-                right = piles[j] + dp[i][j-1][SECOND]
+                left = piles[i] + dp[i + 1][j][SECOND]
+                right = piles[j] + dp[i][j - 1][SECOND]
 
                 if left > right:
-                    dp[i][j] = (left,  dp[i+1][j][FIRST])
+                    dp[i][j] = (left, dp[i + 1][j][FIRST])
                 else:
-                    dp[i][j] = (right, dp[i][j-1][FIRST])
+                    dp[i][j] = (right, dp[i][j - 1][FIRST])
 
-        return dp[0][n-1][0] > dp[0][n-1][1]
+        return dp[0][n - 1][0] > dp[0][n - 1][1]
 
     # O(n^2), O(n^2)
     def stoneGame1(self, piles: List[int]) -> bool:
@@ -98,14 +98,14 @@ class Solution:
             if i == j:
                 return piles[i], 0
 
-            la, lb = helper(i+1, j)   # take left
-            ra, rb = helper(i, j-1)   # take right
+            la, lb = helper(i + 1, j)  # take left
+            ra, rb = helper(i, j - 1)  # take right
             return max(
                 (piles[i] + lb, la),
                 (piles[j] + rb, ra),
             )
 
-        a, b = helper(0, n-1)
+        a, b = helper(0, n - 1)
         return a > b
 
     # O(n^2), O(n^2)
@@ -116,18 +116,17 @@ class Solution:
         def helper(i: int, j: int) -> int:
             if i == j:
                 return piles[i]
-            return max(
-                piles[i] - helper(i+1, j),
-                piles[j] - helper(i, j-1)
-            )
-        return helper(0, n-1) > 0
+            return max(piles[i] - helper(i + 1, j), piles[j] - helper(i, j - 1))
+
+        return helper(0, n - 1) > 0
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[5, 3, 4, 5]], True),
@@ -137,12 +136,12 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

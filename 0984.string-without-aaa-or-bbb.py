@@ -55,52 +55,53 @@ class Solution:
 
         while a and b:
             if a > b:
-                res.append('aab')
+                res.append("aab")
                 a -= 2
                 b -= 1
             elif a < b:
-                res.append('bba')
+                res.append("bba")
                 a -= 1
                 b -= 2
             else:
-                res.append('ab')
+                res.append("ab")
                 a -= 1
                 b -= 1
 
         while a > 0:
-            res.append('a')
+            res.append("a")
             a -= 1
         while b > 0:
-            res.append('b')
+            res.append("b")
             b -= 1
 
-        return ''.join(res)
+        return "".join(res)
+
 
 # @lc code=end
 def test():
     def no3a3b(s: str) -> bool:
-        return len(s.split('aaa')) == 1 and len(s.split('bbb'))
+        return len(s.split("aaa")) == 1 and len(s.split("bbb"))
 
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([1,2]),
-            ([4,1]),
-            ([3,3]),
+            ([1, 2]),
+            ([4, 1]),
+            ([3, 3]),
             ([10, 20]),
         ]
         for args in cases:
             got = func(*args)
             if not no3a3b(got) or len(got) != sum(args):
-                print(f'  Failed => args: {args}; want no 3a3b, but got: {got}')
+                print(f"  Failed => args: {args}; want no 3a3b, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

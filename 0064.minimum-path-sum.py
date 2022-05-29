@@ -55,28 +55,29 @@ class Solution:
         for i in range(m):
             for j in range(n):
                 if i > 0 and j > 0:
-                    grid[i][j] += min(grid[i-1][j], grid[i][j-1])
+                    grid[i][j] += min(grid[i - 1][j], grid[i][j - 1])
                 elif i > 0:
-                    grid[i][j] += grid[i-1][j]
+                    grid[i][j] += grid[i - 1][j]
                 elif j > 0:
-                    grid[i][j] += grid[i][j-1]
+                    grid[i][j] += grid[i][j - 1]
 
         return grid[-1][-1]
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         ([[1]], 1),
         ([[1, 2]], 3),
         ([[1, 2], [1, 1]], 3),
-        ([[1,3,1],[1,5,1],[4,2,1]], 7),
-        ([[1,2,3],[4,5,6]], 12),
+        ([[1, 3, 1], [1, 5, 1], [4, 2, 1]], 7),
+        ([[1, 2, 3], [4, 5, 6]], 12),
     ]
     for grid, want in cases:
         got = sol.minPathSum(grid)
         if want != got:
-            print(f'Failed => args: {grid}; want: {want}, but got: {got}')
+            print(f"Failed => args: {grid}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

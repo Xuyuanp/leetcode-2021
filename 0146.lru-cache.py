@@ -77,6 +77,7 @@ class Node:
         self.next = next
         self.prev = prev
 
+
 # Double Linked-List
 class LRUCache1:
     def __init__(self, capacity: int):
@@ -128,6 +129,7 @@ class LRUCache1:
 
         self.cache[key] = node
 
+
 # OrderedDict
 class LRUCache:
     def __init__(self, capacity: int):
@@ -154,4 +156,3 @@ class LRUCache:
 # param_1 = obj.get(key)
 # obj.put(key,value)
 # @lc code=end
-

@@ -5,6 +5,7 @@ from typing import Any, List, Optional
 from collections import deque
 from itertools import zip_longest
 
+
 @dataclass
 class TreeNode:
     val: Any
@@ -13,8 +14,8 @@ class TreeNode:
 
     def __repr__(self) -> str:
         if not self.left and not self.right:
-            return f'{{ {self.val} }}'
-        return f'{{ {self.val} [{self.left}, {self.right}] }}'
+            return f"{{ {self.val} }}"
+        return f"{{ {self.val} [{self.left}, {self.right}] }}"
 
     @staticmethod
     def from_list(vals: List[int]) -> Optional[TreeNode]:

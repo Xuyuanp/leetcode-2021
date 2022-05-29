@@ -62,6 +62,7 @@ class Solution:
 
         return sentinel.next
 
+
 # @lc code=end
 
 
@@ -83,4 +84,4 @@ if __name__ == "__main__":
             print(f"Falied => args: {args}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

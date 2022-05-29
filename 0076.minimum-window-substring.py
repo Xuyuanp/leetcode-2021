@@ -73,7 +73,7 @@ class Solution:
         counter = Counter(t)
         win_counter = defaultdict(int)
         matched, required = 0, len(counter)
-        res = ''
+        res = ""
         left = right = 0
         for right, c in enumerate(s):
             if c not in counter:
@@ -81,17 +81,17 @@ class Solution:
 
             win_counter[c] += 1
             if counter[c] == win_counter[c]:
-                matched+=1
+                matched += 1
 
             while matched == required and left <= right:
                 c = s[left]
                 if c in counter:
-                    if not res or right-left+1 < len(res):
-                        res = s[left:right+1]
+                    if not res or right - left + 1 < len(res):
+                        res = s[left : right + 1]
 
-                    win_counter[c]-=1
+                    win_counter[c] -= 1
                     if win_counter[c] < counter[c]:
-                        matched-=1
+                        matched -= 1
 
                 left += 1
 
@@ -101,7 +101,7 @@ class Solution:
     def minWindow1(self, s: str, t: str) -> str:
         counter = Counter(t)
         required = len(counter)
-        res = ''
+        res = ""
         left = 0
         for right, char in enumerate(s, 1):
             if char not in counter:
@@ -115,7 +115,7 @@ class Solution:
                 # when required == 0, counter[<any letter>] <= 0
                 char = s[left]
                 if char in counter:
-                    if not res or right-left < len(res):
+                    if not res or right - left < len(res):
                         res = s[left:right]
 
                     counter[char] += 1
@@ -126,28 +126,29 @@ class Solution:
 
         return res
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['a', 'aa'], ''),
-            (['a', 'a'], 'a'),
-            (['ADOBECODEBANC', 'ABC'], 'BANC'),
-            (['aABCDEFGz', 'az'], 'aABCDEFGz'),
+            (["a", "aa"], ""),
+            (["a", "a"], "a"),
+            (["ADOBECODEBANC", "ABC"], "BANC"),
+            (["aABCDEFGz", "az"], "aABCDEFGz"),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

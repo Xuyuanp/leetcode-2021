@@ -59,16 +59,17 @@ class Solution:
         stack = []
         n = len(nums)
 
-        for i in range(n*2):
-            v = nums[i%n]
+        for i in range(n * 2):
+            v = nums[i % n]
             while stack and nums[stack[-1]] < v:
                 res[stack.pop()] = v
-            stack.append(i%n)
+            stack.append(i % n)
 
         return res
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         ([1], [-1]),
@@ -81,7 +82,7 @@ if __name__ == '__main__':
     for nums, want in cases:
         got = sol.nextGreaterElements(nums)
         if want != got:
-            print(f'Failed => args: {nums}; want: {want}, but got: {got}')
+            print(f"Failed => args: {nums}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

@@ -13,12 +13,13 @@ def test_insert():
     for i, key in enumerate(tree):
         assert i == key
 
+
 def test_chaos():
     tree = RBTree()
 
     N = 10000
 
-    keys = list(range(1,N+1))
+    keys = list(range(1, N + 1))
     random.shuffle(keys)
 
     start = datetime.now()
@@ -27,7 +28,9 @@ def test_chaos():
         tree.insert(key)
 
     insert_end = datetime.now()
-    print(f'inserts cost: {(insert_end-start).total_seconds()}s; rotates: {tree.left_rotates, tree.right_rotates, tree.left_rotates+tree.right_rotates, tree.insert_rotates}')
+    print(
+        f"inserts cost: {(insert_end-start).total_seconds()}s; rotates: {tree.left_rotates, tree.right_rotates, tree.left_rotates+tree.right_rotates, tree.insert_rotates}"
+    )
 
     assert tree.count == N
 
@@ -41,7 +44,9 @@ def test_chaos():
         tree.remove(key)
 
     remove_end = datetime.now()
-    print(f'removes cost: {(remove_end-remove_start).total_seconds()}s; rotates: {tree.left_rotates, tree.right_rotates, tree.left_rotates+tree.right_rotates, tree.remove_rotates}')
+    print(
+        f"removes cost: {(remove_end-remove_start).total_seconds()}s; rotates: {tree.left_rotates, tree.right_rotates, tree.left_rotates+tree.right_rotates, tree.remove_rotates}"
+    )
 
     assert tree.count == 0
 
@@ -59,12 +64,13 @@ def test_find():
         hits = datetime.now() - start
 
         start = datetime.now()
-        for key in range(n, n*2):
+        for key in range(n, n * 2):
             tree.find(key)
 
         miss = datetime.now() - start
-        print(f'{n} nodes: {hits.total_seconds()}s(hits), {miss.total_seconds()}s(miss)')
+        print(
+            f"{n} nodes: {hits.total_seconds()}s(hits), {miss.total_seconds()}s(miss)"
+        )
 
     for i in range(2, 6):
         bench_find(10**i)
-

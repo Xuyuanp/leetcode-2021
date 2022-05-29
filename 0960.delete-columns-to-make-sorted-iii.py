@@ -86,36 +86,37 @@ class Solution:
         for i in range(1, n):
             for j in range(i):
                 if all(row[j] <= row[i] for row in strs):
-                    dp[i] = max(dp[i], 1+dp[j])
+                    dp[i] = max(dp[i], 1 + dp[j])
             max_len = max(max_len, dp[i])
         return n - max_len
+
 
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([['abc']], 0),
-            ([['abc', 'def']], 0),
-            ([['aaa', 'aaa', 'aaa']], 0),
-            ([["babca","bbazb"]], 3),
+            ([["abc"]], 0),
+            ([["abc", "def"]], 0),
+            ([["aaa", "aaa", "aaa"]], 0),
+            ([["babca", "bbazb"]], 3),
             ([["edcba"]], 4),
-            ([["ghi","def","abc"]], 0),
-            ([["abbabb","babbaa","bbbbbb","babbaa"]], 3),
-            ([["aaababa","ababbaa"]], 4),
+            ([["ghi", "def", "abc"]], 0),
+            ([["abbabb", "babbaa", "bbbbbb", "babbaa"]], 3),
+            ([["aaababa", "ababbaa"]], 4),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -61,7 +61,7 @@ class Solution:
 
         sentinel = ListNode(-1, next=head)
         pre = sentinel
-        for _ in range(left-1):
+        for _ in range(left - 1):
             pre = pre.next
 
         curr = pre.next
@@ -72,6 +72,7 @@ class Solution:
             pre.next = tmp
 
         return sentinel.next
+
 
 # @lc code=end
 
@@ -88,7 +89,9 @@ if __name__ == "__main__":
         got = sol.reverseBetween(ListNode.from_list(vals), left, right)
         want = ListNode.from_list(want)
         if got != want:
-            print(f'Failed => args: {vals}, {left}, {right}; want: {want}, but got: {got}')
+            print(
+                f"Failed => args: {vals}, {left}, {right}; want: {want}, but got: {got}"
+            )
             break
     else:
-        print('All Passed')
+        print("All Passed")

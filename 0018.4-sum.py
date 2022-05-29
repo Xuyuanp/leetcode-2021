@@ -55,12 +55,12 @@ from typing import List
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
         def two_sum(nums: List[int], target: int):
-            lo, hi = 0, len(nums)-1
+            lo, hi = 0, len(nums) - 1
             while lo < hi:
                 sum_ = nums[lo] + nums[hi]
-                if sum_ < target or (lo > 0 and nums[lo] == nums[lo-1]):
+                if sum_ < target or (lo > 0 and nums[lo] == nums[lo - 1]):
                     lo += 1
-                elif sum_ > target or (hi < len(nums)-1 and nums[hi] == nums[hi+1]):
+                elif sum_ > target or (hi < len(nums) - 1 and nums[hi] == nums[hi + 1]):
                     hi -= 1
                 else:
                     yield [nums[lo], nums[hi]]
@@ -68,34 +68,40 @@ class Solution:
                     hi -= 1
 
         def k_sum(nums: List[int], target: int, k: int):
-            if not nums or len(nums) < k or nums[0] * k > target or nums[-1] * k < target:
+            if (
+                not nums
+                or len(nums) < k
+                or nums[0] * k > target
+                or nums[-1] * k < target
+            ):
                 return
             if k == 2:
                 yield from two_sum(nums, target)
                 return
-            for i, n in enumerate(nums[:1-k]):
-                if i > 0 and n == nums[i-1]:
+            for i, n in enumerate(nums[: 1 - k]):
+                if i > 0 and n == nums[i - 1]:
                     continue
-                for vals in k_sum(nums[i+1:], target-n, k-1):
+                for vals in k_sum(nums[i + 1 :], target - n, k - 1):
                     yield [n] + vals
 
         nums.sort()
         return list(k_sum(nums, target, 4))
+
 
 # @lc code=end
 
 if __name__ == "__main__":
     sol = Solution()
     cases = [
-        (([-2,-1,-1,1,1,2,2], 0), [[-2, -1, 1, 2], [-1, -1, 1, 1]]),
-        (([1,0,-1,0,-2,2], 0), [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]),
-        (([2,2,2,2,2], 8), [[2,2,2,2]]),
-        (([0,0,0,0], 0), [[0,0,0,0]]),
+        (([-2, -1, -1, 1, 1, 2, 2], 0), [[-2, -1, 1, 2], [-1, -1, 1, 1]]),
+        (([1, 0, -1, 0, -2, 2], 0), [[-2, -1, 1, 2], [-2, 0, 0, 2], [-1, 0, 0, 1]]),
+        (([2, 2, 2, 2, 2], 8), [[2, 2, 2, 2]]),
+        (([0, 0, 0, 0], 0), [[0, 0, 0, 0]]),
     ]
     for (nums, target), want in cases:
         got = sol.fourSum(nums, target)
         if got != want:
-            print(f'Failed => args: {nums}, {target}; want: {want}, but got: {got}')
+            print(f"Failed => args: {nums}, {target}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

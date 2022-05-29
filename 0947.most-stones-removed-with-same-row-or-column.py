@@ -96,7 +96,7 @@ class Solution:
 
     # O(n), O(n)
     def removeStones1(self, stones: List[List[int]]) -> int:
-        ufs = {} # union find set
+        ufs = {}  # union find set
 
         def find(x):
             if x != ufs.setdefault(x, x):
@@ -116,25 +116,24 @@ class Solution:
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[[0,0]]], 0),
-            ([[[0,0],[0,2],[1,1],[2,0],[2,2]]], 3),
-            ([[[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]], 5),
+            ([[[0, 0]]], 0),
+            ([[[0, 0], [0, 2], [1, 1], [2, 0], [2, 2]]], 3),
+            ([[[0, 0], [0, 1], [1, 0], [1, 2], [2, 1], [2, 2]]], 5),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()
-

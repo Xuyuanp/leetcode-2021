@@ -42,11 +42,11 @@ from typing import List
 class Solution:
     def singleNonDuplicate(self, nums: List[int]) -> int:
         n = len(nums)
-        left, right = 0, n-1
+        left, right = 0, n - 1
         while left < right:
-            mid = (left+right)//2
-            if nums[mid] == nums[mid+1]:
-                if mid%2 == 1:
+            mid = (left + right) // 2
+            if nums[mid] == nums[mid + 1]:
+                if mid % 2 == 1:
                     # [1,2,2,3,3,4,4]
                     # [1,2,2]
                     right = mid - 1
@@ -54,8 +54,8 @@ class Solution:
                     # [1,1,2,2,3]
                     # [1,1,2,2,3,3,4,4,5]
                     left = mid + 2
-            elif nums[mid-1] == nums[mid]:
-                if mid%2 == 1:
+            elif nums[mid - 1] == nums[mid]:
+                if mid % 2 == 1:
                     # [1,1,2]
                     # [1,1,2,2,3,4,4]
                     left = mid + 1
@@ -68,31 +68,32 @@ class Solution:
                 return nums[mid]
         return nums[left]
 
+
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[1]], 1),
-            ([[1,2,2]], 1),
-            ([[1,1,2]], 2),
-            ([[1,2,2,3,3]], 1),
-            ([[1,1,2,3,3]], 2),
-            ([[1,1,2,2,3]], 3),
-            ([[3,3,7,7,10,11,11]], 10),
+            ([[1, 2, 2]], 1),
+            ([[1, 1, 2]], 2),
+            ([[1, 2, 2, 3, 3]], 1),
+            ([[1, 1, 2, 3, 3]], 2),
+            ([[1, 1, 2, 2, 3]], 3),
+            ([[3, 3, 7, 7, 10, 11, 11]], 10),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

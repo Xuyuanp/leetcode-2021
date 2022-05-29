@@ -74,32 +74,34 @@ class Solution:
                 return 0
             pre, curr = 0, nums[0]
             for money in nums[1:]:
-                pre, curr = curr, max(pre+money, curr)
+                pre, curr = curr, max(pre + money, curr)
             return curr
+
         return max(help(nums[1:]), help(nums[:-1]))
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[0]], 0),
             ([[1]], 1),
-            ([[2,3,2]], 3),
-            ([[1,2,3,1]], 4),
+            ([[2, 3, 2]], 3),
+            ([[1, 2, 3, 1]], 4),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

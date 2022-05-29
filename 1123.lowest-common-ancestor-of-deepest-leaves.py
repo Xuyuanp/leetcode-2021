@@ -90,40 +90,41 @@ class Solution:
             left = helper(node.left)
             right = helper(node.right)
             if not left[0]:
-                return right[0], right[1]+1
+                return right[0], right[1] + 1
             if not right[0]:
-                return left[0], left[1]+1
+                return left[0], left[1] + 1
             if left[1] > right[1]:
-                return left[0], left[1]+1
+                return left[0], left[1] + 1
             if right[1] > left[1]:
-                return right[0], right[1]+1
-            return node, left[1]+1
+                return right[0], right[1] + 1
+            return node, left[1] + 1
 
         return helper(root)[0]
+
 
 # @lc code=end
 def test():
     null = None
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[1]], [1]),
-            ([[0,1,3,null,2]], [2]),
-            ([[3,5,1,6,2,0,8,null,null,7,4]], [2,7,4]),
+            ([[0, 1, 3, null, 2]], [2]),
+            ([[3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]], [2, 7, 4]),
         ]
         for args, want in cases:
             got = func(TreeNode.from_list(*args))
             want = TreeNode.from_list(want)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

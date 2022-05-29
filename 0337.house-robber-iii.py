@@ -63,6 +63,7 @@ from structures import TreeNode
 #         self.right = right
 ROB, SKIP = 0, 1
 
+
 class Solution:
     # O(n), O(log(n)). bottom-up
     def rob(self, root: Optional[TreeNode]) -> int:
@@ -71,37 +72,37 @@ class Solution:
                 return 0, 0
             left = dfs(node.left)
             right = dfs(node.right)
-            return node.val + left[SKIP] + right[SKIP], \
-                max(left) + max(right)
+            return node.val + left[SKIP] + right[SKIP], max(left) + max(right)
 
         return max(dfs(root))
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[1]], 1),
-            ([[1,2,3]], 5),
-            ([[3,1,2]], 3),
-            ([[3,1,4]], 5),
-            ([[3,2,3,None,3,None,1]], 7),
-            ([[3,4,5,1,3,None,1]], 9),
-            ([[4,1,None,2,None,3]], 7),
-            ([[2,1,3,None,4]], 7)
+            ([[1, 2, 3]], 5),
+            ([[3, 1, 2]], 3),
+            ([[3, 1, 4]], 5),
+            ([[3, 2, 3, None, 3, None, 1]], 7),
+            ([[3, 4, 5, 1, 3, None, 1]], 9),
+            ([[4, 1, None, 2, None, 3]], 7),
+            ([[2, 1, 3, None, 4]], 7),
         ]
         for args, want in cases:
             got = fn(TreeNode.from_list(*args))
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

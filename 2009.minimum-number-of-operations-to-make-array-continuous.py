@@ -81,35 +81,36 @@ class Solution:
         right = 1
         curr = 0
         for left in range(m):
-            while right < m and nums[right] - nums[left] <= n-1:
+            while right < m and nums[right] - nums[left] <= n - 1:
                 right += 1
-            curr = max(curr, right-left)
+            curr = max(curr, right - left)
 
-        return n-curr
+        return n - curr
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[8,5,9,9,8,4]], 2),
-            ([[4,2,5,3]], 0),
-            ([[1,2,3,5,6]], 1),
-            ([[1,10,100,1000]], 3),
+            ([[8, 5, 9, 9, 8, 4]], 2),
+            ([[4, 2, 5, 3]], 0),
+            ([[1, 2, 3, 5, 6]], 1),
+            ([[1, 10, 100, 1000]], 3),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
-            print('--')
+            print("--")
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

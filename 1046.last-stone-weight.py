@@ -72,33 +72,34 @@ class Solution:
         while len(heap) > 1:
             x = heapq.heappop(heap)
             y = heapq.heappop(heap)
-            heapq.heappush(heap, x-y)
+            heapq.heappush(heap, x - y)
 
         return -heap[0]
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[1]], 1),
-            ([[1,1]], 0),
-            ([[1,2]], 1),
-            ([[1,2,3]], 0),
-            ([[2,7,4,1,8,1]], 1),
+            ([[1, 1]], 0),
+            ([[1, 2]], 1),
+            ([[1, 2, 3]], 0),
+            ([[2, 7, 4, 1, 8, 1]], 1),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

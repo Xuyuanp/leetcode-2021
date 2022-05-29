@@ -56,12 +56,12 @@ class Solution:
         def enough(x: int) -> bool:
             count = 0
             for i in range(m):
-                count += min(x//(i+1), n)
+                count += min(x // (i + 1), n)
             return count >= k
 
-        left, right = 1, m*n
+        left, right = 1, m * n
         while left < right:
-            mid = left + (right-left)//2
+            mid = left + (right - left) // 2
             if not enough(mid):
                 left = mid + 1
             else:
@@ -75,13 +75,13 @@ class Solution:
 
         def n_less_than(x: int) -> int:
             count = 0
-            for i in range(1, m+1):
-                count += min(x//i, n) # nums of vals less than x in each line
+            for i in range(1, m + 1):
+                count += min(x // i, n)  # nums of vals less than x in each line
             return count
 
-        left, right = 1, m*n
+        left, right = 1, m * n
         while left < right:
-            mid = left + (right-left)//2
+            mid = left + (right - left) // 2
             if n_less_than(mid) < k:
                 left = mid + 1
             else:
@@ -92,23 +92,20 @@ class Solution:
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
-        cases = [
-            ([3, 3, 5], 3),
-            ([2, 3, 6], 6)
-        ]
+        cases = [([3, 3, 5], 3), ([2, 3, 6], 6)]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

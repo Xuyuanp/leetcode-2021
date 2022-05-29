@@ -85,11 +85,9 @@ class DetectSquares:
     def __init__(self):
         self.points = Counter()
 
-
     def add(self, point: List[int]) -> None:
         x, y = point
         self.points[x, y] += 1
-
 
     # <= O(1000)
     def count(self, point: List[int]) -> int:
@@ -97,7 +95,7 @@ class DetectSquares:
         x, y = point
         if len(self.points) < 1000:
             for (i, j), cnt in self.points.items():
-                if i == x or j == y or abs(x-i) != abs(y-j):
+                if i == x or j == y or abs(x - i) != abs(y - j):
                     continue
                 res += cnt * self.points[i, y] * self.points[x, j]
             return res
@@ -105,8 +103,8 @@ class DetectSquares:
         for i in range(0, 1001):
             if i == x:
                 continue
-            d = abs(x-i)
-            for j in [y+d, y-d]:
+            d = abs(x - i)
+            for j in [y + d, y - d]:
                 res += self.points[i, j] * self.points[x, j] * self.points[i, y]
 
         return res
@@ -118,21 +116,42 @@ class DetectSquares:
 # param_2 = obj.count(point)
 # @lc code=end
 def test():
-    print('Testing DetectSquares')
+    print("Testing DetectSquares")
     null = None
     cases = [
-        ([["DetectSquares", "add", "add", "add", "count", "count", "add", "count"],
-          [[], [[3, 10]], [[11, 2]], [[3, 2]], [[11, 10]], [[14, 8]], [[11, 2]], [[11,10]]]],
-         [null, null, null, null, 1, 0, null, 2])
+        (
+            [
+                [
+                    "DetectSquares",
+                    "add",
+                    "add",
+                    "add",
+                    "count",
+                    "count",
+                    "add",
+                    "count",
+                ],
+                [
+                    [],
+                    [[3, 10]],
+                    [[11, 2]],
+                    [[3, 2]],
+                    [[11, 10]],
+                    [[14, 8]],
+                    [[11, 2]],
+                    [[11, 10]],
+                ],
+            ],
+            [null, null, null, null, 1, 0, null, 2],
+        )
     ]
     for (actions, args), wants in cases:
         obj = DetectSquares()
         for action, arg, want in zip(actions[1:], args[1:], wants[1:]):
             got = getattr(obj, action)(*arg)
-            assert got == want, f'{action}({arg}): {got} != {want}'
-    print('  All Passed')
+            assert got == want, f"{action}({arg}): {got} != {want}"
+    print("  All Passed")
 
 
 if __name__ == "__main__":
     test()
-

@@ -73,30 +73,28 @@ class Solution:
         n = len(nums)
         dp = [1] * n
         for i in range(1, n):
-            if nums[i] > nums[i-1]:
-                dp[i] = dp[i-1] + 1
+            if nums[i] > nums[i - 1]:
+                dp[i] = dp[i - 1] + 1
         return max(dp)
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
-        cases = [
-            ([[1,3,5,4,7]], 3),
-            ([[2,2,2,2,2]], 1)
-        ]
+        cases = [([[1, 3, 5, 4, 7]], 3), ([[2, 2, 2, 2, 2]], 1)]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

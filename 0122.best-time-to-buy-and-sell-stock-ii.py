@@ -71,26 +71,27 @@ class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         return sum(max(0, q - p) for p, q in zip(prices, prices[1:]))
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([[1]], 0),
-            ([[1,2]], 1),
-            ([[2,1]], 0),
-            ([[1,2,3,4,5]], 4),
-            ([[7,6,4,3,1]], 0),
-            ([[7,1,5,3,6,4]], 7),
+            ([[1, 2]], 1),
+            ([[2, 1]], 0),
+            ([[1, 2, 3, 4, 5]], 4),
+            ([[7, 6, 4, 3, 1]], 0),
+            ([[7, 1, 5, 3, 6, 4]], 7),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

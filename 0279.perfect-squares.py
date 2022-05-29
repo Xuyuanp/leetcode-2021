@@ -51,10 +51,10 @@ class Solution:
     def numSquares(self, n: int) -> int:
         dp = [0]
         while (m := len(dp)) <= n:
-            square = float('inf')
+            square = float("inf")
             curr = 1
             while (val := curr**2) <= m:
-                square = min(square, dp[m-val]+1)
+                square = min(square, dp[m - val] + 1)
                 curr += 1
             dp.append(square)
 
@@ -62,22 +62,23 @@ class Solution:
 
     # O(n*sqrt(n)), O(n)
     def numSquares1(self, n: int) -> int:
-        dp = [float('inf')] * (n+1)
+        dp = [float("inf")] * (n + 1)
         dp[0] = 0
-        for i in range(1, n+1):
+        for i in range(1, n + 1):
             j = 1
-            while j*j <= i:
-                dp[i] = min(dp[i], dp[i-j*j]+1)
-                j+=1
+            while j * j <= i:
+                dp[i] = min(dp[i], dp[i - j * j] + 1)
+                j += 1
 
         return dp[n]
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([1], 1),
@@ -100,12 +101,12 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

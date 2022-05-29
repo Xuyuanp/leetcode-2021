@@ -59,7 +59,7 @@ from typing import List
 # @lc code=start
 class TrieNode:
     def __init__(self):
-        self.word = ''
+        self.word = ""
         self.valid = False
         self.children = defaultdict(TrieNode)
 
@@ -70,6 +70,7 @@ class TrieNode:
         node.valid = True
         node.word = word
 
+
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         root = TrieNode()
@@ -78,7 +79,7 @@ class Solution:
             root.add(word)
 
         m, n = len(board), len(board[0])
-        VISITED = '*'
+        VISITED = "*"
         res = set()
 
         def dfs(i: int, j: int, node: TrieNode):
@@ -87,8 +88,8 @@ class Solution:
 
             char = board[i][j]
             board[i][j] = VISITED
-            for dx, dy in [(0, 1), (1, 0), (0,-1), (-1,0)]:
-                x, y = i+dx, j+dy
+            for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+                x, y = i + dx, j + dy
                 if 0 <= x < m and 0 <= y < n and board[x][y] in node.children:
                     dfs(x, y, node.children[board[x][y]])
             board[i][j] = char
@@ -105,27 +106,48 @@ class Solution:
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[['a', 'a']], ['aaa']], []),
-            ([[["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]],
-             ["oath","pea","eat","rain","hklf", "hf"]], ["oath","eat","hklf","hf"]),
-            ([[['a']], ['a']], ['a']),
-            ([[['a', 'b'], ['c', 'd']], ['abcb']], []),
-            ([[["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], ["oath","pea","eat","rain"]], ["eat","oath"]),
+            ([[["a", "a"]], ["aaa"]], []),
+            (
+                [
+                    [
+                        ["o", "a", "a", "n"],
+                        ["e", "t", "a", "e"],
+                        ["i", "h", "k", "r"],
+                        ["i", "f", "l", "v"],
+                    ],
+                    ["oath", "pea", "eat", "rain", "hklf", "hf"],
+                ],
+                ["oath", "eat", "hklf", "hf"],
+            ),
+            ([[["a"]], ["a"]], ["a"]),
+            ([[["a", "b"], ["c", "d"]], ["abcb"]], []),
+            (
+                [
+                    [
+                        ["o", "a", "a", "n"],
+                        ["e", "t", "a", "e"],
+                        ["i", "h", "k", "r"],
+                        ["i", "f", "l", "v"],
+                    ],
+                    ["oath", "pea", "eat", "rain"],
+                ],
+                ["eat", "oath"],
+            ),
         ]
         for args, want in cases:
             got = func(*args)
             if sorted(want) != sorted(got):
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

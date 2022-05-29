@@ -99,7 +99,7 @@ class Solution:
         for i in range(1, n):
             for j in range(i):
                 if is_pred(words[j], words[i]):
-                    dp[i] = max(dp[i], dp[j]+1)
+                    dp[i] = max(dp[i], dp[j] + 1)
         return max(dp)
 
     # O(n*l^2), O(n)
@@ -110,33 +110,34 @@ class Solution:
 
         for word in words:
             for i in range(len(word)):
-                pre = word[:i] + word[i+1:]
+                pre = word[:i] + word[i + 1 :]
                 if pre in dp:
-                    dp[word] = max(dp[word], dp[pre]+1)
+                    dp[word] = max(dp[word], dp[pre] + 1)
 
         return max(dp.values())
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([["a","b","ba","bca","bda","bdca"]], 4),
-            ([["xbc","pcxbcf","xb","cxbc","pcxbc"]], 5),
-            ([["abcd","dbqca"]], 1),
+            ([["a", "b", "ba", "bca", "bda", "bdca"]], 4),
+            ([["xbc", "pcxbcf", "xb", "cxbc", "pcxbc"]], 5),
+            ([["abcd", "dbqca"]], 1),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

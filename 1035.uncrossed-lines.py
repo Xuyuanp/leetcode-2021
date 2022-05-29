@@ -72,13 +72,13 @@ class Solution:
     # O(m*n), O(m*n). longest common subsequence. See also: 1143
     def maxUncrossedLines(self, nums1: List[int], nums2: List[int]) -> int:
         m, n = len(nums1), len(nums2)
-        dp = [[0]*(n+1) for _ in range(m+1)]
-        for i in range(1, m+1):
-            for j in range(1, n+1):
-                if nums1[i-1] == nums2[j-1]:
-                    dp[i][j] = dp[i-1][j-1] + 1
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if nums1[i - 1] == nums2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1] + 1
                 else:
-                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
 
         return dp[m][n]
 
@@ -87,44 +87,45 @@ class Solution:
     # dp[i-1] -> dp
     def maxUncrossedLines1(self, nums1: List[int], nums2: List[int]) -> int:
         m, n = len(nums1), len(nums2)
-        dp = [0] * (n+1)
-        for i in range(1, m+1):
-            next_dp = [0] * (n+1)
-            for j in range(1, n+1):
-                if nums1[i-1] == nums2[j-1]:
-                    next_dp[j] = dp[j-1]+1
+        dp = [0] * (n + 1)
+        for i in range(1, m + 1):
+            next_dp = [0] * (n + 1)
+            for j in range(1, n + 1):
+                if nums1[i - 1] == nums2[j - 1]:
+                    next_dp[j] = dp[j - 1] + 1
                 else:
-                    next_dp[j] = max(dp[j], next_dp[j-1])
+                    next_dp[j] = max(dp[j], next_dp[j - 1])
             dp = next_dp
 
         return dp[n]
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([[3],[3,3,2]], 1),
-            ([[1,4,2], [1,2,4]], 2),
-            ([[4,2], [2,4]], 1),
-            ([[1,2], [3,4]], 0),
-            ([[2,5,1,2,5], [10,5,2,1,5,2]], 3),
-            ([[1,3,7,1,7,5], [1,9,2,5,1]], 2),
-            ([[2,1], [1,2,1,3,3,2]], 2),
-            ([[1,2,1,3,3,2], [2, 1]], 2),
+            ([[3], [3, 3, 2]], 1),
+            ([[1, 4, 2], [1, 2, 4]], 2),
+            ([[4, 2], [2, 4]], 1),
+            ([[1, 2], [3, 4]], 0),
+            ([[2, 5, 1, 2, 5], [10, 5, 2, 1, 5, 2]], 3),
+            ([[1, 3, 7, 1, 7, 5], [1, 9, 2, 5, 1]], 2),
+            ([[2, 1], [1, 2, 1, 3, 3, 2]], 2),
+            ([[1, 2, 1, 3, 3, 2], [2, 1]], 2),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

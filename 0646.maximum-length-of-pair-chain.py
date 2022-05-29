@@ -73,7 +73,7 @@ class Solution:
         def binary_search(val: int) -> int:
             left, right = 0, len(lis)
             while left < right:
-                mid = (left+right)//2
+                mid = (left + right) // 2
                 if lis[mid] < val:
                     left = mid + 1
                 else:
@@ -103,7 +103,7 @@ class Solution:
         def binary_search(val: int) -> int:
             left, right = 0, len(lis)
             while left < right:
-                mid = (left+right)//2
+                mid = (left + right) // 2
                 if lis[mid][1] < val:
                     left = mid + 1
                 else:
@@ -112,7 +112,9 @@ class Solution:
 
         for pair in pairs[1:]:
             pos = binary_search(pair[0])
-            if pos == len(lis): # binary search is not needed. only compare with lis[-1] ==> greedy
+            if pos == len(
+                lis
+            ):  # binary search is not needed. only compare with lis[-1] ==> greedy
                 # tails[-1]: |--------|
                 # case1:                 |-----|     -> append
                 lis.append(pair)
@@ -121,31 +123,46 @@ class Solution:
             # case1          |---------|     -> drop
         return len(lis)
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([[[1,2]]], 1),
-            ([[[1,2],[3,4]]], 2),
-            ([[[1,2],[2,3]]], 1),
-            ([[[1,2],[2,3],[3,4]]], 2),
-            ([[[1,2],[7,8],[4,5]]], 3),
-            ([[[1,2],[1,3],[1,4],[10,11]]], 2),
-            ([[[-6,9],[1,6],[8,10],[-1,4],[-6,-2],[-9,8],[-5,3],[0,3]]], 3),
+            ([[[1, 2]]], 1),
+            ([[[1, 2], [3, 4]]], 2),
+            ([[[1, 2], [2, 3]]], 1),
+            ([[[1, 2], [2, 3], [3, 4]]], 2),
+            ([[[1, 2], [7, 8], [4, 5]]], 3),
+            ([[[1, 2], [1, 3], [1, 4], [10, 11]]], 2),
+            (
+                [
+                    [
+                        [-6, 9],
+                        [1, 6],
+                        [8, 10],
+                        [-1, 4],
+                        [-6, -2],
+                        [-9, 8],
+                        [-5, 3],
+                        [0, 3],
+                    ]
+                ],
+                3,
+            ),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

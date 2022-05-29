@@ -67,11 +67,11 @@ class Solution:
     # O(n^2), O(n)
     def lengthOfLIS2(self, nums: List[int]) -> int:
         n = len(nums)
-        dp = [1]*n
+        dp = [1] * n
         for i in range(1, n):
             for j in range(i):
                 if nums[j] < nums[i]:
-                    dp[i] = max(dp[i], 1+dp[j])
+                    dp[i] = max(dp[i], 1 + dp[j])
         return max(dp)
 
     # O(n*log(n)), O(n)
@@ -81,7 +81,7 @@ class Solution:
         def binary_search(x: int) -> int:
             left, right = 0, len(lis)
             while left < right:
-                mid = (left+right)//2
+                mid = (left + right) // 2
                 if lis[mid] < x:
                     left = mid + 1
                 else:
@@ -106,27 +106,28 @@ class Solution:
                 lis[pos] = x
         return len(lis)
 
+
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([[10,9,2,5,3,7,101,18]], 4),
-            ([[0,1,0,3,2,3]], 4),
-            ([[7,7,7,7,7,7]], 1),
+            ([[10, 9, 2, 5, 3, 7, 101, 18]], 4),
+            ([[0, 1, 0, 3, 2, 3]], 4),
+            ([[7, 7, 7, 7, 7, 7]], 1),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

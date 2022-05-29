@@ -73,20 +73,18 @@ import heapq
 
 START, END = 1, 2
 
-class ExamRoom:
 
+class ExamRoom:
     def __init__(self, n: int):
         self.heap = []
         self.n = n
-        heapq.heappush(self.heap, [-n+1, -1, n])
+        heapq.heappush(self.heap, [-n + 1, -1, n])
 
     # O(log(n))
     def seat(self) -> int:
         _, start, end = heapq.heappop(self.heap)
 
-        mid = 0 if start < 0 else \
-            self.n-1 if end == self.n else \
-            (start+end)//2
+        mid = 0 if start < 0 else self.n - 1 if end == self.n else (start + end) // 2
 
         heapq.heappush(self.heap, [-self._get_max_closed(mid, end), mid, end])
         heapq.heappush(self.heap, [-self._get_max_closed(start, mid), start, mid])
@@ -97,17 +95,17 @@ class ExamRoom:
             return end - 1
         if end == self.n:
             return self.n - start - 2
-        dist = end - start-1
+        dist = end - start - 1
         if dist % 2 == 0:
-            return (dist-1)//2
-        return dist//2
+            return (dist - 1) // 2
+        return dist // 2
 
     def _remove_double(self, i: int, j: int):
         if i > j:
             i, j = j, i
         assert i < j < len(self.heap)
 
-        if j == len(self.heap)-1:
+        if j == len(self.heap) - 1:
             self.heap.pop()
             self.heap[i] = self.heap[-1]
             self.heap.pop()
@@ -129,7 +127,7 @@ class ExamRoom:
             if firsti >= 0 and lasti >= 0:
                 break
         else:
-            assert False, 'unreachable'
+            assert False, "unreachable"
 
         first, last = self.heap[firsti], self.heap[lasti]
 
@@ -145,26 +143,251 @@ class ExamRoom:
 # obj.leave(p)
 # @lc code=end
 def test():
-    print('Testing ExamRoom')
+    print("Testing ExamRoom")
     null = None
     cases = [
-        ([["ExamRoom","seat","seat","seat","seat","leave","seat","seat","seat","seat","leave","seat","leave","seat","leave","leave","seat","seat","leave","seat","leave","seat","leave","seat","leave"],
-          [[7],[],[],[],[],[1],[],[],[],[],[4],[],[5],[],[0],[1],[],[],[4],[],[6],[],[2],[],[0]]],
-         [null,0,6,3,1,null,1,2,4,5,null,4,null,5,null,null,0,1,null,4,null,6,null,2,null]),
-        ([["ExamRoom","seat","seat","seat","seat","leave","leave","seat"],
-          [[4],[],[],[],[],[1],[3],[]]], [null,0,3,1,2,null,null,1]),
-        ([["ExamRoom","seat","seat","seat","leave","leave","seat","seat","seat","seat","seat","seat","seat","seat","seat","leave"],
-          [[10],[],[],[],[0],[4],[],[],[],[],[],[],[],[],[],[0]]], [None,0,9,4,None,None,0,4,2,6,1,3,5,7,8,None]),
-        ([["ExamRoom","seat","seat","seat","leave","leave","seat","seat","seat","seat","seat","seat","seat","seat","seat","leave","leave","seat","seat","leave","seat","leave","seat","leave","seat","leave","seat","leave","leave","seat","seat","leave","leave","seat","seat","leave"],
-          [[10],[],[],[],[0],[4],[],[],[],[],[],[],[],[],[],[0],[4],[],[],[7],[],[3],[],[3],[],[9],[],[0],[8],[],[],[0],[8],[],[],[2]]],
-         [None,0,9,4,None,None,0,4,2,6,1,3,5,7,8,None,None,0,4,None,7,None,3,None,3,None,9,None,None,0,8,None,None,0,8,None])
+        (
+            [
+                [
+                    "ExamRoom",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "leave",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "leave",
+                    "seat",
+                    "leave",
+                    "seat",
+                    "leave",
+                    "leave",
+                    "seat",
+                    "seat",
+                    "leave",
+                    "seat",
+                    "leave",
+                    "seat",
+                    "leave",
+                    "seat",
+                    "leave",
+                ],
+                [
+                    [7],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [1],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [4],
+                    [],
+                    [5],
+                    [],
+                    [0],
+                    [1],
+                    [],
+                    [],
+                    [4],
+                    [],
+                    [6],
+                    [],
+                    [2],
+                    [],
+                    [0],
+                ],
+            ],
+            [
+                null,
+                0,
+                6,
+                3,
+                1,
+                null,
+                1,
+                2,
+                4,
+                5,
+                null,
+                4,
+                null,
+                5,
+                null,
+                null,
+                0,
+                1,
+                null,
+                4,
+                null,
+                6,
+                null,
+                2,
+                null,
+            ],
+        ),
+        (
+            [
+                ["ExamRoom", "seat", "seat", "seat", "seat", "leave", "leave", "seat"],
+                [[4], [], [], [], [], [1], [3], []],
+            ],
+            [null, 0, 3, 1, 2, null, null, 1],
+        ),
+        (
+            [
+                [
+                    "ExamRoom",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "leave",
+                    "leave",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "leave",
+                ],
+                [[10], [], [], [], [0], [4], [], [], [], [], [], [], [], [], [], [0]],
+            ],
+            [None, 0, 9, 4, None, None, 0, 4, 2, 6, 1, 3, 5, 7, 8, None],
+        ),
+        (
+            [
+                [
+                    "ExamRoom",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "leave",
+                    "leave",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "seat",
+                    "leave",
+                    "leave",
+                    "seat",
+                    "seat",
+                    "leave",
+                    "seat",
+                    "leave",
+                    "seat",
+                    "leave",
+                    "seat",
+                    "leave",
+                    "seat",
+                    "leave",
+                    "leave",
+                    "seat",
+                    "seat",
+                    "leave",
+                    "leave",
+                    "seat",
+                    "seat",
+                    "leave",
+                ],
+                [
+                    [10],
+                    [],
+                    [],
+                    [],
+                    [0],
+                    [4],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [],
+                    [0],
+                    [4],
+                    [],
+                    [],
+                    [7],
+                    [],
+                    [3],
+                    [],
+                    [3],
+                    [],
+                    [9],
+                    [],
+                    [0],
+                    [8],
+                    [],
+                    [],
+                    [0],
+                    [8],
+                    [],
+                    [],
+                    [2],
+                ],
+            ],
+            [
+                None,
+                0,
+                9,
+                4,
+                None,
+                None,
+                0,
+                4,
+                2,
+                6,
+                1,
+                3,
+                5,
+                7,
+                8,
+                None,
+                None,
+                0,
+                4,
+                None,
+                7,
+                None,
+                3,
+                None,
+                3,
+                None,
+                9,
+                None,
+                None,
+                0,
+                8,
+                None,
+                None,
+                0,
+                8,
+                None,
+            ],
+        ),
     ]
     for (actions, args), wants in cases:
         obj = ExamRoom(*args[0])
         for action, arg, want in zip(actions[1:], args[1:], wants[1:]):
             got = getattr(obj, action)(*arg)
-            assert got == want, f'{action}, {arg}, {want}, {got}'
-    print('  All Passed')
+            assert got == want, f"{action}, {arg}, {want}, {got}"
+    print("  All Passed")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     test()

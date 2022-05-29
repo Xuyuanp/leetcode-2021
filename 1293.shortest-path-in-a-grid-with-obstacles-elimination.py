@@ -35,7 +35,7 @@
 # k = 1
 # Output: 6
 # Explanation:
-# The shortest path without eliminating any obstacle is 10. 
+# The shortest path without eliminating any obstacle is 10.
 # The shortest path with one obstacle elimination at position (3,2) is 6. Such
 # path is (0,0) -> (0,1) -> (0,2) -> (1,2) -> (2,2) -> (3,2) -> (4,2).
 #
@@ -76,31 +76,31 @@ class Solution:
     # O(m*n*k), O(m*n*k). TLE, Why?????
     def shortestPath(self, grid: List[List[int]], k: int) -> int:
         m, n = len(grid), len(grid[0])
-        VISITED = '*'
+        VISITED = "*"
 
         def dfs(i: int, j: int, k: int) -> int:
-            if i == m-1 and j == n-1:
+            if i == m - 1 and j == n - 1:
                 return 0
 
             cell = grid[i][j]
             grid[i][j] = VISITED
 
-            res = float('inf')
-            for dx, dy in [(0,1), (1,0), (0,-1), (-1,0)]:
-                x, y = i+dx, j+dy
+            res = float("inf")
+            for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+                x, y = i + dx, j + dy
                 if 0 <= x < m and 0 <= y < n and grid[x][y] != VISITED:
                     if grid[x][y] == 0:
                         steps = dfs(x, y, k)
                         if steps >= 0:
-                            res = min(res, steps+1)
+                            res = min(res, steps + 1)
                     elif k > 0:
-                        steps = dfs(x, y, k-1)
+                        steps = dfs(x, y, k - 1)
                         if steps >= 0:
-                            res = min(res, steps+1)
+                            res = min(res, steps + 1)
 
             grid[i][j] = cell
 
-            return -1 if res == float('inf') else res
+            return -1 if res == float("inf") else res
 
         return dfs(0, 0, k)
 
@@ -108,8 +108,8 @@ class Solution:
     def shortestPath1(self, grid: List[List[int]], k: int) -> int:
         m, n = len(grid), len(grid[0])
 
-        if k >= (m-1)+(n-1)-1:
-            return m+n-2
+        if k >= (m - 1) + (n - 1) - 1:
+            return m + n - 2
 
         queue = deque()
         visited = set()
@@ -118,15 +118,15 @@ class Solution:
 
         while queue:
             steps, (i, j, k) = queue.popleft()
-            if i == m-1 and j == n-1:
+            if i == m - 1 and j == n - 1:
                 return steps
-            for dx, dy in [(0,1), (1,0), (0,-1), (-1,0)]:
-                x, y = i+dx, j+dy
+            for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+                x, y = i + dx, j + dy
                 if 0 <= x < m and 0 <= y < n:
                     next_k = k - grid[x][y]
                     if next_k >= 0 and (x, y, next_k) not in visited:
                         visited.add((x, y, next_k))
-                        queue.append((steps+1, (x, y, next_k)))
+                        queue.append((steps + 1, (x, y, next_k)))
 
         return -1
 
@@ -134,11 +134,11 @@ class Solution:
     def shortestPath2(self, grid: List[List[int]], k: int) -> int:
         m, n = len(grid), len(grid[0])
 
-        if k >= (m-1)+(n-1)-1:
-            return m+n-2
+        if k >= (m - 1) + (n - 1) - 1:
+            return m + n - 2
 
         def manhatton_distance(i: int, j: int) -> int:
-            return m-1-i + n-1-j
+            return m - 1 - i + n - 1 - j
 
         visited = set()
         queue = [(manhatton_distance(0, 0), 0, (0, 0, k))]
@@ -149,57 +149,59 @@ class Solution:
             if dist - steps <= k:
                 return dist
 
-            for dx, dy in [(0,1), (1,0), (0,-1), (-1,0)]:
-                x, y = i+dx, j+dy
+            for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+                x, y = i + dx, j + dy
                 if 0 <= x < m and 0 <= y < n:
                     next_k = k - grid[x][y]
                     next_state = (x, y, next_k)
                     if next_k >= 0 and next_state not in visited:
                         visited.add(next_state)
                         next_dist = manhatton_distance(x, y) + steps + 1
-                        heapq.heappush(queue, (next_dist, steps+1, next_state))
+                        heapq.heappush(queue, (next_dist, steps + 1, next_state))
 
         return -1
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[[0,1,1],
-               [1,1,1],
-               [1,0,0]], 1], -1),
-            ([[[0,0,0],
-               [1,1,0],
-               [0,0,0],
-               [0,1,1],
-               [0,0,0]], 1], 6),
-            ([[[0,0,0,0,0,0,0,0,0,0],
-               [0,1,1,1,1,1,1,1,1,0],
-               [0,1,0,0,0,0,0,0,0,0],
-               [0,1,0,1,1,1,1,1,1,1],
-               [0,1,0,0,0,0,0,0,0,0],
-               [0,1,1,1,1,1,1,1,1,0],
-               [0,1,0,0,0,0,0,0,0,0],
-               [0,1,0,1,1,1,1,1,1,1],
-               [0,1,0,1,1,1,1,0,0,0],
-               [0,1,0,0,0,0,0,0,1,0],
-               [0,1,1,1,1,1,1,0,1,0],
-               [0,0,0,0,0,0,0,0,1,0]],
-              1], 20),
+            ([[[0, 1, 1], [1, 1, 1], [1, 0, 0]], 1], -1),
+            ([[[0, 0, 0], [1, 1, 0], [0, 0, 0], [0, 1, 1], [0, 0, 0]], 1], 6),
+            (
+                [
+                    [
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+                        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+                        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+                        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+                        [0, 1, 0, 1, 1, 1, 1, 0, 0, 0],
+                        [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+                        [0, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+                    ],
+                    1,
+                ],
+                20,
+            ),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

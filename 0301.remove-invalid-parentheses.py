@@ -57,9 +57,9 @@ class Solution:
     def removeInvalidParentheses(self, s: str) -> List[str]:
         left = right = 0
         for c in s:
-            if c == '(':
+            if c == "(":
                 left += 1
-            elif c == ')':
+            elif c == ")":
                 if left > 0:
                     left -= 1
                 else:
@@ -67,52 +67,54 @@ class Solution:
 
         res = set()
 
-        def helper(curr: str, i: int, left: int, right: int, left_rem: int, right_rem: int):
+        def helper(
+            curr: str, i: int, left: int, right: int, left_rem: int, right_rem: int
+        ):
             if i == len(s):
                 if left == right and left_rem == right_rem == 0:
                     res.add(curr)
                 return
 
-            if s[i] == '(':
+            if s[i] == "(":
                 if left_rem > 0:
-                    helper(curr, i+1, left, right, left_rem-1, right_rem)
+                    helper(curr, i + 1, left, right, left_rem - 1, right_rem)
 
-                helper(curr+'(', i+1, left+1, right, left_rem, right_rem)
+                helper(curr + "(", i + 1, left + 1, right, left_rem, right_rem)
 
-            elif s[i] == ')':
+            elif s[i] == ")":
                 if right_rem > 0:
-                    helper(curr, i+1, left, right, left_rem, right_rem-1)
+                    helper(curr, i + 1, left, right, left_rem, right_rem - 1)
                 if left > right:
-                    helper(curr+')', i+1, left, right+1, left_rem, right_rem)
+                    helper(curr + ")", i + 1, left, right + 1, left_rem, right_rem)
             else:
-                helper(curr+s[i], i+1, left, right, left_rem, right_rem)
+                helper(curr + s[i], i + 1, left, right, left_rem, right_rem)
 
-        helper('', 0, 0, 0, left, right)
+        helper("", 0, 0, 0, left, right)
         return list(res)
 
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([')('], ['']),
-            (['()())()'], ['(())()', '()()()']),
-            (['(a)())()'], ['(a())()', '(a)()()']),
-            (["((((((((((((((((((((aaaaa"], ['aaaaa']),
+            ([")("], [""]),
+            (["()())()"], ["(())()", "()()()"]),
+            (["(a)())()"], ["(a())()", "(a)()()"]),
+            (["((((((((((((((((((((aaaaa"], ["aaaaa"]),
         ]
         for args, want in cases:
             got = func(*args)
             if sorted(want) != sorted(got):
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

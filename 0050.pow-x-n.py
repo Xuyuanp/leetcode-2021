@@ -55,22 +55,23 @@ class Solution:
         if x == 0 or x == 1:
             return x
         if n < 0:
-            return 1/self.myPow(x, -n)
+            return 1 / self.myPow(x, -n)
         if n == 0:
             return 1
         if n == 1:
             return x
-        if n%2 == 1:
-            return self.myPow(x, n-1)*x
-        v = self.myPow(x, n//2)
+        if n % 2 == 1:
+            return self.myPow(x, n - 1) * x
+        v = self.myPow(x, n // 2)
         return v * v
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
             ([0, 2], 0),
@@ -82,9 +83,9 @@ if __name__ == '__main__':
         ]
         for args, want in cases:
             got = fn(*args)
-            if abs(got-want) > 0.00001:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+            if abs(got - want) > 0.00001:
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

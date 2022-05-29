@@ -52,9 +52,9 @@ class Solution:
         for i, x in enumerate(nums[:-2]):
             if x > 0:
                 break
-            if i > 0 and x == nums[i-1]:
+            if i > 0 and x == nums[i - 1]:
                 continue
-            j, k = i + 1, len(nums)-1
+            j, k = i + 1, len(nums) - 1
             while j < k:
                 y, z = nums[j], nums[k]
                 val = x + y + z
@@ -73,19 +73,19 @@ class Solution:
 
 
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         ([], []),
         ([0], []),
-        ([0,0,0], [[0,0,0]]),
+        ([0, 0, 0], [[0, 0, 0]]),
         ([1, -1, -1, 0], [[-1, 0, 1]]),
         ([-1, 0, 1, 2, -1, -4], [[-1, -1, 2], [-1, 0, 1]]),
     ]
     for nums, want in cases:
         got = sol.threeSum(nums)
         if want != got:
-            print(f'Failed => args: {nums}; want: {want}, but got: {got}')
+            print(f"Failed => args: {nums}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

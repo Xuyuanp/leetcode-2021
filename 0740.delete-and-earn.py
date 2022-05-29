@@ -73,21 +73,21 @@ class Solution:
             for point, cnt in counter.items():
                 if cnt > 0:
                     p, n = None, None
-                    if point-1 in counter and counter[point-1] > 0:
-                        p = counter[point-1]
-                        counter[point-1] = 0
-                    if point+1 in counter and counter[point+1] > 0:
-                        n = counter[point+1]
-                        counter[point+1] = 0
+                    if point - 1 in counter and counter[point - 1] > 0:
+                        p = counter[point - 1]
+                        counter[point - 1] = 0
+                    if point + 1 in counter and counter[point + 1] > 0:
+                        n = counter[point + 1]
+                        counter[point + 1] = 0
 
                     counter[point] = 0
-                    res = max(res, backtracking(curr+point*cnt))
+                    res = max(res, backtracking(curr + point * cnt))
                     counter[point] = cnt
 
                     if p:
-                        counter[point-1] = p
+                        counter[point - 1] = p
                     if n:
-                        counter[point+1] = n
+                        counter[point + 1] = n
             return res
 
         return backtracking(0)
@@ -103,34 +103,35 @@ class Solution:
             end = max(end, num)
 
         pre, curr = 0, start
-        for point in range(start+1, end+1):
-            pre, curr = curr, max(pre+counter[point]*point, curr)
+        for point in range(start + 1, end + 1):
+            pre, curr = curr, max(pre + counter[point] * point, curr)
         return curr
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[1]], 1),
-            ([[1,2]], 2),
-            ([[1,1,1,1]], 4),
-            ([[1,3,5]], 9),
-            ([[3,4,2]], 6),
-            ([[2,2,3,3,3,4]], 9)
+            ([[1, 2]], 2),
+            ([[1, 1, 1, 1]], 4),
+            ([[1, 3, 5]], 9),
+            ([[3, 4, 2]], 6),
+            ([[2, 2, 3, 3, 3, 4]], 9),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

@@ -62,6 +62,7 @@
 
 # @lc code=start
 
+
 class Solution:
     # O(n), O(n)
     def lengthOfLongestSubstring(self, s: str) -> int:
@@ -71,12 +72,13 @@ class Solution:
             if c in last_seen and start <= last_seen[c]:
                 start = last_seen[c] + 1
             else:
-                res = max(res, i-start+1)
+                res = max(res, i - start + 1)
             last_seen[c] = i
         return res
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         ("", 0),
@@ -90,7 +92,7 @@ if __name__ == '__main__':
     for s, want in cases:
         got = sol.lengthOfLongestSubstring(s)
         if want != got:
-            print(f'Failed => args: {s}; want: {want}, but got: {got}')
+            print(f"Failed => args: {s}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

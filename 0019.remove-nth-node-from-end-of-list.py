@@ -78,9 +78,9 @@ class Solution:
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[1], 1], []),
@@ -93,12 +93,12 @@ def test():
             got = func(ListNode.from_list(vals), n)
             want = ListNode.from_list(want)
             if want != got:
-                print(f'  Failed => args: {vals, n}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {vals, n}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

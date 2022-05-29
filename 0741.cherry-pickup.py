@@ -87,18 +87,18 @@ class Solution:
         @cache
         def helper(row1: int, col1: int, row2: int) -> int:
             # they move the same steps => row1 + col1 == row2 + col2
-            col2 = row1+col1-row2
+            col2 = row1 + col1 - row2
 
             # ignore cells out of bound
             if n in (row1, col1, row2, col2):
-                return -float('inf')
+                return -float("inf")
             # ignore thorns
             if grid[row1][col1] == -1 or grid[row2][col2] == -1:
-                return -float('inf')
+                return -float("inf")
 
             # players can only go down or right,
             # they will reach the end at the same time.
-            if row1 == col1 == n-1:
+            if row1 == col1 == n - 1:
                 return grid[row1][col1]
 
             # player1 picks the cherry
@@ -109,36 +109,37 @@ class Solution:
 
             # move forward
             res += max(
-                helper(row1+1, col1, row2),
-                helper(row1+1, col1, row2+1),
-                helper(row1, col1+1, row2),
-                helper(row1, col1+1, row2+1),
+                helper(row1 + 1, col1, row2),
+                helper(row1 + 1, col1, row2 + 1),
+                helper(row1, col1 + 1, row2),
+                helper(row1, col1 + 1, row2 + 1),
             )
 
             return res
 
         return max(0, helper(0, 0, 0))
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[[1,1,-1],[1,-1,1],[-1,1,1]]], 0),
-            ([[[0,1,-1],[1,0,-1],[1,1,1]]], 5)
+            ([[[1, 1, -1], [1, -1, 1], [-1, 1, 1]]], 0),
+            ([[[0, 1, -1], [1, 0, -1], [1, 1, 1]]], 5),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

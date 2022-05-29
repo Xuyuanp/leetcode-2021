@@ -79,7 +79,7 @@ class Solution:
         """
         Do not return anything, modify nums1 in-place instead.
         """
-        i, j, k = m - 1, n - 1, m + n -1
+        i, j, k = m - 1, n - 1, m + n - 1
         while i >= 0 or j >= 0:
             if i < 0:
                 nums1[k] = nums2[j]
@@ -95,22 +95,23 @@ class Solution:
             k -= 1
 
 
-
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
-        (([1,2,3,0,0,0], 3, [2,5,6], 3), [1,2,2,3,5,6]),
+        (([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3), [1, 2, 2, 3, 5, 6]),
         (([0], 0, [1], 1), [1]),
-        (([1, 0], 1, [0], 1), [0,1]),
+        (([1, 0], 1, [0], 1), [0, 1]),
         (([1], 1, [], 0), [1]),
-        (([2, 0], 1, [1], 1), [1,2]),
+        (([2, 0], 1, [1], 1), [1, 2]),
     ]
     for (nums1, m, nums2, n), want in cases:
         sol.merge(nums1, m, nums2, n)
         got = nums1
         if want != got:
-            print(f'Failed => args: {(nums1, m, nums2, n)}; want: {want}, but got: {got}')
+            print(
+                f"Failed => args: {(nums1, m, nums2, n)}; want: {want}, but got: {got}"
+            )
             break
     else:
-        print('All Passed')
+        print("All Passed")

@@ -69,8 +69,9 @@ class Solution:
 
         return sentinel.next
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
         ([], []),
@@ -83,7 +84,7 @@ if __name__ == '__main__':
         got = sol.swapPairs(ListNode.from_list(args))
         want = ListNode.from_list(want)
         if want != got:
-            print(f'Failed => args: {args}; want: {want}, but got: {got}')
+            print(f"Failed => args: {args}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

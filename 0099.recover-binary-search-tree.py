@@ -79,7 +79,7 @@ class Solution:
         # case 2:
         # ... < x1 > x2 < ... < x3 > x4 < ...
         #    swap x1 x4
-        curr, prev = root, TreeNode(val=float('-inf'))
+        curr, prev = root, TreeNode(val=float("-inf"))
         drops, stack = [], []
         while curr or stack:
             while curr:
@@ -92,16 +92,17 @@ class Solution:
         # drops can be either [(x1, x2)] or [(x1, x2), (x3, x4)]
         drops[0][0].val, drops[-1][1].val = drops[-1][1].val, drops[0][0].val
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[1,3,None,None,2]], [3,1,None,None,2]),
-            ([[3,1,4,None, None, 2]], [2, 1, 4, None, None, 3]),
+            ([[1, 3, None, None, 2]], [3, 1, None, None, 2]),
+            ([[3, 1, 4, None, None, 2]], [2, 1, 4, None, None, 3]),
         ]
         for args, want in cases:
             root = TreeNode.from_list(*args)
@@ -109,12 +110,12 @@ def test():
             got = root
             want = TreeNode.from_list(want)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

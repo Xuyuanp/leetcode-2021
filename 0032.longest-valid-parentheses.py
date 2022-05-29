@@ -53,7 +53,8 @@
 # @lc code=start
 from collections import defaultdict, deque
 
-LEFT, RIGHT = '(', ')'
+LEFT, RIGHT = "(", ")"
+
 
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
@@ -83,12 +84,14 @@ class Solution:
         for i in range(1, len(s)):
             if s[i] != RIGHT:
                 continue
-            if s[i-1] == LEFT: # ...()
-                dp[i] = 2 + dp[i-2]  # we don't need to check if i-2 >= 0, because dp[-1] == 0
-            elif dp[i-1] > 0:     # prev element is a valid parenthes, ...(...))
-                mirror = i - dp[i-1] - 1
-                if mirror >= 0 and s[mirror] == LEFT:    # ...((...))
-                    dp[i] = dp[i-1] + 2 + dp[mirror-1] # the same as above
+            if s[i - 1] == LEFT:  # ...()
+                dp[i] = (
+                    2 + dp[i - 2]
+                )  # we don't need to check if i-2 >= 0, because dp[-1] == 0
+            elif dp[i - 1] > 0:  # prev element is a valid parenthes, ...(...))
+                mirror = i - dp[i - 1] - 1
+                if mirror >= 0 and s[mirror] == LEFT:  # ...((...))
+                    dp[i] = dp[i - 1] + 2 + dp[mirror - 1]  # the same as above
 
         return max(dp)
 
@@ -99,34 +102,35 @@ class Solution:
         for i in range(1, len(s)):
             if s[i] != RIGHT:
                 continue
-            if s[i-1] == LEFT:
-                dp[i] = dp[i-2] + 2
-            elif dp[i-1] > 0:
-                mirror = i - dp[i-1] - 1
+            if s[i - 1] == LEFT:
+                dp[i] = dp[i - 2] + 2
+            elif dp[i - 1] > 0:
+                mirror = i - dp[i - 1] - 1
                 if mirror >= 0 and s[mirror] == LEFT:
-                    dp[i] = dp[i-1] + dp[mirror-1] + 2
+                    dp[i] = dp[i - 1] + dp[mirror - 1] + 2
             res = max(res, dp[i])
 
         return res
+
 
 # @lc code=end
 
 if __name__ == "__main__":
     sol = Solution()
     cases = [
-        ('', 0),
-        ('(()', 2),
-        ('))))', 0),
-        ('((((', 0),
-        (')()())', 4),
-        ('(()))())(', 4),
-        ('((()))', 6),
-        ('()(()())(', 8)
+        ("", 0),
+        ("(()", 2),
+        ("))))", 0),
+        ("((((", 0),
+        (")()())", 4),
+        ("(()))())(", 4),
+        ("((()))", 6),
+        ("()(()())(", 8),
     ]
     for s, want in cases:
         got = sol.longestValidParentheses(s)
         if got != want:
-            print(f'Failed => args: {s}; want: {want}, but got: {got}')
+            print(f"Failed => args: {s}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

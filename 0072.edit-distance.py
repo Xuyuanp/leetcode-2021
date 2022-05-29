@@ -74,8 +74,8 @@ class Solution:
                 return helper(word1[1:], word2[1:])
 
             return 1 + min(
-                helper(word1[1:], word2),      # delete word1[0]
-                helper(word1,     word2[1:]),  # delete word2[0]
+                helper(word1[1:], word2),  # delete word1[0]
+                helper(word1, word2[1:]),  # delete word2[0]
                 helper(word1[1:], word2[1:]),  # replace either word1[0] or word2[0]
             )
 
@@ -86,19 +86,19 @@ class Solution:
     def minDistance1(self, word1: str, word2: str) -> int:
         m, n = len(word1), len(word2)
 
-        dp = [[0]*(n+1) for _ in range(m+1)]
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
 
-        for i in range(m+1):
-            for j in range(n+1):
+        for i in range(m + 1):
+            for j in range(n + 1):
                 if 0 in (i, j):
-                    dp[i][j] = i+j
-                elif word1[i-1] == word2[j-1]:
-                    dp[i][j] = dp[i-1][j-1]
+                    dp[i][j] = i + j
+                elif word1[i - 1] == word2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
                 else:
                     dp[i][j] = 1 + min(
-                        dp[i-1][j],
-                        dp[i  ][j-1],
-                        dp[i-1][j-1],
+                        dp[i - 1][j],
+                        dp[i][j - 1],
+                        dp[i - 1][j - 1],
                     )
         return dp[m][n]
 
@@ -107,19 +107,19 @@ class Solution:
         if len(word1) < len(word2):
             word1, word2 = word2, word1
         m, n = len(word1), len(word2)
-        dp = [0] * (n+1)
-        for i in range(m+1):
-            next_dp = [0] * (n+1)
-            for j in range(n+1):
+        dp = [0] * (n + 1)
+        for i in range(m + 1):
+            next_dp = [0] * (n + 1)
+            for j in range(n + 1):
                 if i == 0 or j == 0:
-                    next_dp[j] = i+j
-                elif word1[i-1] == word2[j-1]:
-                    next_dp[j] = dp[j-1]
+                    next_dp[j] = i + j
+                elif word1[i - 1] == word2[j - 1]:
+                    next_dp[j] = dp[j - 1]
                 else:
                     next_dp[j] = 1 + min(
                         dp[j],
-                        next_dp[j-1],
-                        dp[j-1],
+                        next_dp[j - 1],
+                        dp[j - 1],
                     )
             dp = next_dp
         return dp[n]
@@ -127,19 +127,20 @@ class Solution:
     # O(m*n), O(m*n)
     def minDistance3(self, word1: str, word2: str) -> int:
         m, n = len(word1), len(word2)
+
         @lru_cache(maxsize=None)
         def helper(i: int, j: int) -> int:
             if i == m:
-                return n-j
+                return n - j
             if j == n:
-                return m-i
+                return m - i
             if word1[i] == word2[j]:
-                return helper(i+1, j+1)
+                return helper(i + 1, j + 1)
 
             return 1 + min(
-                helper(i+1, j),    # delete word1[i]
-                helper(i,   j+1),  # delete word2[j]
-                helper(i+1, j+1),  # replace either word1[i] or word2[j]
+                helper(i + 1, j),  # delete word1[i]
+                helper(i, j + 1),  # delete word2[j]
+                helper(i + 1, j + 1),  # replace either word1[i] or word2[j]
             )
 
         return helper(0, 0)
@@ -150,34 +151,31 @@ class Solution:
         @lru_cache(maxsize=None)
         def dp(i: int, j: int) -> int:
             if 0 in (i, j):
-                return i+j
-            if word1[i-1] == word2[j-1]:
-                return dp(i-1, j-1)
+                return i + j
+            if word1[i - 1] == word2[j - 1]:
+                return dp(i - 1, j - 1)
 
-            return 1 + min(
-                dp(i-1, j),
-                dp(i,   j-1),
-                dp(i-1, j-1)
-            )
+            return 1 + min(dp(i - 1, j), dp(i, j - 1), dp(i - 1, j - 1))
 
         return dp(m, n)
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            (('horse', 'ros'), 3),
-            (('intention', 'execution'), 5),
+            (("horse", "ros"), 3),
+            (("intention", "execution"), 5),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()

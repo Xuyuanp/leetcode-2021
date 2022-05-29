@@ -60,16 +60,18 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:
+    def fourSumCount(
+        self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]
+    ) -> int:
         dp = defaultdict(int)
         for n1 in nums1:
             for n2 in nums2:
-                dp[n1+n2] += 1
+                dp[n1 + n2] += 1
         total = 0
         for n3 in nums3:
             for n4 in nums4:
-                if -n3-n4 in dp:
-                    total += dp[-n3-n4]
+                if -n3 - n4 in dp:
+                    total += dp[-n3 - n4]
         return total
 
 
@@ -78,13 +80,14 @@ class Solution:
 if __name__ == "__main__":
     sol = Solution()
     cases = [
-        (([1,2], [-2,-1], [-1,2], [0,2]), 2)
-        (([1,2], [-2,-1], [-1,2], [0,2]), 2)
+        (([1, 2], [-2, -1], [-1, 2], [0, 2]), 2)(([1, 2], [-2, -1], [-1, 2], [0, 2]), 2)
     ]
     for (nums1, nums2, nums3, nums4), want in cases:
         got = sol.fourSumCount(nums1, nums2, nums3, nums4)
         if got != want:
-            print(f'Failed: args: {nums1}, {nums2}, {nums3}, {nums4}; want: {want}, but got: {got}')
+            print(
+                f"Failed: args: {nums1}, {nums2}, {nums3}, {nums4}; want: {want}, but got: {got}"
+            )
             break
     else:
-        print('All Passed')
+        print("All Passed")

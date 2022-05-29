@@ -90,6 +90,7 @@
 #         self.val = x
 #         self.next = None
 
+
 class Solution:
     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
         if not headA or not headB:
@@ -106,5 +107,5 @@ class Solution:
             pb = pb.next if pb else headA
         return pa
 
-# @lc code=end
 
+# @lc code=end

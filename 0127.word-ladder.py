@@ -81,9 +81,9 @@ class Solution:
                 for c in string.ascii_lowercase:
                     if curr[i] == c:
                         continue
-                    next_word = curr[:i] + c + curr[i+1:]
+                    next_word = curr[:i] + c + curr[i + 1 :]
                     if next_word in candidates:
-                        queue.append((next_word, length+1))
+                        queue.append((next_word, length + 1))
                         candidates.remove(next_word)
 
         return 0
@@ -92,25 +92,25 @@ class Solution:
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            (['a', 'c', ['a', 'b', 'c']], 2),
-            (['hit', 'cog', ["hot","dot","dog","lot","log","cog"]], 5),
-            (['hit', 'cog', ["hot","dot","dog","lot","log"]], 0),
-            (["hot", "dog", ["hot","dog","dot"]], 3),
+            (["a", "c", ["a", "b", "c"]], 2),
+            (["hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]], 5),
+            (["hit", "cog", ["hot", "dot", "dog", "lot", "log"]], 0),
+            (["hot", "dog", ["hot", "dog", "dot"]], 3),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

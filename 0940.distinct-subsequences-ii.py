@@ -61,7 +61,7 @@ class Solution:
     # O(n), O(n)
     def distinctSubseqII(self, s: str) -> int:
         n = len(s)
-        dp = [0] * (n+1)
+        dp = [0] * (n + 1)
         # dp[i] is the number of distinct non-empty subsequences of s[:i] (include '')
         # if use s[i-1], dp[i] = dp[i-1]
         # if skip s[i-1], dp[i] = dp[i-1]
@@ -71,42 +71,39 @@ class Solution:
         dp[0] = 1
         last = {}
         for i, c in enumerate(s, 1):
-            dp[i] = dp[i-1]*2
+            dp[i] = dp[i - 1] * 2
             if c in last:
-                dp[i] -= dp[last[c]-1]
+                dp[i] -= dp[last[c] - 1]
             last[c] = i
-        return (dp[n]-1)%(10**9+7)
+        return (dp[n] - 1) % (10**9 + 7)
 
     # O(n), O(1)
     def distinctSubseqII1(self, s: str) -> int:
-        ends = [0]*26
+        ends = [0] * 26
         # ends[ord(c)-ord('a')] is the number of distinct subsequences end with c
-        orda = ord('a')
+        orda = ord("a")
         for c in s:
-            ends[ord(c)-orda] = sum(ends) + 1
-        return sum(ends)%(10**9+7)
+            ends[ord(c) - orda] = sum(ends) + 1
+        return sum(ends) % (10**9 + 7)
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
-        cases = [
-            (['aaa'], 3),
-            (['aba'], 6),
-            (['abc'], 7)
-        ]
+        cases = [(["aaa"], 3), (["aba"], 6), (["abc"], 7)]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

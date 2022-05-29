@@ -66,20 +66,20 @@ from typing import List
 # @lc code=start
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
-        VISITED = '*'
+        VISITED = "*"
         m, n = len(board), len(board[0])
 
         def dfs(i: int, j: int, k: int) -> bool:
             if board[i][j] != word[k]:
                 return False
-            if k == len(word)-1:
+            if k == len(word) - 1:
                 return True
 
             board[i][j] = VISITED
-            for dx, dy in [(0,1),(1,0),(0,-1),(-1,0)]:
-                x, y = i+dx, j+dy
+            for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+                x, y = i + dx, j + dy
                 if 0 <= x < m and 0 <= y < n:
-                    if dfs(x, y, k+1):
+                    if dfs(x, y, k + 1):
                         return True
             board[i][j] = word[k]
 
@@ -91,27 +91,46 @@ class Solution:
                     return True
         return False
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], 'ABCB'], False),
-            ([[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], 'SEE'], True),
-            ([[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], 'ABCCED'], True),
+            (
+                [
+                    [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]],
+                    "ABCB",
+                ],
+                False,
+            ),
+            (
+                [
+                    [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]],
+                    "SEE",
+                ],
+                True,
+            ),
+            (
+                [
+                    [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]],
+                    "ABCCED",
+                ],
+                True,
+            ),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

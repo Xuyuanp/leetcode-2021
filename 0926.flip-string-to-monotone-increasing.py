@@ -71,7 +71,7 @@ class Solution:
     def minFlipsMonoIncr(self, s: str) -> int:
         ones = flips = 0
         for c in s:
-            if c == '1':
+            if c == "1":
                 ones += 1
             else:
                 flips += 1
@@ -81,49 +81,54 @@ class Solution:
     # O(n), O(n)
     def minFlipsMonoIncr2(self, s: str) -> int:
         n = len(s)
-        ones = [0] * (n+1) # ones[i]: nums of '1' in [0, i)
+        ones = [0] * (n + 1)  # ones[i]: nums of '1' in [0, i)
         for i in range(n):
-            ones[i+1] = ones[i] + int(s[i])
+            ones[i + 1] = ones[i] + int(s[i])
 
         ans = min(
-            ones[i] +                                      # nums of '1' at left
-            n - i - (ones[-1] - ones[i]) -1 + int(s[i])    # nums of '0' at right
-            for i in range(n))
+            ones[i]
+            + n  # nums of '1' at left
+            - i
+            - (ones[-1] - ones[i])
+            - 1
+            + int(s[i])  # nums of '0' at right
+            for i in range(n)
+        )
 
         return ans
 
-
     # O(n), O(n)
     def minFlipsMonoIncr1(self, s: str) -> int:
-        zero = ord('0')
-        left = [0] * len(s)   # left[i]:  nums of '1' at the left  of s[i]
+        zero = ord("0")
+        left = [0] * len(s)  # left[i]:  nums of '1' at the left  of s[i]
         right = [0] * len(s)  # right[i]: nums of '0' at the right of s[i]
         # left[i] + right[i] is the total flips at s[i]
         n = len(s)
-        for i, j in zip(range(1, n), range(n-2, 0, -1)):
-            left[i] = left[i-1] + ord(s[i-1]) - zero
-            right[j] = right[j+1] + ord(s[j+1]) - zero
+        for i, j in zip(range(1, n), range(n - 2, 0, -1)):
+            left[i] = left[i - 1] + ord(s[i - 1]) - zero
+            right[j] = right[j + 1] + ord(s[j + 1]) - zero
 
         return min(l + r for l, r in zip(left, right))
 
+
 # @lc code=end
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
-        ('0', 0),
-        ('01', 0),
-        ('10', 1),
-        ('11', 0),
-        ('00011000', 2),
-        ('00110', 1),
-        ('010110', 2),
-        ('11011', 1),
+        ("0", 0),
+        ("01", 0),
+        ("10", 1),
+        ("11", 0),
+        ("00011000", 2),
+        ("00110", 1),
+        ("010110", 2),
+        ("11011", 1),
     ]
     for s, want in cases:
         got = sol.minFlipsMonoIncr2(s)
         if want != got:
-            print(f'Failed => args: {s}; want: {want}, but got: {got}')
+            print(f"Failed => args: {s}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

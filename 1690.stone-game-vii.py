@@ -73,66 +73,67 @@ class Solution:
         n = len(stones)
 
         # sum(stones[i:j]) == presum[j] - presum[i]
-        presum = [0] * (n+1)
-        for i in range(1, n+1):
-            presum[i] = presum[i-1] + stones[i-1]
+        presum = [0] * (n + 1)
+        for i in range(1, n + 1):
+            presum[i] = presum[i - 1] + stones[i - 1]
 
-        @lru_cache(maxsize=2000) # maxsize is necessary, MLE otherwise
+        @lru_cache(maxsize=2000)  # maxsize is necessary, MLE otherwise
         def helper(i: int, j: int) -> int:
             if i == j:
                 return 0
 
-            x1 = helper(i, j-1)
-            x2 = helper(i+1, j)
+            x1 = helper(i, j - 1)
+            x2 = helper(i + 1, j)
 
             return max(
-                (presum[j]-presum[i]-x1),
-                (presum[j+1]-presum[i+1]-x2),
+                (presum[j] - presum[i] - x1),
+                (presum[j + 1] - presum[i + 1] - x2),
             )
 
-        return helper(0, n-1)
+        return helper(0, n - 1)
 
     def stoneGameVII1(self, stones: List[int]) -> int:
         n = len(stones)
         # sum(stones[i:j]) == presum[j] - presum[i]
-        presum = [0] * (n+1)
-        for i in range(1, n+1):
-            presum[i] = presum[i-1] + stones[i-1]
+        presum = [0] * (n + 1)
+        for i in range(1, n + 1):
+            presum[i] = presum[i - 1] + stones[i - 1]
 
         dp = [[0] * n for _ in range(n)]
 
-        for i in range(n-2, -1, -1):
-            for j in range(i+1, n):
+        for i in range(n - 2, -1, -1):
+            for j in range(i + 1, n):
                 dp[i][j] = max(
-                    presum[j]-presum[i] - dp[i][j-1],
-                    presum[j+1]-presum[i+1] - dp[i+1][j]
+                    presum[j] - presum[i] - dp[i][j - 1],
+                    presum[j + 1] - presum[i + 1] - dp[i + 1][j],
                 )
 
-        return dp[0][n-1]
+        return dp[0][n - 1]
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[1,2]], 2),
-            ([[1,2,3]], 2),
-            ([[5,3,1,4]], 7),
-            ([[5,3,1,4,2]], 6),
-            ([[7,90,5,1,100,10,10,2]], 122),
+            ([[1, 2]], 2),
+            ([[1, 2, 3]], 2),
+            ([[5, 3, 1, 4]], 7),
+            ([[5, 3, 1, 4, 2]], 6),
+            ([[7, 90, 5, 1, 100, 10, 10, 2]], 122),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

@@ -70,54 +70,66 @@ class Solution:
         n = len(nums)
         MAX_LEFT_FST, MAX_RIGHT_FST, MAX_LEFT_SND, MAX_RIGHT_SND = 0, 1, 2, 3
         # dp[i] saved the MAX_[LEFT|RIGHT]_[FST|SND] at [0, i) and [i, n)
-        dp = [[0,0,0,0] for _ in range(n)]
+        dp = [[0, 0, 0, 0] for _ in range(n)]
         for i in range(1, n):
-            nums[i] += nums[i-1]
+            nums[i] += nums[i - 1]
 
-        dp[firstLen][MAX_LEFT_FST] = nums[firstLen-1]
-        dp[secondLen][MAX_LEFT_SND] = nums[secondLen-1]
+        dp[firstLen][MAX_LEFT_FST] = nums[firstLen - 1]
+        dp[secondLen][MAX_LEFT_SND] = nums[secondLen - 1]
         for i in range(1, n):
             if i > firstLen:
-                dp[i][MAX_LEFT_FST] = max(dp[i-1][MAX_LEFT_FST], nums[i-1]-nums[i-firstLen-1])
+                dp[i][MAX_LEFT_FST] = max(
+                    dp[i - 1][MAX_LEFT_FST], nums[i - 1] - nums[i - firstLen - 1]
+                )
             if i > secondLen:
-                dp[i][MAX_LEFT_SND] = max(dp[i-1][MAX_LEFT_SND], nums[i-1]-nums[i-secondLen-1])
+                dp[i][MAX_LEFT_SND] = max(
+                    dp[i - 1][MAX_LEFT_SND], nums[i - 1] - nums[i - secondLen - 1]
+                )
 
-        dp[n-firstLen][MAX_RIGHT_FST] = nums[-1] - nums[n-firstLen-1]
-        dp[n-secondLen][MAX_RIGHT_SND] = nums[-1] - nums[n-secondLen-1]
-        for i in range(n-1, 0, -1):
-            if n-i > firstLen:
-                dp[i][MAX_RIGHT_FST] = max(dp[i+1][MAX_RIGHT_FST], nums[i+firstLen-1]-nums[i-1])
-            if n-i > secondLen:
-                dp[i][MAX_RIGHT_SND] = max(dp[i+1][MAX_RIGHT_SND], nums[i+secondLen-1]-nums[i-1])
+        dp[n - firstLen][MAX_RIGHT_FST] = nums[-1] - nums[n - firstLen - 1]
+        dp[n - secondLen][MAX_RIGHT_SND] = nums[-1] - nums[n - secondLen - 1]
+        for i in range(n - 1, 0, -1):
+            if n - i > firstLen:
+                dp[i][MAX_RIGHT_FST] = max(
+                    dp[i + 1][MAX_RIGHT_FST], nums[i + firstLen - 1] - nums[i - 1]
+                )
+            if n - i > secondLen:
+                dp[i][MAX_RIGHT_SND] = max(
+                    dp[i + 1][MAX_RIGHT_SND], nums[i + secondLen - 1] - nums[i - 1]
+                )
 
-        return max(max(
-            dp[i][MAX_LEFT_FST] + dp[i][MAX_RIGHT_SND],
-            dp[i][MAX_LEFT_SND] + dp[i][MAX_RIGHT_FST]
-        ) for i in range(n))
+        return max(
+            max(
+                dp[i][MAX_LEFT_FST] + dp[i][MAX_RIGHT_SND],
+                dp[i][MAX_LEFT_SND] + dp[i][MAX_RIGHT_FST],
+            )
+            for i in range(n)
+        )
+
 
 # @lc code=end
 def main():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([[1,1], 1, 1], 2),
+            ([[1, 1], 1, 1], 2),
             ([[1, 2, 3], 1, 1], 5),
-            ([[0,6,5,2,2,5,1,9,4], 1, 2], 20),
-            ([[3,8,1,3,2,1,8,9,0], 3, 2], 29),
-            ([[2,1,5,6,0,9,5,0,3,8], 4, 3], 31),
+            ([[0, 6, 5, 2, 2, 5, 1, 9, 4], 1, 2], 20),
+            ([[3, 8, 1, 3, 2, 1, 8, 9, 0], 3, 2], 29),
+            ([[2, 1, 5, 6, 0, 9, 5, 0, 3, 8], 4, 3], 31),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

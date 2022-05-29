@@ -104,63 +104,64 @@ class Solution:
             if i == n:
                 return 0
             curr = 0
-            res = -float('inf')
-            for j in range(i, min(i+3, n)):
+            res = -float("inf")
+            for j in range(i, min(i + 3, n)):
                 curr += stoneValue[j]
-                res = max(res, curr-helper(j+1))
+                res = max(res, curr - helper(j + 1))
             return res
 
         diff = helper(0)
         if diff > 0:
-            return 'Alice'
+            return "Alice"
         if diff < 0:
-            return 'Bob'
-        return 'Tie'
+            return "Bob"
+        return "Tie"
 
     # O(n), O(n)
     def stoneGameIII1(self, stoneValue: List[int]) -> str:
         n = len(stoneValue)
-        dp = [-float('inf')] * (n+1)
+        dp = [-float("inf")] * (n + 1)
         dp[n] = 0
-        for i in range(n-1, -1, -1):
+        for i in range(n - 1, -1, -1):
             curr = 0
-            for j in range(i, min(n, i+3)):
+            for j in range(i, min(n, i + 3)):
                 curr += stoneValue[j]
-                dp[i] = max(dp[i], curr-dp[j+1])
+                dp[i] = max(dp[i], curr - dp[j + 1])
 
         diff = dp[0]
         if diff > 0:
-            return 'Alice'
+            return "Alice"
         if diff < 0:
-            return 'Bob'
-        return 'Tie'
+            return "Bob"
+        return "Tie"
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[-1]], 'Bob'),
-            ([[-1, 1]], 'Tie'),
-            ([[1, -1]], 'Alice'),
-            ([[1,2,3,7]], 'Bob'),
-            ([[1,2,3,6]], 'Tie'),
-            ([[1,2,3,-9]], 'Alice'),
-            ([[1,2,3,-1,-2,-3,7]], 'Alice'),
-            ([[-1,-2,3]], 'Tie'),
+            ([[-1]], "Bob"),
+            ([[-1, 1]], "Tie"),
+            ([[1, -1]], "Alice"),
+            ([[1, 2, 3, 7]], "Bob"),
+            ([[1, 2, 3, 6]], "Tie"),
+            ([[1, 2, 3, -9]], "Alice"),
+            ([[1, 2, 3, -1, -2, -3, 7]], "Alice"),
+            ([[-1, -2, 3]], "Tie"),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

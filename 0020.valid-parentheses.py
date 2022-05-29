@@ -75,7 +75,7 @@ from collections import deque
 
 class Solution:
     def isValid(self, s: str) -> bool:
-        parens = { '}': '{', ']': '[', ')': '(' }
+        parens = {"}": "{", "]": "[", ")": "("}
 
         stack = deque()
         for c in s:
@@ -90,20 +90,19 @@ class Solution:
 
 
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
-        (']', False),
-        ('[', False),
-        ('()[]{}', True),
-        ('(])', False),
-        ('([{}])', True),
+        ("]", False),
+        ("[", False),
+        ("()[]{}", True),
+        ("(])", False),
+        ("([{}])", True),
     ]
     for s, want in cases:
         got = sol.isValid(s)
         if want != got:
-            print(f'Failed => args: {s}; want: {want}, but got: {got}')
+            print(f"Failed => args: {s}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
-
+        print("All Passed")

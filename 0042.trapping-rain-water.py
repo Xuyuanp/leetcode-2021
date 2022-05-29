@@ -52,7 +52,7 @@ class Solution:
     # O(n), O(1)
     def trap(self, height: List[int]) -> int:
         res = 0
-        left, right = 0, len(height)-1
+        left, right = 0, len(height) - 1
         left_max = right_max = 0
         while left < right:
             left_max = max(left_max, height[left])
@@ -91,13 +91,14 @@ class Solution:
             return 0
         res = 0
         left_max, right_max = [0] * n, [0] * n
-        left_max[0], right_max[n-1] = height[0], height[n-1]
+        left_max[0], right_max[n - 1] = height[0], height[n - 1]
         for i in range(1, n):
-            left_max[i] = max(left_max[i-1], height[i])
-            right_max[n-i-1] = max(right_max[n-i], height[n-i-1])
-        for i in range(1, n-1):
+            left_max[i] = max(left_max[i - 1], height[i])
+            right_max[n - i - 1] = max(right_max[n - i], height[n - i - 1])
+        for i in range(1, n - 1):
             res += min(left_max[i], right_max[i]) - height[i]
         return res
+
 
 # @lc code=end
 
@@ -105,17 +106,17 @@ class Solution:
 if __name__ == "__main__":
     sol = Solution()
     cases = [
-        ([3,2,1,0,1], 1),
-        ([3,2,1,0,1,2], 4),
-        ([3,2,1,0,1,2,3], 9),
-        ([3,2,1,0,1,2,3,4], 9),
-        ([0,1,0,2,1,0,1,3,2,1,2,1], 6),
-        ([4,2,0,3,2,5], 9),
-        ([1,0,1], 1),
-        ([1,0,2], 1),
-        ([2,0,1], 1),
+        ([3, 2, 1, 0, 1], 1),
+        ([3, 2, 1, 0, 1, 2], 4),
+        ([3, 2, 1, 0, 1, 2, 3], 9),
+        ([3, 2, 1, 0, 1, 2, 3, 4], 9),
+        ([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1], 6),
+        ([4, 2, 0, 3, 2, 5], 9),
+        ([1, 0, 1], 1),
+        ([1, 0, 2], 1),
+        ([2, 0, 1], 1),
         ([], 0),
-        ([2,0,1,1,0,2], 6),
+        ([2, 0, 1, 1, 0, 2], 6),
     ]
     for height, want in cases:
         got = sol.trap(height)
@@ -123,4 +124,4 @@ if __name__ == "__main__":
             print(f"Failed => args: {height}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

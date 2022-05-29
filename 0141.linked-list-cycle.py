@@ -73,6 +73,7 @@ from structures import ListNode
 #         self.val = x
 #         self.next = None
 
+
 class Solution:
     def hasCycle(self, head: ListNode) -> bool:
         if not head:
@@ -89,5 +90,5 @@ class Solution:
 
         return False
 
-# @lc code=end
 
+# @lc code=end

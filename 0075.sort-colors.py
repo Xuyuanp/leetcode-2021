@@ -55,7 +55,7 @@ from typing import List
 # @lc code=start
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
-        left, right = 0, len(nums)-1
+        left, right = 0, len(nums) - 1
         i = 0
         while left <= i <= right:
             if nums[i] == 2:
@@ -69,33 +69,34 @@ class Solution:
             else:
                 i += 1
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[0]], [0]),
             ([[1]], [1]),
             ([[2]], [2]),
-            ([[0,0]], [0,0]),
-            ([[1,1]], [1,1]),
-            ([[2,2]], [2,2]),
-            ([[2,0,1]], [0,1,2]),
-            ([[2,0,2,1,1,0]], [0,0,1,1,2,2])
+            ([[0, 0]], [0, 0]),
+            ([[1, 1]], [1, 1]),
+            ([[2, 2]], [2, 2]),
+            ([[2, 0, 1]], [0, 1, 2]),
+            ([[2, 0, 2, 1, 1, 0]], [0, 0, 1, 1, 2, 2]),
         ]
         for args, want in cases:
             func(*args)
             got = args[0]
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

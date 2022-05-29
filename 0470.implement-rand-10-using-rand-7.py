@@ -51,13 +51,16 @@
 from random import randint
 import statistics
 
+
 def rand7():
     return randint(1, 7)
+
 
 # @lc code=start
 # The rand7() API is already defined for you.
 # def rand7():
 # @return a random integer in the range 1 to 7
+
 
 class Solution:
     # (40/49 + 9/49 * 60/63 + 9/49 * 3/63 * 20/21)/10 ~= 0.09996
@@ -65,15 +68,16 @@ class Solution:
     def rand10(self) -> int:
         while True:
             row, col = rand7(), rand7()
-            n = (row-1)*7 + col
+            n = (row - 1) * 7 + col
             if n <= 40:
-                return (n-1)%10 + 1
-            n = (n-40-1)*7 + rand7()
+                return (n - 1) % 10 + 1
+            n = (n - 40 - 1) * 7 + rand7()
             if n <= 60:
-                return (n-1)%10 + 1
-            n = (n-60-1)*7 + rand7()
+                return (n - 1) % 10 + 1
+            n = (n - 60 - 1) * 7 + rand7()
             if n <= 20:
-                return (n-1)%10 + 1
+                return (n - 1) % 10 + 1
+
 
 # @lc code=end
 if __name__ == "__main__":
@@ -82,7 +86,7 @@ if __name__ == "__main__":
     counter2 = [0] * 10
     N = 1_000_000
     for _ in range(N):
-        counter[sol.rand10()-1] += 1
+        counter[sol.rand10() - 1] += 1
         counter2[randint(0, 9)] += 1
 
     print(counter)

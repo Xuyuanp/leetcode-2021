@@ -68,19 +68,19 @@ class Solution:
             while left >= 0 and right < n and s[left] == s[right]:
                 left -= 1
                 right += 1
-            return (left+1, right-1)
+            return (left + 1, right - 1)
 
         start = end = 0
 
         for i in range(n):
             (l1, r1) = helper(i, i)
-            (l2, r2) = helper(i, i+1)
+            (l2, r2) = helper(i, i + 1)
             if r1 - l1 > end - start:
                 start, end = l1, r1
             if r2 - l2 > end - start:
                 start, end = l2, r2
 
-        return s[start:end+1]
+        return s[start : end + 1]
 
     def longestPalindrome1(self, s: str) -> str:
         # dp: dp[i][j] presents if the substring s[i:j+1] is a palindrome
@@ -94,25 +94,26 @@ class Solution:
             for k in range(j):
                 i = j - k - 1
                 if s[i] == s[j]:
-                    dp[i][j] = j-i == 1 or dp[i+1][j-1]
+                    dp[i][j] = j - i == 1 or dp[i + 1][j - 1]
                     if dp[i][j] and j - i + 1 > len(res):
-                        res = s[i:j+1]
+                        res = s[i : j + 1]
 
         return res
 
+
 # @lc code=end
-if __name__ == '__main__':
+if __name__ == "__main__":
     sol = Solution()
     cases = [
-        ("cbbcd", 'cbbc'),
-        ("babad", 'bab'),
-        ('cbbd', 'bb'),
-        ('aacabdkacaa', 'aca'),
+        ("cbbcd", "cbbc"),
+        ("babad", "bab"),
+        ("cbbd", "bb"),
+        ("aacabdkacaa", "aca"),
     ]
     for s, want in cases:
         got = sol.longestPalindrome1(s)
         if want != got:
-            print(f'Failed => args: {s}; want: {want}, but got: {got}')
+            print(f"Failed => args: {s}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

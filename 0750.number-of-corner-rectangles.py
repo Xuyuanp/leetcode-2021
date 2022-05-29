@@ -19,7 +19,7 @@
 # axis-aligned rectangle. Note that only the corners need to
 # have the value 1. Also, all four 1's used must be distinct.
 #
-#  
+#
 #
 # Example 1:
 #
@@ -41,7 +41,7 @@
 # Input: grid = [[1,1,1,1]]
 # Output: 0
 # Explanation: Rectangles must have four distinct corners.
-#  
+#
 #
 # Constraints:
 #
@@ -57,41 +57,43 @@ from typing import List
 
 # @lc code=start
 
+
 class Solution:
     # O(m*n*n), O(n*n)
     def countOfCornerRectanges(self, grid: List[List[int]]) -> int:
         counter = Counter()
         n = len(grid[0])
         for row in grid:
-            for i in range(n-1):
+            for i in range(n - 1):
                 if row[i] == 0:
                     continue
-                for j in range(i+1, n):
+                for j in range(i + 1, n):
                     if row[j] == 1:
                         counter[i, j] += 1
-        return sum(c*(c-1)//2 for c in counter.values())
+        return sum(c * (c - 1) // 2 for c in counter.values())
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
-            ([[[1,1,1,1]]], 0),
-            ([[[1,1,1],[1,1,1],[1,1,1]]], 9),
-            ([[[1,0,0,1,0],[0,0,1,0,1],[0,0,0,1,0],[1,0,1,0,1]]], 1),
+            ([[[1, 1, 1, 1]]], 0),
+            ([[[1, 1, 1], [1, 1, 1], [1, 1, 1]]], 9),
+            ([[[1, 0, 0, 1, 0], [0, 0, 1, 0, 1], [0, 0, 0, 1, 0], [1, 0, 1, 0, 1]]], 1),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

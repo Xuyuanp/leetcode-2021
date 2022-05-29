@@ -43,7 +43,7 @@
 #
 #
 # You must solve the problem without using the built-in queue data structure in
-# your programming language. 
+# your programming language.
 #
 #
 # Example 1:
@@ -83,7 +83,6 @@
 
 # @lc code=start
 class MyCircularQueue:
-
     def __init__(self, k: int):
         self._queue = [0] * k
         self._cap = k
@@ -125,7 +124,6 @@ class MyCircularQueue:
         return self._size == self._cap
 
 
-
 # Your MyCircularQueue object will be instantiated and called as such:
 # obj = MyCircularQueue(k)
 # param_1 = obj.enQueue(value)
@@ -135,4 +133,3 @@ class MyCircularQueue:
 # param_5 = obj.isEmpty()
 # param_6 = obj.isFull()
 # @lc code=end
-

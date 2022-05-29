@@ -81,7 +81,7 @@ class Solution:
         if len(lists) == 1:
             return lists[0]
 
-        tail = sentinel = ListNode(float('inf'), next=None)
+        tail = sentinel = ListNode(float("inf"), next=None)
 
         q = PriorityQueue()
         for i, head in enumerate(lists):
@@ -101,6 +101,7 @@ class Solution:
 
         return sentinel.next
 
+
 # @lc code=end
 
 
@@ -112,7 +113,7 @@ if __name__ == "__main__":
         ([[1, 2], [3, 4]], [1, 2, 3, 4]),
         ([[1, 2], [], [3, 4]], [1, 2, 3, 4]),
         ([[2, 3], [5], [1, 4]], [1, 2, 3, 4, 5]),
-        ([[1,4,5],[1,3,4],[2,6]], [1,1,2,3,4,4,5,6])
+        ([[1, 4, 5], [1, 3, 4], [2, 6]], [1, 1, 2, 3, 4, 4, 5, 6]),
     ]
     for args, want in cases:
         got = sol.mergeKLists([ListNode.from_list(arg) for arg in args])
@@ -121,4 +122,4 @@ if __name__ == "__main__":
             print(f"Falied => args: {args}; want: {want}, but got: {got}")
             break
     else:
-        print('All Passed')
+        print("All Passed")

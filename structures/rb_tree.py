@@ -9,6 +9,7 @@ from typing import Any, Counter, Iterator, Optional, Tuple
 
 KeyType = Any
 
+
 class Color(Enum):
     RED = auto()
     BLACK = auto()
@@ -32,13 +33,17 @@ class RBNode:
 
     @property
     def has_red_children(self) -> bool:
-        return self.left and self.left.color == Color.RED or \
-            self.right and self.right.color == Color.RED
+        return (
+            self.left
+            and self.left.color == Color.RED
+            or self.right
+            and self.right.color == Color.RED
+        )
 
     def __repr__(self) -> str:
         if not self.left and not self.right:
-            return f'{{ {self.key}:{self.color} }}'
-        return f'{{ {self.key}:{self.color} [{self.left} {self.right}] }}'
+            return f"{{ {self.key}:{self.color} }}"
+        return f"{{ {self.key}:{self.color} [{self.left} {self.right}] }}"
 
     def __iter__(self) -> Iterator[KeyType]:
         if self.left:
@@ -60,18 +65,14 @@ class Context:
     def left(self) -> Context:
         assert self.current is not None
         return Context(
-            current=self.current.left,
-            sibling=self.current.right,
-            parent=self.current
+            current=self.current.left, sibling=self.current.right, parent=self.current
         )
 
     @property
     def right(self) -> Context:
         assert self.current is not None
         return Context(
-            current=self.current.right,
-            sibling=self.current.left,
-            parent=self.current
+            current=self.current.right, sibling=self.current.left, parent=self.current
         )
 
 
@@ -134,7 +135,7 @@ class RBTree:
             child = self._insert(key, ctx.right)
             parent.right = child
         else:
-            raise KeyError('duplicated key')
+            raise KeyError("duplicated key")
 
         return self._insert_fixup(child, ctx)
 
@@ -165,7 +166,9 @@ class RBTree:
                 parent.color = Color.RED
                 child.color = Color.BLACK
                 self._right_rotate(child, parent)
-            elif child == parent.right and child.right and child.right.color == Color.RED:
+            elif (
+                child == parent.right and child.right and child.right.color == Color.RED
+            ):
                 # CC = child of child
                 #
                 #  P:Black                       C:Black
@@ -183,7 +186,9 @@ class RBTree:
             return child
 
         assert child.color == parent.color == Color.RED
-        assert grandp and grandp.color == Color.BLACK, 'a red node should have a black parent'
+        assert (
+            grandp and grandp.color == Color.BLACK
+        ), "a red node should have a black parent"
 
         if uncle and uncle.color == Color.RED:
             #
@@ -240,18 +245,17 @@ class RBTree:
         rotates = self.left_rotates + self.right_rotates - init_rotates
         self.remove_rotates[rotates] += 1
 
-    def _remove_fix(self,
-                    old_child: RBNode,
-                    new_child: Optional[RBNode],
-                    parent: RBNode
-                    ) -> Tuple[RBNode, bool]:
+    def _remove_fix(
+        self, old_child: RBNode, new_child: Optional[RBNode], parent: RBNode
+    ) -> Tuple[RBNode, bool]:
         if old_child.color == Color.RED:
-            assert not new_child, 'no red node has a single child'
+            assert not new_child, "no red node has a single child"
             return parent, False
 
         if new_child and new_child.color == Color.RED:
-            assert not (new_child.left or new_child.right), \
-                "a black node's single red child node can NOT have children"
+            assert not (
+                new_child.left or new_child.right
+            ), "a black node's single red child node can NOT have children"
             new_child.color = Color.BLACK
             return parent, False
 
@@ -260,7 +264,7 @@ class RBTree:
         # Why?
         # a red node can't have a single child
         # a black node can't have a single black child
-        assert sibling, 'double black node always has a sibling'
+        assert sibling, "double black node always has a sibling"
 
         sibling_is_left = sibling == parent.left
 
@@ -291,8 +295,11 @@ class RBTree:
                 old_child = sibling.left
                 sibling.left = new_child
 
-            return self._remove_fix(old_child, new_child, sibling) \
-                if need_fix else (sibling, False)
+            return (
+                self._remove_fix(old_child, new_child, sibling)
+                if need_fix
+                else (sibling, False)
+            )
 
         if not sibling.has_red_children:
             if parent.color == Color.BLACK:
@@ -324,7 +331,11 @@ class RBTree:
         outer_nephew = sibling.left if sibling_is_left else sibling.right
 
         # case5
-        if closer_nephew and closer_nephew.color == Color.RED and RBNode.is_black(outer_nephew):
+        if (
+            closer_nephew
+            and closer_nephew.color == Color.RED
+            and RBNode.is_black(outer_nephew)
+        ):
             if sibling_is_left:
                 #
                 #           P:any                    P:any
@@ -383,9 +394,11 @@ class RBTree:
             RBNode.ensure_black(sibling.right)
             return sibling, False
 
-        raise Exception('unreachable')
+        raise Exception("unreachable")
 
-    def _remove(self, key: KeyType, current: Optional[RBNode]) -> Tuple[Optional[RBNode], bool]:
+    def _remove(
+        self, key: KeyType, current: Optional[RBNode]
+    ) -> Tuple[Optional[RBNode], bool]:
         if not current:
             # key not found
             return None, False
@@ -403,24 +416,33 @@ class RBTree:
             # replace current key with the smallest key in the right subtree
             # and remove the smallest node
             old_child = current.right
-            new_child, current.key, need_fix = \
-                self._remove_smallest_node(current.right)
+            new_child, current.key, need_fix = self._remove_smallest_node(current.right)
             current.right = new_child
         else:
             # current has 0 or 1 child
             return self._remove_current(current), True
 
-        return self._remove_fix(old_child, new_child, current) \
-            if need_fix else (current, False)
+        return (
+            self._remove_fix(old_child, new_child, current)
+            if need_fix
+            else (current, False)
+        )
 
-    def _remove_smallest_node(self, current: RBNode) -> Tuple[Optional[RBNode], KeyType, bool]:
+    def _remove_smallest_node(
+        self, current: RBNode
+    ) -> Tuple[Optional[RBNode], KeyType, bool]:
         if current.left:
             old_child = current.left
-            new_child, key_of_removed, need_fix = self._remove_smallest_node(current.left)
+            new_child, key_of_removed, need_fix = self._remove_smallest_node(
+                current.left
+            )
             current.left = new_child
 
-            replaced, need_fix = self._remove_fix(old_child, new_child, current) \
-                if need_fix else (current, False)
+            replaced, need_fix = (
+                self._remove_fix(old_child, new_child, current)
+                if need_fix
+                else (current, False)
+            )
         else:
             key_of_removed = current.key
             replaced = self._remove_current(current)
@@ -429,73 +451,56 @@ class RBTree:
         return replaced, key_of_removed, need_fix
 
     def _remove_current(self, current: RBNode) -> Optional[RBNode]:
-        assert not (current.left and current.right), \
-            'node should have at most one child'
+        assert not (
+            current.left and current.right
+        ), "node should have at most one child"
 
         child = current.left if current.left else current.right
 
         self._count -= 1
         return child
 
+
 def test():
-    print('Testing RBTree:')
+    print("Testing RBTree:")
     cases = [
         ([1], RBNode(1, color=Color.BLACK)),
-        ([1,2], RBNode(1, color=Color.BLACK, right=RBNode(2))),
-        ([1,2,3], RBNode(
-            2, color=Color.BLACK,
-            left=RBNode(1),
-            right=RBNode(3)
-        )),
-        ([1,3,2], RBNode(
-            2, color=Color.BLACK,
-            left=RBNode(1),
-            right=RBNode(3)
-        )),
-        ([2,3,1], RBNode(
-            2, color=Color.BLACK,
-            left=RBNode(1),
-            right=RBNode(3)
-        )),
-        ([2,1,3], RBNode(
-            2, color=Color.BLACK,
-            left=RBNode(1),
-            right=RBNode(3)
-        )),
-        ([3,2,1], RBNode(
-            2, color=Color.BLACK,
-            left=RBNode(1),
-            right=RBNode(3)
-        )),
-        ([3,1,2], RBNode(
-            2, color=Color.BLACK,
-            left=RBNode(1),
-            right=RBNode(3)
-        )),
-        ([3,2,4], RBNode(
-            3, color=Color.BLACK,
-            left=RBNode(2),
-            right=RBNode(4)
-        )),
-        ([3,2,4,5], RBNode(
-            3, color=Color.BLACK,
-            left=RBNode(2, color=Color.BLACK),
-            right=RBNode(
-                4, color=Color.BLACK,
-                right=RBNode(5))
-        )),
-        ([1,-1], None),
-        ([1, 2,-1], RBNode(2, color=Color.BLACK)),
+        ([1, 2], RBNode(1, color=Color.BLACK, right=RBNode(2))),
+        ([1, 2, 3], RBNode(2, color=Color.BLACK, left=RBNode(1), right=RBNode(3))),
+        ([1, 3, 2], RBNode(2, color=Color.BLACK, left=RBNode(1), right=RBNode(3))),
+        ([2, 3, 1], RBNode(2, color=Color.BLACK, left=RBNode(1), right=RBNode(3))),
+        ([2, 1, 3], RBNode(2, color=Color.BLACK, left=RBNode(1), right=RBNode(3))),
+        ([3, 2, 1], RBNode(2, color=Color.BLACK, left=RBNode(1), right=RBNode(3))),
+        ([3, 1, 2], RBNode(2, color=Color.BLACK, left=RBNode(1), right=RBNode(3))),
+        ([3, 2, 4], RBNode(3, color=Color.BLACK, left=RBNode(2), right=RBNode(4))),
+        (
+            [3, 2, 4, 5],
+            RBNode(
+                3,
+                color=Color.BLACK,
+                left=RBNode(2, color=Color.BLACK),
+                right=RBNode(4, color=Color.BLACK, right=RBNode(5)),
+            ),
+        ),
+        ([1, -1], None),
+        ([1, 2, -1], RBNode(2, color=Color.BLACK)),
         ([1, 2, 3, -1], RBNode(2, color=Color.BLACK, right=RBNode(3))),
         ([1, 2, 3, -2], RBNode(3, color=Color.BLACK, left=RBNode(1))),
         ([1, 2, 3, -3], RBNode(2, color=Color.BLACK, left=RBNode(1))),
-        ([3,2,4,5,-4], RBNode(
-            3, color=Color.BLACK,
-            left=RBNode(2, color=Color.BLACK),
-            right=RBNode(5, color=Color.BLACK)
-        )),
-        ([3,2,4,5,-4,-3,-2], RBNode(5, color=Color.BLACK)),
-        ([3, 1, 5, 2, 8, 10, 4, 7, 9, 6,-4,-2,-3,-1,-9,-6,-7,-8,-5,-10], None),
+        (
+            [3, 2, 4, 5, -4],
+            RBNode(
+                3,
+                color=Color.BLACK,
+                left=RBNode(2, color=Color.BLACK),
+                right=RBNode(5, color=Color.BLACK),
+            ),
+        ),
+        ([3, 2, 4, 5, -4, -3, -2], RBNode(5, color=Color.BLACK)),
+        (
+            [3, 1, 5, 2, 8, 10, 4, 7, 9, 6, -4, -2, -3, -1, -9, -6, -7, -8, -5, -10],
+            None,
+        ),
     ]
     for keys, want in cases:
         tree = RBTree()
@@ -507,10 +512,10 @@ def test():
 
         got = tree.root
         assert want == got, f"want: {want}, but got: {got}"
-    print('  All Passed')
+    print("  All Passed")
 
     print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

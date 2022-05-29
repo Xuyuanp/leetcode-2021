@@ -57,16 +57,16 @@ class Solution:
         def binary_search(x: int) -> int:
             left, right = 0, len(lis)
             while left < right:
-                mid = (left+right)//2
+                mid = (left + right) // 2
                 if lis[mid][-1][0] < x:
-                    left = mid+1
+                    left = mid + 1
                 else:
                     right = mid
             return left
 
-        for x in nums[1:]: # n*log(n)
-            pos = binary_search(x) # log(k)
-            cnt = 1 if pos == 0 else sum(cnt for v, cnt in lis[pos-1] if v < x)
+        for x in nums[1:]:  # n*log(n)
+            pos = binary_search(x)  # log(k)
+            cnt = 1 if pos == 0 else sum(cnt for v, cnt in lis[pos - 1] if v < x)
             if pos == len(lis):
                 lis.append([[x, cnt]])
             else:
@@ -74,36 +74,37 @@ class Solution:
 
         return sum(t[1] for t in lis[-1])
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[1]], 1),
-            ([[1,2]], 1),
-            ([[2,1]], 2),
-            ([[1,1]], 2),
-            ([[3,1,2]], 1),
-            ([[1,2,6,4,5]],1),
-            ([[1,3,2]], 2),
-            ([[1,3,5,4,7]], 2),
-            ([[2,2,2,2,2]], 5),
-            ([[1,2,4,3,5,4,7,2]], 3),
-            ([[1,1,1,2,2,2,3,3,3]], 27),
-            ([[1,2,3,1,2,3,1,2,3]], 10),
+            ([[1, 2]], 1),
+            ([[2, 1]], 2),
+            ([[1, 1]], 2),
+            ([[3, 1, 2]], 1),
+            ([[1, 2, 6, 4, 5]], 1),
+            ([[1, 3, 2]], 2),
+            ([[1, 3, 5, 4, 7]], 2),
+            ([[2, 2, 2, 2, 2]], 5),
+            ([[1, 2, 4, 3, 5, 4, 7, 2]], 3),
+            ([[1, 1, 1, 2, 2, 2, 3, 3, 3]], 27),
+            ([[1, 2, 3, 1, 2, 3, 1, 2, 3]], 10),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

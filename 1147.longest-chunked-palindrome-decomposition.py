@@ -76,10 +76,10 @@ class Solution:
     def longestDecomposition(self, text: str) -> int:
         n = len(text)
         start = left = 0
-        end = right = n-1
+        end = right = n - 1
         res = 0
         while left < right:
-            if text[start:left+1] == text[right:end+1]:
+            if text[start : left + 1] == text[right : end + 1]:
                 res += 2
                 start = left + 1
                 end = right - 1
@@ -87,12 +87,13 @@ class Solution:
             right -= 1
         return res + (1 if start <= end else 0)
 
+
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             [["aba"], 3],
@@ -105,12 +106,12 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()

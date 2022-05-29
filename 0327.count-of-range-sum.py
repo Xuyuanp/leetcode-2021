@@ -57,14 +57,15 @@ from typing import List, Optional
 
 BLACK, RED = 0, 1
 
+
 @dataclass
 class Node:
     val: int
     count: int = 1
     total: int = 1
     color: int = 1
-    left: Optional['Node'] = None
-    right: Optional['Node'] = None
+    left: Optional["Node"] = None
+    right: Optional["Node"] = None
 
 
 class Tree:
@@ -73,12 +74,12 @@ class Tree:
     def count_lt(self, node: Optional[Node], val: int) -> int:
         while node and node.val >= val:
             node = node.left
-        return node.total - self.count_gt(node.right, val-1) if node else 0
+        return node.total - self.count_gt(node.right, val - 1) if node else 0
 
     def count_gt(self, node: Optional[Node], val: int) -> int:
         while node and node.val <= val:
             node = node.right
-        return node.total - self.count_lt(node.left, val+1) if node else 0
+        return node.total - self.count_lt(node.left, val + 1) if node else 0
 
     def insert(self, val: int):
         self.root = self._insert(val, self.root, None)
@@ -102,7 +103,9 @@ class Tree:
 
         return self._fixup(child, node, parent)
 
-    def _fixup(self, child: Node, parent: Optional[Node], grandp: Optional[Node]) -> Node:
+    def _fixup(
+        self, child: Node, parent: Optional[Node], grandp: Optional[Node]
+    ) -> Node:
         if child.color == BLACK and parent:
             return parent
         if not parent:
@@ -174,22 +177,27 @@ class Tree:
                 break
         if not node:
             return 0
-        return node.total - self.count_lt(node.left, lower) - self.count_gt(node.right, upper)
+        return (
+            node.total
+            - self.count_lt(node.left, lower)
+            - self.count_gt(node.right, upper)
+        )
+
 
 # @lc code=start
 class Solution:
     # O(n+L*n), O(n). L = upper-lower+1. TLE
     def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
         n = len(nums)
-        presum = [0] * (n+1)
-        for i in range(1, n+1):
-            presum[i] = presum[i-1] + nums[i-1]
+        presum = [0] * (n + 1)
+        for i in range(1, n + 1):
+            presum[i] = presum[i - 1] + nums[i - 1]
 
         res = 0
         mem = Counter()
         for csum in presum:
-            for target in range(lower, upper+1):
-                res += mem[csum-target]
+            for target in range(lower, upper + 1):
+                res += mem[csum - target]
             mem[csum] += 1
         return res
 
@@ -200,16 +208,16 @@ class Solution:
         # lower <= presum[j] - presum[i] <= upper
         # lower + presum[i] <= presum[j] <= upper + presum[i]
         n = len(nums)
-        presum = [0] * (n+1)
-        for i in range(1, n+1):
-            presum[i] = presum[i-1] + nums[i-1]
+        presum = [0] * (n + 1)
+        for i in range(1, n + 1):
+            presum[i] = presum[i - 1] + nums[i - 1]
 
         res = 0
         temp = []
         for csum in presum[::-1]:
-            left = bisect.bisect_left(temp, csum+lower)
-            right = bisect.bisect_right(temp, csum+upper)
-            res += right-left
+            left = bisect.bisect_left(temp, csum + lower)
+            right = bisect.bisect_right(temp, csum + upper)
+            res += right - left
             bisect.insort(temp, csum)
         return res
 
@@ -220,42 +228,43 @@ class Solution:
         # lower <= presum[j] - presum[i] <= upper
         # presum[j] - upper <= presum[i] <= presum[j] - upper
         n = len(nums)
-        presum = [0] * (n+1)
-        for i in range(1, n+1):
-            presum[i] = presum[i-1] + nums[i-1]
+        presum = [0] * (n + 1)
+        for i in range(1, n + 1):
+            presum[i] = presum[i - 1] + nums[i - 1]
 
         res = 0
         tree = Tree()
         for csum in presum:
-            res += tree.count_range(csum-upper, csum-lower)
+            res += tree.count_range(csum - upper, csum - lower)
             tree.insert(csum)
         return res
+
 
 # @lc code=end
 def test():
     sol = Solution()
-    methods = [name for name in dir(sol) if not name.startswith('__')]
+    methods = [name for name in dir(sol) if not name.startswith("__")]
     for method in methods:
-        print(f'Testing {method}:')
+        print(f"Testing {method}:")
         func = getattr(sol, method)
         cases = [
             ([[0], 0, 0], 1),
-            ([[-2,5,-1], -2, 2], 3),
-            ([[1,2,3,4,5,6,7], 3, 8], 9),
-            ([[-4,0,-3,-1,1,2,1,-4], 0, 6], 13),
-            ([[-100,-100,-100,-100,-100,-100], -300, 1000], 15),
+            ([[-2, 5, -1], -2, 2], 3),
+            ([[1, 2, 3, 4, 5, 6, 7], 3, 8], 9),
+            ([[-4, 0, -3, -1, 1, 2, 1, -4], 0, 6], 13),
+            ([[-100, -100, -100, -100, -100, -100], -300, 1000], 15),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f'  Failed => args: {args}; want: {want}, but got: {got}')
+                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
-            print('  All Passed')
+            print("  All Passed")
         print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()
 
 
