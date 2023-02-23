@@ -55,7 +55,9 @@
 #
 #
 #
+import itertools
 from typing import List
+
 
 # @lc code=start
 class Solution:
@@ -65,17 +67,16 @@ class Solution:
             return 0
         m, n = len(obstacleGrid), len(obstacleGrid[0])
         obstacleGrid[0][0] = 1
-        for i in range(m):
-            for j in range(n):
-                if i == j == 0:
-                    continue
-                if obstacleGrid[i][j] == 1:
-                    obstacleGrid[i][j] = 0
-                    continue
-                if i > 0:
-                    obstacleGrid[i][j] += obstacleGrid[i - 1][j]
-                if j > 0:
-                    obstacleGrid[i][j] += obstacleGrid[i][j - 1]
+        for i, j in itertools.product(range(m), range(n)):
+            if i == j == 0:
+                continue
+            if obstacleGrid[i][j] == 1:
+                obstacleGrid[i][j] = 0
+                continue
+            if i > 0:
+                obstacleGrid[i][j] += obstacleGrid[i - 1][j]
+            if j > 0:
+                obstacleGrid[i][j] += obstacleGrid[i][j - 1]
         return obstacleGrid[-1][-1]
 
     # O(m*n), O(m*n)
@@ -86,11 +87,10 @@ class Solution:
         m, n = len(obstacleGrid), len(obstacleGrid[0])
         dp = [[0] * (n + 1) for _ in range(m + 1)]
         dp[1][1] = 1
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                if i == j == 1 or obstacleGrid[i - 1][j - 1] == 1:
-                    continue
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+        for i, j in itertools.product(range(1, m + 1), range(1, n + 1)):
+            if i == j == 1 or obstacleGrid[i - 1][j - 1] == 1:
+                continue
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
         return dp[m][n]
 
 
@@ -110,7 +110,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -54,6 +54,7 @@
 #
 
 # @lc code=start
+import itertools
 from functools import cache
 
 
@@ -67,15 +68,10 @@ class Solution:
         for j in range(1, n + 1):
             dp[0][j] = ord(s2[j - 1]) + dp[0][j - 1]
 
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                if s1[i - 1] == s2[j - 1]:
-                    dp[i][j] = dp[i - 1][j - 1]
-                else:
-                    dp[i][j] = min(
-                        ord(s1[i - 1]) + dp[i - 1][j], ord(s2[j - 1]) + dp[i][j - 1]
-                    )
-
+        for i, j in itertools.product(range(1, m + 1), range(1, n + 1)):
+            dp[i][j] = (dp[i - 1][j - 1] if s1[i - 1] == s2[j - 1] else min(
+                ord(s1[i - 1]) + dp[i - 1][j],
+                ord(s2[j - 1]) + dp[i][j - 1]))
         return dp[m][n]
 
     # O(m*n), O(min(m, n))
@@ -116,7 +112,9 @@ class Solution:
                 return ord(s1[i]) + helper(i + 1, j)
             if s1[i] == s2[j]:
                 return helper(i + 1, j + 1)
-            return min(ord(s1[i]) + helper(i + 1, j), ord(s2[j]) + helper(i, j + 1))
+            return min(
+                ord(s1[i]) + helper(i + 1, j),
+                ord(s2[j]) + helper(i, j + 1))
 
         return helper(0, 0)
 
@@ -136,7 +134,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

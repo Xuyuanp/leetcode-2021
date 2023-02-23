@@ -70,6 +70,7 @@
 from collections import defaultdict
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(m*log(m)) + O(n+m), O(m+n)
@@ -87,8 +88,8 @@ class Solution:
             while curr < len(rides) and i == rides[curr][END]:
                 ride = rides[curr]
                 dp[i] = max(
-                    dp[i], dp[ride[START]] + ride[END] - ride[START] + ride[TIP]
-                )
+                    dp[i],
+                    dp[ride[START]] + ride[END] - ride[START] + ride[TIP])
                 curr += 1
 
         return dp[n]
@@ -155,7 +156,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

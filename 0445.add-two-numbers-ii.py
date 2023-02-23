@@ -61,6 +61,7 @@ from typing import Optional
 
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -69,9 +70,8 @@ from structures import ListNode
 #         self.next = next
 class Solution:
     # O(m+n), O(1)
-    def addTwoNumbers(
-        self, l1: Optional[ListNode], l2: Optional[ListNode]
-    ) -> Optional[ListNode]:
+    def addTwoNumbers(self, l1: Optional[ListNode],
+                      l2: Optional[ListNode]) -> Optional[ListNode]:
         x = y = 0
 
         while l1:
@@ -106,9 +106,11 @@ def test():
             ([[7, 2, 4, 3], [5, 6, 4]], [7, 8, 0, 7]),
         ]
         for args, want in cases:
-            got = func(ListNode.from_list(args[0]), ListNode.from_list(args[1]))
+            got = func(ListNode.from_list(args[0]),
+                       ListNode.from_list(args[1]))
             if ListNode.from_list(want) != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

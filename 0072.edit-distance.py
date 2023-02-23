@@ -58,12 +58,15 @@
 #
 #
 #
+import itertools
 from functools import lru_cache
+
 
 # @lc code=start
 class Solution:
     # O(m*n), O(m*n)
     def minDistance(self, word1: str, word2: str) -> int:
+
         @lru_cache(maxsize=None)
         def helper(word1: str, word2: str) -> int:
             if not word1:
@@ -76,7 +79,8 @@ class Solution:
             return 1 + min(
                 helper(word1[1:], word2),  # delete word1[0]
                 helper(word1, word2[1:]),  # delete word2[0]
-                helper(word1[1:], word2[1:]),  # replace either word1[0] or word2[0]
+                helper(word1[1:],
+                       word2[1:]),  # replace either word1[0] or word2[0]
             )
 
         res = helper(word1, word2)
@@ -88,18 +92,17 @@ class Solution:
 
         dp = [[0] * (n + 1) for _ in range(m + 1)]
 
-        for i in range(m + 1):
-            for j in range(n + 1):
-                if 0 in (i, j):
-                    dp[i][j] = i + j
-                elif word1[i - 1] == word2[j - 1]:
-                    dp[i][j] = dp[i - 1][j - 1]
-                else:
-                    dp[i][j] = 1 + min(
-                        dp[i - 1][j],
-                        dp[i][j - 1],
-                        dp[i - 1][j - 1],
-                    )
+        for i, j in itertools.product(range(m + 1), range(n + 1)):
+            if 0 in (i, j):
+                dp[i][j] = i + j
+            elif word1[i - 1] == word2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1]
+            else:
+                dp[i][j] = 1 + min(
+                    dp[i - 1][j],
+                    dp[i][j - 1],
+                    dp[i - 1][j - 1],
+                )
         return dp[m][n]
 
     # O(m*n), O(min(m, n))
@@ -174,7 +177,8 @@ if __name__ == "__main__":
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

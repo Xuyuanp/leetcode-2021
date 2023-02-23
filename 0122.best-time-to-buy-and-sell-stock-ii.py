@@ -66,8 +66,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def maxProfit(self, prices: List[int]) -> int:
         return sum(max(0, q - p) for p, q in zip(prices, prices[1:]))
 
@@ -90,7 +92,8 @@ if __name__ == "__main__":
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

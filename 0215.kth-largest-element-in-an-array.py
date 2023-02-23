@@ -36,11 +36,13 @@
 #
 #
 #
-from typing import List
 import heapq
+from typing import List
+
 
 # @lc code=start
 class Solution:
+
     def findKthLargest(self, nums: List[int], k: int) -> int:
         heap = [float("inf")] * k
         for n in nums[:k]:
@@ -51,6 +53,7 @@ class Solution:
         return heap[0]
 
     def findKthLargest1(self, nums: List[int], k: int) -> int:
+
         def partition(start: int, end: int) -> int:
             pivot = nums[(start + end) // 2]
             i, j = start - 1, end + 1
@@ -96,7 +99,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

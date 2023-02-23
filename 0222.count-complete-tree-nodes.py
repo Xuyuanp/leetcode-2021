@@ -57,6 +57,7 @@
 #
 from structures import TreeNode
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -67,10 +68,9 @@ from structures import TreeNode
 class Solution:
     # O(log(n)*log(n)), O(log(n))
     def countNodes(self, root: TreeNode) -> int:
+
         def depth(node: TreeNode) -> int:
-            if not node:
-                return 0
-            return 1 + depth(node.left)
+            return 1 + depth(node.left) if node else 0
 
         if not root:
             return 0
@@ -92,11 +92,13 @@ def test():
     for method in methods:
         print(f"Testing {method}:")
         func = getattr(sol, method)
-        cases = [([TreeNode.from_list(list(range(n)))], n) for n in range(1, 100)]
+        cases = [([TreeNode.from_list(list(range(n)))], n)
+                 for n in range(1, 100)]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -57,6 +57,7 @@ LEFT, RIGHT = "(", ")"
 
 
 class Solution:
+
     def longestValidParentheses(self, s: str) -> int:
         res = 0
         stack = deque([0])
@@ -77,7 +78,7 @@ class Solution:
     #   1. 2 + dp[i-2]                          if s[i] == RIGHT and s[i-1] == LEFT => ...()...
     #   2. dp[i-dp[i-1]-1-1] + 1 + dp[i-1] + 1  if s[i] == RIGHT and s[i-1] == RIGHT and s[i-dp[i-1]-2] == LEFT => ...((...))...
     def longestValidParentheses2(self, s: str) -> int:
-        if len(s) == 0:
+        if not s:
             return 0
         dp = [0] * len(s)
 

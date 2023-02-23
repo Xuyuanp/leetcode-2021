@@ -65,6 +65,7 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
     # O(n), O(1)
@@ -85,17 +86,10 @@ class Solution:
         for i in range(n):
             ones[i + 1] = ones[i] + int(s[i])
 
-        ans = min(
-            ones[i]
-            + n  # nums of '1' at left
-            - i
-            - (ones[-1] - ones[i])
-            - 1
-            + int(s[i])  # nums of '0' at right
-            for i in range(n)
-        )
-
-        return ans
+        return min(ones[i] + n  # nums of '1' at left
+                   - i - (ones[-1] - ones[i]) - 1 +
+                   int(s[i])  # nums of '0' at right
+                   for i in range(n))
 
     # O(n), O(n)
     def minFlipsMonoIncr1(self, s: str) -> int:

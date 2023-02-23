@@ -57,6 +57,7 @@ from functools import lru_cache
 
 
 class Solution:
+
     def minCut(self, s: str) -> int:
         n = len(s)
         dp = [n - x for x in range(n + 1)]
@@ -78,9 +79,8 @@ class Solution:
 
         @lru_cache(None)
         def is_palindrome(i: int, j: int) -> bool:
-            if i >= j:
-                return True
-            return s[i] == s[j] and is_palindrome(i + 1, j - 1)
+            return True if i >= j else s[i] == s[j] and is_palindrome(
+                i + 1, j - 1)
 
         dp = [n - x for x in range(n + 1)]
         for i in range(n - 1, -1, -1):
@@ -98,9 +98,7 @@ class Solution:
         def is_palindrome(i: int, j: int) -> bool:
             if i >= j:
                 return True
-            if s[i] != s[j]:
-                return False
-            return is_palindrome(i + 1, j - 1)
+            return False if s[i] != s[j] else is_palindrome(i + 1, j - 1)
 
         @lru_cache(None)
         def dp(i: int) -> int:
@@ -132,7 +130,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

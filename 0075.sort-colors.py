@@ -52,8 +52,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def sortColors(self, nums: List[int]) -> None:
         left, right = 0, len(nums) - 1
         i = 0
@@ -91,7 +93,8 @@ def test():
             func(*args)
             got = args[0]
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

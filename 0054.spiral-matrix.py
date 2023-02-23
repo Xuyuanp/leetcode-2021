@@ -41,8 +41,9 @@
 #
 #
 #
-from typing import List
 from dataclasses import dataclass
+from typing import List
+
 
 # @lc code=start
 class Solution:
@@ -57,15 +58,15 @@ class Solution:
         res = []
         loops = min(m, n) // 2
         for i in range(loops):
-            res += matrix[i][i : n - i - 1]
-            res += transm[n - i - 1][i : m - i - 1]
-            res += matrix[m - i - 1][n - i - 1 : i : -1]
-            res += transm[i][m - i - 1 : i : -1]
+            res += matrix[i][i:n - i - 1]
+            res += transm[n - i - 1][i:m - i - 1]
+            res += matrix[m - i - 1][n - i - 1:i:-1]
+            res += transm[i][m - i - 1:i:-1]
 
         if n > m and m % 2 == 1:
-            res += matrix[m // 2][loops : n - loops]
+            res += matrix[m // 2][loops:n - loops]
         elif m > n and n % 2 == 1:
-            res += transm[n // 2][loops : m - loops]
+            res += transm[n // 2][loops:m - loops]
         elif m % 2 == n % 2 == 1:
             res.append(matrix[m // 2][n // 2])
         return res
@@ -115,9 +116,11 @@ class Solution:
         if n == 1:
             return [row[0] for row in matrix]
 
-        return list(matrix[0]) + self.spiralOrder2(list(zip(*matrix[1:]))[::-1])
+        return list(matrix[0]) + self.spiralOrder2(
+            list(zip(*matrix[1:]))[::-1])
 
     def spiralOrder3(self, matrix: List[List[int]]) -> List[int]:
+
         def top(res):
             row = 0
             cols = len(matrix[0])
@@ -226,7 +229,8 @@ def test():
             ([[[1, 2], [3, 4]]], [1, 2, 4, 3]),  # 2x2
             ([[[1, 2], [3, 4], [5, 6]]], [1, 2, 4, 6, 5, 3]),  # 3x2
             ([[[1, 2, 3], [4, 5, 6]]], [1, 2, 3, 6, 5, 4]),  # 2x3
-            ([[[1, 2, 3], [4, 5, 6], [7, 8, 9]]], [1, 2, 3, 6, 9, 8, 7, 4, 5]),  # 3x3
+            ([[[1, 2, 3], [4, 5, 6], [7, 8, 9]]], [1, 2, 3, 6, 9, 8, 7, 4,
+                                                   5]),  # 3x3
             (
                 [[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]],
                 [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7],
@@ -236,19 +240,18 @@ def test():
                 [1, 2, 3, 6, 9, 12, 11, 10, 7, 4, 5, 8],
             ),  # 4x3
             (
-                [[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]],
+                [[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12],
+                  [13, 14, 15, 16]]],
                 [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10],
             ),  # 4*4
             (
-                [
-                    [
-                        [1, 2, 3, 4, 5],
-                        [6, 7, 8, 9, 10],
-                        [11, 12, 13, 14, 15],
-                        [16, 17, 18, 19, 20],
-                        [21, 22, 23, 24, 25],
-                    ]
-                ],
+                [[
+                    [1, 2, 3, 4, 5],
+                    [6, 7, 8, 9, 10],
+                    [11, 12, 13, 14, 15],
+                    [16, 17, 18, 19, 20],
+                    [21, 22, 23, 24, 25],
+                ]],
                 [
                     1,
                     2,
@@ -278,14 +281,16 @@ def test():
                 ],
             ),  # 5x5
             (
-                [[[2, 3, 4], [5, 6, 7], [8, 9, 10], [11, 12, 13], [14, 15, 16]]],
+                [[[2, 3, 4], [5, 6, 7], [8, 9, 10], [11, 12, 13], [14, 15,
+                                                                   16]]],
                 [2, 3, 4, 7, 10, 13, 16, 15, 14, 11, 8, 5, 6, 9, 12],
             ),  # 5x3
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -41,6 +41,7 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n*n), O(1)

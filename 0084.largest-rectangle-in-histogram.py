@@ -46,8 +46,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def largestRectangleArea(self, heights: List[int]) -> int:
         max_area = 0
 
@@ -82,7 +84,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

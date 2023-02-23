@@ -89,10 +89,13 @@
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
+from structures.list_node import ListNode
 
 
 class Solution:
-    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+
+    def getIntersectionNode(self, headA: ListNode,
+                            headB: ListNode) -> ListNode:
         if not headA or not headB:
             return None
         pa, pb = headA, headB

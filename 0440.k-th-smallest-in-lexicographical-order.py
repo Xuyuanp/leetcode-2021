@@ -42,8 +42,10 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
+
     def findKthNumber(self, n: int, k: int) -> int:
         res = 1
         k -= 1

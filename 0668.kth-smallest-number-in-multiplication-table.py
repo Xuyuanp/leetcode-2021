@@ -46,6 +46,7 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
     # O(min(m,n)*log(m*n))
@@ -76,7 +77,8 @@ class Solution:
         def n_less_than(x: int) -> int:
             count = 0
             for i in range(1, m + 1):
-                count += min(x // i, n)  # nums of vals less than x in each line
+                count += min(x // i,
+                             n)  # nums of vals less than x in each line
             return count
 
         left, right = 1, m * n
@@ -100,7 +102,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -45,6 +45,9 @@
 #
 #
 
+from structures.tree_node import TreeNode
+
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -53,6 +56,7 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+
     def searchBST(self, root: TreeNode, val: int) -> TreeNode:
         if root is None:
             return None

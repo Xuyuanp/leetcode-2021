@@ -52,8 +52,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def nextGreaterElements(self, nums: List[int]) -> List[int]:
         res = [-1] * len(nums)
         stack = []

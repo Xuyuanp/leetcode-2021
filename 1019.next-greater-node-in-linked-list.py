@@ -53,6 +53,7 @@ from typing import List, Optional
 
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -60,6 +61,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def nextLargerNodes(self, head: Optional[ListNode]) -> List[int]:
         stack = deque()
         res = []
@@ -88,7 +90,8 @@ def test():
             got = func(ListNode.from_list(*args))
 
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

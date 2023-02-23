@@ -70,6 +70,7 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
     # O(n^2), O(1)
@@ -79,7 +80,7 @@ class Solution:
         end = right = n - 1
         res = 0
         while left < right:
-            if text[start : left + 1] == text[right : end + 1]:
+            if text[start:left + 1] == text[right:end + 1]:
                 res += 2
                 start = left + 1
                 end = right - 1
@@ -106,7 +107,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

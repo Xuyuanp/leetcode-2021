@@ -82,6 +82,7 @@ from structures import ListNode
 
 
 class Solution:
+
     def deleteNode(self, node: ListNode):
         """
         :type node: ListNode

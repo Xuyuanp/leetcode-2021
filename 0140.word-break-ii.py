@@ -59,6 +59,7 @@
 from functools import cache
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n^2), O(n^2)
@@ -67,7 +68,7 @@ class Solution:
         wordDict = set(wordDict)
 
         def dfs(curr: str, sentence: List[str]):
-            if curr == "":
+            if not curr:
                 res.append(" ".join(sentence))
 
             for i in range(1, len(curr) + 1):
@@ -84,13 +85,13 @@ class Solution:
         res = []
 
         def dfs(curr: str, sentence: List[str]):
-            if curr == "":
+            if not curr:
                 res.append(" ".join(sentence))
 
             for word in wordDict:
                 if curr.startswith(word):
                     sentence.append(word)
-                    dfs(curr[len(word) :], sentence)
+                    dfs(curr[len(word):], sentence)
                     sentence.pop(-1)
 
         dfs(s, [])
@@ -98,16 +99,17 @@ class Solution:
         return res
 
     def wordBreak3(self, s: str, wordDict: List[str]) -> List[str]:
+
         @cache
         def dfs(curr: str) -> List[str]:
             res = []
-            if curr == "":
+            if not curr:
                 return [""]
             for word in wordDict:
                 if curr.startswith(word):
-                    for suffix in dfs(curr[len(word) :]):
+                    for suffix in dfs(curr[len(word):]):
                         if suffix:
-                            res.append(word + " " + suffix)
+                            res.append(f"{word} {suffix}")
                         else:
                             res.append(word)
             return res
@@ -132,14 +134,18 @@ def test():
                     "pineapplepenapple",
                     ["apple", "pen", "applepen", "pine", "pineapple"],
                 ],
-                ["pine apple pen apple", "pineapple pen apple", "pine applepen apple"],
+                [
+                    "pine apple pen apple", "pineapple pen apple",
+                    "pine applepen apple"
+                ],
             ),
             (["catsandog", ["cats", "dog", "sand", "and", "cat"]], []),
         ]
         for args, want in cases:
             got = func(*args)
             if sorted(want) != sorted(got):
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

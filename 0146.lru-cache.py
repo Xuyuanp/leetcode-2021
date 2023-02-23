@@ -71,6 +71,7 @@ from collections import OrderedDict
 
 
 class Node:
+
     def __init__(self, key: int, val: int, next, prev) -> None:
         self.key = key
         self.val = val
@@ -80,6 +81,7 @@ class Node:
 
 # Double Linked-List
 class LRUCache1:
+
     def __init__(self, capacity: int):
         self.head = Node(0, 0, None, None)
         self.tail = Node(0, 0, None, None)
@@ -132,6 +134,7 @@ class LRUCache1:
 
 # OrderedDict
 class LRUCache:
+
     def __init__(self, capacity: int):
         self.capacity = capacity
         self.cache = OrderedDict()

@@ -46,8 +46,10 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
+
     def numSquares(self, n: int) -> int:
         dp = [0]
         while (m := len(dp)) <= n:
@@ -66,8 +68,8 @@ class Solution:
         dp[0] = 0
         for i in range(1, n + 1):
             j = 1
-            while j * j <= i:
-                dp[i] = min(dp[i], dp[i - j * j] + 1)
+            while j**2 <= i:
+                dp[i] = min(dp[i], dp[i - j**2] + 1)
                 j += 1
 
         return dp[n]
@@ -101,7 +103,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

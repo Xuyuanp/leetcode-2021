@@ -53,6 +53,7 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n*log(n)), O(n). greedy
@@ -113,7 +114,7 @@ class Solution:
         for pair in pairs[1:]:
             pos = binary_search(pair[0])
             if pos == len(
-                lis
+                    lis
             ):  # binary search is not needed. only compare with lis[-1] ==> greedy
                 # tails[-1]: |--------|
                 # case1:                 |-----|     -> append
@@ -139,25 +140,24 @@ def test():
             ([[[1, 2], [7, 8], [4, 5]]], 3),
             ([[[1, 2], [1, 3], [1, 4], [10, 11]]], 2),
             (
-                [
-                    [
-                        [-6, 9],
-                        [1, 6],
-                        [8, 10],
-                        [-1, 4],
-                        [-6, -2],
-                        [-9, 8],
-                        [-5, 3],
-                        [0, 3],
-                    ]
-                ],
+                [[
+                    [-6, 9],
+                    [1, 6],
+                    [8, 10],
+                    [-1, 4],
+                    [-6, -2],
+                    [-9, 8],
+                    [-5, 3],
+                    [0, 3],
+                ]],
                 3,
             ),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

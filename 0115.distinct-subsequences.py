@@ -60,30 +60,31 @@
 #
 
 # @lc code=start
+import itertools
 from functools import lru_cache
 
 
 class Solution:
     # O(m*n), O(m*n)
     def numDistinct(self, s: str, t: str) -> int:
+
         @lru_cache(None)
         def helper(s: str, t: str) -> int:
             if len(s) < len(t):
                 return 0
             if len(t) == 1:
-                if s[0] == t[0]:
-                    return 1 + helper(s[1:], t)
-                return helper(s[1:], t)
-
+                return 1 + helper(s[1:], t) if s[0] == t[0] else helper(
+                    s[1:], t)
             res = 0
             for i in range(len(s) - len(t) + 1):
                 if s[i] == t[0]:
-                    res += helper(s[i + 1 :], t[1:])
+                    res += helper(s[i + 1:], t[1:])
             return res
 
         return helper(s, t)
 
     def numDistinct1(self, s: str, t: str) -> int:
+
         @lru_cache(None)
         def helper(len_s: int, len_t: int) -> int:
             if len_s < len_t:
@@ -118,9 +119,10 @@ class Solution:
         return helper(0, 0)
 
     def numDistinct3(self, s: str, t: str) -> int:
+
         @lru_cache(None)
         def helper(s: str, t: str) -> int:
-            if len(t) == 0:
+            if not t:
                 return 1
             if len(s) < len(t):
                 return 0
@@ -150,13 +152,12 @@ class Solution:
             return 0
         dp = [[1 if j == 0 else 0 for j in range(n + 1)] for _ in range(m + 1)]
 
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                if i < j:
-                    continue
-                dp[i][j] = dp[i - 1][j]
-                if s[i - 1] == t[j - 1]:
-                    dp[i][j] += dp[i - 1][j - 1]
+        for i, j in itertools.product(range(1, m + 1), range(1, n + 1)):
+            if i < j:
+                continue
+            dp[i][j] = dp[i - 1][j]
+            if s[i - 1] == t[j - 1]:
+                dp[i][j] += dp[i - 1][j - 1]
         return dp[m][n]
 
     def numDistinct5(self, s: str, t: str) -> int:
@@ -196,7 +197,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

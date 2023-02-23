@@ -84,8 +84,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def removeElement1(self, nums: List[int], val: int) -> int:
         cnt = 0
         for i in range(len(nums)):
@@ -122,7 +124,8 @@ def test():
         for args, want in cases:
             got = fn(*args)
             if want != args[0][:got]:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

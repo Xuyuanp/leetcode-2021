@@ -82,16 +82,20 @@
 #
 #
 #
-from typing import List
 from collections import deque
+from typing import List
 
 # @lc code=start
-neighbours = {str(i): [str((i + 1) % 10), str((i - 1) % 10)] for i in range(10)}
+neighbours = {
+    str(i): [str((i + 1) % 10), str((i - 1) % 10)]
+    for i in range(10)
+}
 
 
 class Solution:
+
     def openLock(self, deadends: List[str], target: str) -> int:
-        if "0000" == target:
+        if target == "0000":
             return 0
         seen = set(deadends)
         if "0000" in seen:
@@ -103,7 +107,7 @@ class Solution:
             val, turns = queue.popleft()
             for i in range(4):
                 for n in neighbours[val[i]]:
-                    new_val = val[:i] + n + val[i + 1 :]
+                    new_val = val[:i] + n + val[i + 1:]
                     if new_val == target:
                         return turns + 1
                     if new_val not in seen:
@@ -121,7 +125,8 @@ if __name__ == "__main__":
         ((["0201", "0101", "0102", "1212", "2002"], "0202"), 6),
         ((["8888"], "0009"), 1),
         (
-            (["8887", "8889", "8878", "8898", "8788", "8988", "7888", "9888"], "8888"),
+            (["8887", "8889", "8878", "8898", "8788", "8988", "7888",
+              "9888"], "8888"),
             -1,
         ),
         ((["0201", "0101", "0102", "1212", "2002"], "0202"), 6),
@@ -129,7 +134,9 @@ if __name__ == "__main__":
     for (deadends, target), want in cases:
         got = sol.openLock(deadends, target)
         if got != want:
-            print(f"Failed => args: {deadends}, {target}; want: {want}, but got: {got}")
+            print(
+                f"Failed => args: {deadends}, {target}; want: {want}, but got: {got}"
+            )
             break
     else:
         print("All Passed")

@@ -44,8 +44,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def searchRange(self, nums: List[int], target: int) -> List[int]:
         if not nums:
             return [-1, -1]
@@ -101,7 +103,8 @@ if __name__ == "__main__":
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -68,6 +68,7 @@
 #
 
 # @lc code=start
+import itertools
 from functools import cache
 
 
@@ -88,13 +89,13 @@ class Solution:
         return helper(m, n)
 
     def uniquePaths2(self, m: int, n: int) -> int:
+
         @cache
         def helper(x: int, y: int) -> int:
             if x <= 0 or y <= 0:
                 return 0
-            if x == 1 or y == 1:
-                return 1
-            return helper(x - 1, y) + helper(x, y - 1)
+            return 1 if x == 1 or y == 1 else helper(x -
+                                                     1, y) + helper(x, y - 1)
 
         return helper(m, n)
 
@@ -103,9 +104,8 @@ class Solution:
         if m == 1 or n == 1:
             return 1
         dp = [[0] * (n + 1) for _ in range(m + 1)]
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                dp[i][j] = 1 if i == j == 1 else dp[i - 1][j] + dp[i][j - 1]
+        for i, j in itertools.product(range(1, m + 1), range(1, n + 1)):
+            dp[i][j] = 1 if i == j == 1 else dp[i - 1][j] + dp[i][j - 1]
         return dp[m][n]
 
 
@@ -126,7 +126,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

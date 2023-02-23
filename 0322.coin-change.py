@@ -69,10 +69,9 @@
 #
 #
 #
-from typing import List
-
 # @lc code=start
 from functools import lru_cache
+from typing import List
 
 
 class Solution:
@@ -82,8 +81,8 @@ class Solution:
         dp[0] = 0
         for a in range(1, amount + 1):
             dp[a] = min(
-                dp[a], 1 + min(dp[a - c] if c <= a else float("inf") for c in coins)
-            )
+                dp[a],
+                1 + min(dp[a - c] if c <= a else float("inf") for c in coins))
 
         return dp[amount] if dp[amount] != float("inf") else -1
 
@@ -126,7 +125,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

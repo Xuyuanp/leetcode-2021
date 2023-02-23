@@ -41,7 +41,9 @@
 #
 #
 #
+import itertools
 from typing import List
+
 
 # @lc code=start
 class Solution:
@@ -51,11 +53,10 @@ class Solution:
         dp = [[0] * (n + 1) for _ in range(m + 1)]
         res = 0
 
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                if nums1[i - 1] == nums2[j - 1]:
-                    dp[i][j] = dp[i - 1][j - 1] + 1
-                    res = max(res, dp[i][j])
+        for i, j in itertools.product(range(1, m + 1), range(1, n + 1)):
+            if nums1[i - 1] == nums2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+                res = max(res, dp[i][j])
 
         return res
 
@@ -96,7 +97,8 @@ def test():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

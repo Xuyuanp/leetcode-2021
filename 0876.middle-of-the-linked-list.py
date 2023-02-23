@@ -54,6 +54,8 @@
 #
 #
 #
+from structures.list_node import ListNode
+
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -62,6 +64,7 @@
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def middleNode(self, head: ListNode) -> ListNode:
         slow = fast = head
         while fast and fast.next:

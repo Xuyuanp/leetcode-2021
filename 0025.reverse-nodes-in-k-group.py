@@ -65,8 +65,6 @@
 #
 # Follow-up: Can you solve the problem in O(1) extra memory space?
 #
-from structures import ListNode
-
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -75,15 +73,19 @@ from structures import ListNode
 #         self.next = next
 from typing import Tuple
 
+from structures import ListNode
+
 
 class Solution:
+
     def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
         if k == 1:
             return head
 
-        def reverseFirstK(head: ListNode, k: int) -> Tuple[ListNode, ListNode, bool]:
-            sentienl = ListNode(-1, next=head)
-            pre = sentienl
+        def reverseFirstK(head: ListNode,
+                          k: int) -> Tuple[ListNode, ListNode, bool]:
+            sentinel = ListNode(-1, next=head)
+            pre = sentinel
             tail = pre.next
             while tail and tail.next and k > 1:
                 pre_next = pre.next
@@ -92,7 +94,7 @@ class Solution:
                 pre.next.next = pre_next
                 k -= 1
 
-            return sentienl.next, tail, k > 1
+            return sentinel.next, tail, k > 1
 
         head, tail, _ = reverseFirstK(head, k)
         while tail:

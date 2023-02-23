@@ -43,6 +43,7 @@
 #
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -50,6 +51,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def isPalindrome(self, head: ListNode) -> bool:
         fast = head
         left, right = None, head
@@ -84,12 +86,12 @@ class Solution:
     def isPalindrome1(self, head: ListNode) -> bool:
         slow = head
         fast = head.next
-        while fast and fast.next:
+        while fast and slow and fast.next:
             fast = fast.next.next
             slow = slow.next
 
         curr = slow.next
-        while curr and curr.next:
+        while curr and curr.next and slow:
             tmp = curr.next
             curr.next = tmp.next
             tmp.next = slow.next

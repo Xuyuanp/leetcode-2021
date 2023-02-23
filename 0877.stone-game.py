@@ -59,6 +59,7 @@
 from functools import cache
 from typing import List, Tuple
 
+
 # @lc code=start
 class Solution:
     # Alex can always win
@@ -68,7 +69,8 @@ class Solution:
         n = len(piles)
         # dp[i][j] is the (max value of the first pick, max value of the second pick) in the range piles[i:j+1]
         # when i == j, the first pick always get the only pile.
-        dp = [[(piles[i] if i == j else 0, 0) for j in range(n)] for i in range(n)]
+        dp = [[(piles[i] if i == j else 0, 0) for j in range(n)]
+              for i in range(n)]
 
         # (0,   1), (1,   2) .. (n-3, n-2), (n-2, n-1)
         # (0,   2), (1,   3) .. (n-4, n-2)
@@ -116,7 +118,8 @@ class Solution:
         def helper(i: int, j: int) -> int:
             if i == j:
                 return piles[i]
-            return max(piles[i] - helper(i + 1, j), piles[j] - helper(i, j - 1))
+            return max(piles[i] - helper(i + 1, j),
+                       piles[j] - helper(i, j - 1))
 
         return helper(0, n - 1) > 0
 
@@ -136,7 +139,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

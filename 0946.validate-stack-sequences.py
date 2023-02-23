@@ -53,9 +53,12 @@
 from collections import deque
 from typing import List
 
+
 # @lc code=start
 class Solution:
-    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+
+    def validateStackSequences(self, pushed: List[int],
+                               popped: List[int]) -> bool:
         stack = deque()
         j = 0
         for num in pushed:
@@ -80,7 +83,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

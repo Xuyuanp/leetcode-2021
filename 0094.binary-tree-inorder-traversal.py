@@ -78,7 +78,9 @@ from structures import TreeNode
 
 
 class Solution:
+
     def inorderTraversal(self, root: TreeNode) -> List[int]:
+
         def traverse(node: TreeNode):
             if node:
                 yield from traverse(node.left)
@@ -124,7 +126,8 @@ def test():
         for args, want in cases:
             got = func(TreeNode.from_list(*args))
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

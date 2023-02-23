@@ -57,6 +57,7 @@ from typing import Optional
 
 from structures import TreeNode
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -65,7 +66,9 @@ from structures import TreeNode
 #         self.left = left
 #         self.right = right
 class Solution:
+
     def pruneTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+
         def prune(node: Optional[TreeNode]) -> bool:
             if not node:
                 return False
@@ -96,7 +99,8 @@ def test():
         for args, want in cases:
             got = func(TreeNode.from_list(*args))
             if TreeNode.from_list(want) != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

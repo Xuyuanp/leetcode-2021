@@ -35,8 +35,10 @@
 
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def generateParenthesis(self, n: int) -> List[str]:
         res = []
 
@@ -45,8 +47,8 @@ class Solution:
                 if right == 0:
                     res.append(pat)
                     return
-                backtrack(pat + "(", left - 1, right)
-                backtrack(pat + ")", left, right - 1)
+                backtrack(f"{pat}(", left - 1, right)
+                backtrack(f"{pat})", left, right - 1)
 
         backtrack("", n, n)
 

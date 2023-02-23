@@ -63,8 +63,10 @@ from collections import Counter
 from functools import cache
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def combinationSum4(self, nums: List[int], target: int) -> int:
         dp = Counter()
         dp[0] = 1
@@ -77,6 +79,7 @@ class Solution:
         return dp[target]
 
     def combinationSum41(self, nums: List[int], target: int) -> int:
+
         @cache
         def helper(target: int) -> int:
             if target == 0:
@@ -104,7 +107,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

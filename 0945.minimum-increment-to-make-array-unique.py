@@ -48,8 +48,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def minIncrementForUnique(self, nums: List[int]) -> int:
         nums.sort()
         res = 0
@@ -87,7 +89,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

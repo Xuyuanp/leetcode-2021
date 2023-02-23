@@ -53,6 +53,7 @@
 from functools import cache
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n^3), O(n^2)
@@ -63,15 +64,14 @@ class Solution:
         # dp[i][j] = answer of nums[i:j+1]
         dp = [[0] * (n + 2) for _ in range(n + 2)]
 
-        for l in range(1, n + 1):
-            for i in range(1, n - l + 2):
-                j = i + l - 1
+        for x in range(1, n + 1):
+            for i in range(1, n - x + 2):
+                j = i + x - 1
                 for k in range(i, j + 1):
                     dp[i][j] = max(
                         dp[i][j],
-                        dp[i][k - 1]
-                        + nums[i - 1] * nums[k] * nums[j + 1]
-                        + dp[k + 1][j],
+                        dp[i][k - 1] + nums[i - 1] * nums[k] * nums[j + 1] +
+                        dp[k + 1][j],
                     )
 
         return dp[1][n]
@@ -87,9 +87,8 @@ class Solution:
             for k in range(i, j + 1):
                 res = max(
                     res,
-                    helper(i, k - 1)
-                    + nums[i - 1] * nums[k] * nums[j + 1]
-                    + helper(k + 1, j),
+                    helper(i, k - 1) + nums[i - 1] * nums[k] * nums[j + 1] +
+                    helper(k + 1, j),
                 )
             return res
 
@@ -110,7 +109,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

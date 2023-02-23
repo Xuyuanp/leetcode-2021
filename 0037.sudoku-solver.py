@@ -53,12 +53,13 @@
 #
 
 # @lc code=start
-from typing import List, Tuple, Set
+from typing import List, Set, Tuple
 
 
 class Solution:
+
     def solveSudoku(self, board: List[List[str]]):
-        digits = set(str(i) for i in range(1, 10))
+        digits = {str(i) for i in range(1, 10)}
         filled = set()
 
         def is_empty(row: int, col: int):

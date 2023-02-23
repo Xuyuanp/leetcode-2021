@@ -77,26 +77,27 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def lemonadeChange(self, bills: List[int]) -> bool:
         dollar5 = dollar10 = 0
         for bill in bills:
-            if bill == 5:
-                dollar5 += 1
-            elif bill == 10:
+            if bill == 10:
                 if dollar5 == 0:
                     return False
                 dollar5 -= 1
                 dollar10 += 1
+            elif bill == 5:
+                dollar5 += 1
+            elif dollar10 > 0 and dollar5 > 0:
+                dollar5 -= 1
+                dollar10 -= 1
+            elif dollar5 >= 3:
+                dollar5 -= 3
             else:
-                if dollar10 > 0 and dollar5 > 0:
-                    dollar5 -= 1
-                    dollar10 -= 1
-                elif dollar5 >= 3:
-                    dollar5 -= 3
-                else:
-                    return False
+                return False
         return True
 
 
@@ -116,7 +117,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

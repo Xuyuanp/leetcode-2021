@@ -73,6 +73,7 @@ from typing import Optional, Tuple
 
 from structures import TreeNode
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -81,7 +82,9 @@ from structures import TreeNode
 #         self.left = left
 #         self.right = right
 class Solution:
+
     def lcaDeepestLeaves(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+
         def helper(node: Optional[TreeNode]) -> Tuple[Optional[TreeNode], int]:
             if not node:
                 return None, 0
@@ -95,9 +98,8 @@ class Solution:
                 return left[0], left[1] + 1
             if left[1] > right[1]:
                 return left[0], left[1] + 1
-            if right[1] > left[1]:
-                return right[0], right[1] + 1
-            return node, left[1] + 1
+            return ((right[0], right[1] + 1) if right[1] > left[1] else
+                    (node, left[1] + 1))
 
         return helper(root)[0]
 
@@ -119,7 +121,8 @@ def test():
             got = func(TreeNode.from_list(*args))
             want = TreeNode.from_list(want)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

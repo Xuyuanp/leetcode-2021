@@ -56,8 +56,10 @@
 #
 from typing import Tuple
 
+
 # @lc code=start
 class Solution:
+
     def longestPalindrome(self, s: str) -> str:
         # time: O(n^2), space: O(1)
         n = len(s)
@@ -80,7 +82,7 @@ class Solution:
             if r2 - l2 > end - start:
                 start, end = l2, r2
 
-        return s[start : end + 1]
+        return s[start:end + 1]
 
     def longestPalindrome1(self, s: str) -> str:
         # dp: dp[i][j] presents if the substring s[i:j+1] is a palindrome
@@ -96,7 +98,7 @@ class Solution:
                 if s[i] == s[j]:
                     dp[i][j] = j - i == 1 or dp[i + 1][j - 1]
                     if dp[i][j] and j - i + 1 > len(res):
-                        res = s[i : j + 1]
+                        res = s[i:j + 1]
 
         return res
 

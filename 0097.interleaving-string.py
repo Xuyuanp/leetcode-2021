@@ -67,6 +67,7 @@
 #
 
 # @lc code=start
+import itertools
 from functools import lru_cache
 
 
@@ -83,14 +84,9 @@ class Solution:
         for j in range(1, n + 1):
             dp[0][j] = dp[0][j - 1] and s2[j - 1] == s3[j - 1]
 
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                dp[i][j] = (
-                    dp[i - 1][j]
-                    and s1[i - 1] == s3[i + j - 1]
-                    or dp[i][j - 1]
-                    and s2[j - 1] == s3[i + j - 1]
-                )
+        for i, j in itertools.product(range(1, m + 1), range(1, n + 1)):
+            dp[i][j] = (dp[i - 1][j] and s1[i - 1] == s3[i + j - 1]
+                        or dp[i][j - 1] and s2[j - 1] == s3[i + j - 1])
 
         return dp[m][n]
 
@@ -111,12 +107,8 @@ class Solution:
             next_dp = [False] * (n + 1)
             next_dp[0] = dp[0] and s1[i - 1] == s3[i - 1]
             for j in range(1, n + 1):
-                next_dp[j] = (
-                    dp[j]
-                    and s1[i - 1] == s3[i + j - 1]
-                    or next_dp[j - 1]
-                    and s2[j - 1] == s3[i + j - 1]
-                )
+                next_dp[j] = (dp[j] and s1[i - 1] == s3[i + j - 1]
+                              or next_dp[j - 1] and s2[j - 1] == s3[i + j - 1])
             dp = next_dp
 
         return dp[n]
@@ -131,17 +123,13 @@ class Solution:
 
         @lru_cache(None)
         def is_interleave(s1: str, s2: str, s3: str) -> bool:
-            if len(s1) == 0:
+            if not s1:
                 return s2 == s3
-            if len(s2) == 0:
+            if not s2:
                 return s1 == s3
 
-            return (
-                s1[0] == s3[0]
-                and is_interleave(s1[1:], s2, s3[1:])
-                or s2[0] == s3[0]
-                and is_interleave(s1, s2[1:], s3[1:])
-            )
+            return (s1[0] == s3[0] and is_interleave(s1[1:], s2, s3[1:])
+                    or s2[0] == s3[0] and is_interleave(s1, s2[1:], s3[1:]))
 
         return is_interleave(s1, s2, s3)
 
@@ -161,12 +149,8 @@ class Solution:
             if i2 == n:
                 return s1[i1:] == s3[i3:]
 
-            return (
-                s1[i1] == s3[i3]
-                and is_interleave(i1 + 1, i2)
-                or s2[i2] == s3[i3]
-                and is_interleave(i1, i2 + 1)
-            )
+            return (s1[i1] == s3[i3] and is_interleave(i1 + 1, i2)
+                    or s2[i2] == s3[i3] and is_interleave(i1, i2 + 1))
 
         return is_interleave(0, 0)
 
@@ -187,7 +171,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

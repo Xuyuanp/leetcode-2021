@@ -73,25 +73,25 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
-    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+
+    def merge(self, nums1: List[int], m: int, nums2: List[int],
+              n: int) -> None:
         """
         Do not return anything, modify nums1 in-place instead.
         """
         i, j, k = m - 1, n - 1, m + n - 1
         while i >= 0 or j >= 0:
-            if i < 0:
+            if i < 0 or j >= 0 and nums1[i] <= nums2[j]:
                 nums1[k] = nums2[j]
                 j -= 1
             elif j < 0:
                 break
-            elif nums1[i] > nums2[j]:
+            else:
                 nums1[k] = nums1[i]
                 i -= 1
-            else:
-                nums1[k] = nums2[j]
-                j -= 1
             k -= 1
 
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
         got = nums1
         if want != got:
             print(
-                f"Failed => args: {(nums1, m, nums2, n)}; want: {want}, but got: {got}"
+                f"Failed => args: {(got, m, nums2, n)}; want: {want}, but got: {got}"
             )
             break
     else:

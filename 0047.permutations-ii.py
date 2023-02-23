@@ -44,11 +44,13 @@
 #
 #
 
-from typing import List
 from collections import Counter
+from typing import List
+
 
 # @lc code=start
 class Solution:
+
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
         res = []
         counter = Counter(nums)
@@ -79,7 +81,8 @@ if __name__ == "__main__":
         ([1, 2], [[1, 2], [2, 1]]),
         ([1, 1], [[1, 1]]),
         ([1, 1, 2], [[1, 1, 2], [1, 2, 1], [2, 1, 1]]),
-        ([1, 2, 3], [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]),
+        ([1, 2, 3], [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2],
+                     [3, 2, 1]]),
     ]
     for nums, want in cases:
         got = sol.permuteUnique(nums)

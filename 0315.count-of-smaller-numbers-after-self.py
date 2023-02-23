@@ -55,6 +55,7 @@
 #
 from typing import List, Tuple
 
+
 # @lc code=start
 class Solution:
     # O(n*log(n)), O(n)
@@ -74,15 +75,13 @@ class Solution:
             new_nums = [0] * (len(left) + len(right))
             i = j = k = 0
             while i < len(left) or j < len(right):
-                while j < len(right) and (
-                    i == len(left) or left[i][VALUE] > right[j][VALUE]
-                ):
+                while j < len(right) and (i == len(left)
+                                          or left[i][VALUE] > right[j][VALUE]):
                     new_nums[k] = right[j]
                     j += 1
                     k += 1
-                while i < len(left) and (
-                    j == len(right) or left[i][VALUE] <= right[j][VALUE]
-                ):
+                while i < len(left) and (j == len(right)
+                                         or left[i][VALUE] <= right[j][VALUE]):
                     new_nums[k] = left[i]
                     res[left[i][INDEX]] += j
                     i += 1
@@ -109,50 +108,48 @@ def test():
             ([[1, 2, 3, 4]], [0, 0, 0, 0]),
             ([[4, 3, 2, 1]], [3, 2, 1, 0]),
             (
-                [
-                    [
-                        26,
-                        78,
-                        27,
-                        100,
-                        33,
-                        67,
-                        90,
-                        23,
-                        66,
-                        5,
-                        38,
-                        7,
-                        35,
-                        23,
-                        52,
-                        22,
-                        83,
-                        51,
-                        98,
-                        69,
-                        81,
-                        32,
-                        78,
-                        28,
-                        94,
-                        13,
-                        2,
-                        97,
-                        3,
-                        76,
-                        99,
-                        51,
-                        9,
-                        21,
-                        84,
-                        66,
-                        65,
-                        36,
-                        100,
-                        41,
-                    ]
-                ],
+                [[
+                    26,
+                    78,
+                    27,
+                    100,
+                    33,
+                    67,
+                    90,
+                    23,
+                    66,
+                    5,
+                    38,
+                    7,
+                    35,
+                    23,
+                    52,
+                    22,
+                    83,
+                    51,
+                    98,
+                    69,
+                    81,
+                    32,
+                    78,
+                    28,
+                    94,
+                    13,
+                    2,
+                    97,
+                    3,
+                    76,
+                    99,
+                    51,
+                    9,
+                    21,
+                    84,
+                    66,
+                    65,
+                    36,
+                    100,
+                    41,
+                ]],
                 [
                     10,
                     27,
@@ -200,7 +197,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

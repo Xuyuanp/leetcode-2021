@@ -46,6 +46,7 @@
 #
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -53,6 +54,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def partition(self, head: ListNode, x: int) -> ListNode:
         less_head = less_tail = ListNode(-1, next=None)
         greater_head = greater_tail = ListNode(-1, next=None)
@@ -92,7 +94,8 @@ def test():
             got = func(ListNode.from_list(args[0]), args[1])
             want = ListNode.from_list(want)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

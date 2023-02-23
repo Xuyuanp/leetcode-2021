@@ -48,8 +48,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def sortedSquares(self, nums: List[int]) -> List[int]:
         n = len(nums)
         res = [0] * n
@@ -58,10 +60,10 @@ class Solution:
         index = n - 1
         while left <= right:
             if abs(nums[left]) > nums[right]:
-                res[index] = nums[left] ** 2
+                res[index] = nums[left]**2
                 left += 1
             else:
-                res[index] = nums[right] ** 2
+                res[index] = nums[right]**2
                 right -= 1
             index -= 1
 
@@ -84,7 +86,8 @@ def test():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

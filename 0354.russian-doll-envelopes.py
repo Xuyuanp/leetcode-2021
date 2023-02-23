@@ -51,13 +51,13 @@
 #
 #
 #
-from typing import List
-
 # @lc code=start
 from bisect import bisect_left
+from typing import List
 
 
 class Solution:
+
     def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
         envelopes.sort(key=lambda env: (env[0], -env[1]))
         lis = []
@@ -110,7 +110,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

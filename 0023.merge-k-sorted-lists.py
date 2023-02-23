@@ -61,10 +61,6 @@
 #
 #
 #
-from typing import List
-
-from structures import ListNode
-
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -72,9 +68,13 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 from queue import PriorityQueue
+from typing import List
+
+from structures import ListNode
 
 
 class Solution:
+
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
         if not lists:
             return None
@@ -104,7 +104,6 @@ class Solution:
 
 # @lc code=end
 
-
 if __name__ == "__main__":
     sol = Solution()
     cases = [
@@ -119,7 +118,7 @@ if __name__ == "__main__":
         got = sol.mergeKLists([ListNode.from_list(arg) for arg in args])
         want = ListNode.from_list(want)
         if got != want:
-            print(f"Falied => args: {args}; want: {want}, but got: {got}")
+            print(f"Failed => args: {args}; want: {want}, but got: {got}")
             break
     else:
         print("All Passed")

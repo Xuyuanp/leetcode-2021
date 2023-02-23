@@ -54,7 +54,9 @@
 #
 #
 from collections import deque
+
 from structures import ListNode
+
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -63,6 +65,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def reorderList(self, head: ListNode) -> None:
         if not head or not head.next:
             return
@@ -108,7 +111,7 @@ class Solution:
         tail.next = None
 
         node = head
-        while stack:
+        while stack and node:
             n = stack.pop()
             n.next = node.next
             node.next = n

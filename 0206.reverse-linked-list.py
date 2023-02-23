@@ -53,6 +53,7 @@
 #
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -60,6 +61,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def reverseList2(self, head: ListNode) -> ListNode:
         if not head or not head.next:
             return head

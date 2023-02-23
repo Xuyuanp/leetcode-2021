@@ -55,10 +55,11 @@ import math
 
 
 class Solution:
+
     def getPermutation(self, n: int, k: int) -> str:
         res = ""
 
-        nums = [i for i in range(1, n + 1)]
+        nums = list(range(1, n + 1))
         k -= 1
         for _ in range(n):
             j, k = divmod(k, math.factorial(len(nums) - 1))

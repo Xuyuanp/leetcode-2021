@@ -75,6 +75,7 @@ from structures import ListNode
 
 
 class Solution:
+
     def hasCycle(self, head: ListNode) -> bool:
         if not head:
             return False

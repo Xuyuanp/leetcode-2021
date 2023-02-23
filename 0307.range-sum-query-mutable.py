@@ -63,10 +63,9 @@
 #
 #
 #
-from typing import Optional, List
-
 # @lc code=start
 from dataclasses import dataclass
+from typing import List, Optional
 
 
 @dataclass

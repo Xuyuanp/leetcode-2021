@@ -47,6 +47,7 @@
 from collections import Counter
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n), O(n)
@@ -60,14 +61,14 @@ class Solution:
         n = len(s)
         res = []
         counter = Counter()
-        for i in range(0, n - 9):
+        for i in range(n - 9):
             seq = 0
             for j in range(10):
                 seq = seq << 2
                 seq |= bitmap[s[i + j]]
             counter[seq] += 1
             if counter[seq] == 2:
-                res.append(s[i : i + 10])
+                res.append(s[i:i + 10])
 
         return res
 
@@ -76,8 +77,8 @@ class Solution:
         n = len(s)
         res = []
         counter = Counter()
-        for i in range(0, n - 9):
-            curr = s[i : i + 10]
+        for i in range(n - 9):
+            curr = s[i:i + 10]
             counter[curr] += 1
             if counter[curr] == 2:
                 res.append(curr)
@@ -94,12 +95,14 @@ def test():
         func = getattr(sol, method)
         cases = [
             (["AAAAAAAAAAAAA"], ["AAAAAAAAAA"]),
-            (["AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"], ["AAAAACCCCC", "CCCCCAAAAA"]),
+            (["AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"],
+             ["AAAAACCCCC", "CCCCCAAAAA"]),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

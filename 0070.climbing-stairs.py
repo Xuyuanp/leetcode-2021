@@ -49,6 +49,7 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
     # O(n), O(1)
@@ -64,9 +65,7 @@ class Solution:
             return 1
 
         def helper(n: int, x: int, y: int):
-            if n == 0:
-                return y
-            return helper(n - 1, y, x + y)
+            return y if n == 0 else helper(n - 1, y, x + y)
 
         return helper(n - 1, 1, 1)
 
@@ -91,10 +90,9 @@ class Solution:
 
     # O(2^n) O(n)
     def climbStairs0(self, n: int) -> int:
+
         def helper(n: int) -> int:
-            if n < 2:
-                return 1
-            return helper(n - 1) + helper(n - 2)
+            return 1 if n < 2 else helper(n - 1) + helper(n - 2)
 
         return helper(n)
 
@@ -118,7 +116,8 @@ if __name__ == "__main__":
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

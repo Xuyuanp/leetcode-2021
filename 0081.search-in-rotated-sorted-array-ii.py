@@ -53,8 +53,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def search(self, nums: List[int], target: int) -> bool:
         n = len(nums)
         left, right = 0, n - 1
@@ -71,11 +73,10 @@ class Solution:
                     right = mid - 1
                 else:
                     left = mid + 1
+            elif nums[mid] < target <= nums[right]:
+                left = mid + 1
             else:
-                if nums[mid] < target <= nums[right]:
-                    left = mid + 1
-                else:
-                    right = mid - 1
+                right = mid - 1
         return False
 
 
@@ -94,12 +95,14 @@ if __name__ == "__main__":
             ([[2, 5, 6, 0, 0, 1, 2], 0], True),
             ([[2, 5, 6, 0, 0, 1, 2], 3], False),
             ([[2, 2, 2, 3, 2, 2, 2], 3], True),
-            ([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1], 2], True),
+            ([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+              2], True),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

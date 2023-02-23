@@ -49,8 +49,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def search3(self, nums: List[int], target: int) -> int:
         if not nums:
             return -1
@@ -65,9 +67,7 @@ class Solution:
                 right = mid
         if nums[left] == target:
             return left
-        if nums[right] == target:
-            return right
-        return -1
+        return right if nums[right] == target else -1
 
     def search2(self, nums: List[int], target: int) -> int:
         left, right = 0, len(nums)
@@ -79,9 +79,7 @@ class Solution:
                 left = mid + 1
             else:
                 right = mid
-        if left < len(nums) and nums[left] == target:
-            return left
-        return -1
+        return left if left < len(nums) and nums[left] == target else -1
 
     def search1(self, nums: List[int], target: int) -> int:
         left, right = 0, len(nums) - 1
@@ -119,7 +117,8 @@ if __name__ == "__main__":
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

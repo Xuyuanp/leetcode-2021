@@ -61,16 +61,16 @@
 #
 #
 #
-from collections import deque
 import heapq
+from collections import deque
 from typing import List
+
 
 # @lc code=start
 class Solution:
     # O(m*n*log(m*n)). TLE
-    def kSmallestPairs(
-        self, nums1: List[int], nums2: List[int], k: int
-    ) -> List[List[int]]:
+    def kSmallestPairs(self, nums1: List[int], nums2: List[int],
+                       k: int) -> List[List[int]]:
         res = []
         for _, x, y in sorted((x + y, x, y) for x in nums1 for y in nums2):
             res.append([x, y])
@@ -80,17 +80,15 @@ class Solution:
         return res
 
     # O(m*n*log(k)). TLE
-    def kSmallestPairs1(
-        self, nums1: List[int], nums2: List[int], k: int
-    ) -> List[List[int]]:
+    def kSmallestPairs1(self, nums1: List[int], nums2: List[int],
+                        k: int) -> List[List[int]]:
         heap = []
         for x in nums1:
             for y in nums2:
                 if len(heap) < k:
                     heapq.heappush(heap, (-x - y, x, y))
-                else:
-                    if x + y < -heap[0][0]:
-                        heapq.heapreplace(heap, (-x - y, x, y))
+                elif x + y < -heap[0][0]:
+                    heapq.heapreplace(heap, (-x - y, x, y))
         res = deque()
         while heap and k > 0:
             _, x, y = heapq.heappop(heap)
@@ -100,9 +98,8 @@ class Solution:
         return list(res)
 
     # O(k*log(k)), O(k)
-    def kSmallestPairs2(
-        self, nums1: List[int], nums2: List[int], k: int
-    ) -> List[List[int]]:
+    def kSmallestPairs2(self, nums1: List[int], nums2: List[int],
+                        k: int) -> List[List[int]]:
         res = []
         m, n = len(nums1), len(nums2)
 
@@ -141,7 +138,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

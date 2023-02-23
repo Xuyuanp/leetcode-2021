@@ -57,10 +57,12 @@
 from functools import cache
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n*log(sum)), O(1)
     def splitArray(self, nums: List[int], m: int) -> int:
+
         def num_of_subarrays_sum_lt_val(val: int) -> int:
             cnt = 1
             total = 0

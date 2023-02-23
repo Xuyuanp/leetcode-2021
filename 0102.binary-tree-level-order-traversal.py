@@ -47,8 +47,6 @@
 #
 #
 #
-from structures import TreeNode
-
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -59,8 +57,11 @@ from structures import TreeNode
 from collections import deque
 from typing import List
 
+from structures import TreeNode
+
 
 class Solution:
+
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
         if not root:
             return []

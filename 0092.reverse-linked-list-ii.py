@@ -47,6 +47,7 @@
 #
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -55,7 +56,8 @@ from structures import ListNode
 #         self.next = next
 class Solution:
     # O(n), O(1)
-    def reverseBetween(self, head: ListNode, left: int, right: int) -> ListNode:
+    def reverseBetween(self, head: ListNode, left: int,
+                       right: int) -> ListNode:
         if left == right:
             return head
 

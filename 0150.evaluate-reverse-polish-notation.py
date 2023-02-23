@@ -68,8 +68,10 @@
 from collections import deque
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def evalRPN(self, tokens: List[str]) -> int:
         stack = deque()
         ops = {
@@ -100,14 +102,18 @@ if __name__ == "__main__":
             ([["2", "1", "+", "3", "*"]], 9),
             ([["4", "13", "5", "/", "+"]], 6),
             (
-                [["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"]],
+                [[
+                    "10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+",
+                    "5", "+"
+                ]],
                 22,
             ),
         ]
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

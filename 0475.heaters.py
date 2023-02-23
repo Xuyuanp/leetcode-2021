@@ -62,10 +62,9 @@
 #
 #
 import bisect
-from typing import List
-
 # @lc code=start
 import sys
+from typing import List
 
 
 class Solution:
@@ -77,7 +76,8 @@ class Solution:
         for house in houses:
             index = bisect.bisect_right(heaters, house)
             to_left = house - heaters[index - 1] if index > 0 else sys.maxsize
-            to_right = heaters[index] - house if index < len(heaters) else sys.maxsize
+            to_right = heaters[index] - house if index < len(
+                heaters) else sys.maxsize
 
             res = max(res, min(to_left, to_right))
 
@@ -86,6 +86,7 @@ class Solution:
     # m, n = len(houses), len(heaters)
     # m*log(m) + n*log(n) + O(log(max(max(houses), max(heaters)))*n*log(m))
     def findRadius1(self, houses: List[int], heaters: List[int]) -> int:
+
         def in_range(rad: int) -> bool:
             last_right = 0
             for heater in heaters:
@@ -124,7 +125,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

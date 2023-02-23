@@ -47,11 +47,11 @@ from functools import lru_cache
 class Solution:
     # O(n^2), O(n). memoization
     def numTrees(self, n: int) -> int:
+
         @lru_cache(None)
         def helper(m: int):
-            if m < 2:
-                return 1
-            return sum(helper(i) * helper(m - i - 1) for i in range(m))
+            return 1 if m < 2 else sum(
+                helper(i) * helper(m - i - 1) for i in range(m))
 
         return helper(n)
 
@@ -83,7 +83,8 @@ def test():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

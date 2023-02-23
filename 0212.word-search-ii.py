@@ -56,8 +56,10 @@
 from collections import defaultdict
 from typing import List
 
+
 # @lc code=start
 class TrieNode:
+
     def __init__(self):
         self.word = ""
         self.valid = False
@@ -72,6 +74,7 @@ class TrieNode:
 
 
 class Solution:
+
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         root = TrieNode()
 
@@ -142,7 +145,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if sorted(want) != sorted(got):
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

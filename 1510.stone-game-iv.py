@@ -87,12 +87,13 @@ from functools import cache
 class Solution:
     # O(n*sqrt(n)), O(n)
     def winnerSquareGame(self, n: int) -> bool:
+
         @cache
         def helper(i: int) -> bool:
             if i == 0:
                 return False
             j = 1
-            while (curr := j * j) <= i:
+            while (curr := j**2) <= i:
                 if not helper(i - curr):
                     return True
                 j += 1
@@ -105,7 +106,7 @@ class Solution:
         dp = [False] * (n + 1)
         for i in range(1, n + 1):
             j = 1
-            while (curr := j * j) <= i:
+            while (curr := j**2) <= i:
                 if not dp[i - curr]:
                     dp[i] = True
                     break
@@ -135,7 +136,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

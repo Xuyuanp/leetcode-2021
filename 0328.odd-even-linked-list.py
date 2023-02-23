@@ -52,6 +52,7 @@
 #
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -59,6 +60,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def oddEvenList(self, head: ListNode) -> ListNode:
         if not head:
             return head

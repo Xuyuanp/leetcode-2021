@@ -59,19 +59,21 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
-        l, r = 0, len(numbers) - 1
-        while l < r:
-            sum_ = numbers[l] + numbers[r]
+        left, right = 0, len(numbers) - 1
+        while left < right:
+            sum_ = numbers[left] + numbers[right]
             if sum_ == target:
-                return [l + 1, r + 1]
+                return [left + 1, right + 1]
             if sum_ < target:
-                l += 1
+                left += 1
             else:
-                r -= 1
-        return [l + 1, r + 1]
+                right -= 1
+        return [left + 1, right + 1]
 
 
 # @lc code=end
@@ -85,7 +87,9 @@ if __name__ == "__main__":
     for (nums, target), want in cases:
         got = sol.twoSum(nums, target)
         if want != got:
-            print(f"Failed => args: {(nums, target)}; want: {want}, but got: {got}")
+            print(
+                f"Failed => args: {(nums, target)}; want: {want}, but got: {got}"
+            )
             break
     else:
         print("All Passed")

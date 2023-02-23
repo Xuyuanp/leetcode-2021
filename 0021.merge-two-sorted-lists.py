@@ -50,6 +50,7 @@
 #
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -57,6 +58,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
         tail = sentinel = ListNode(val=-1, next=None)
         while l1 and l2:
@@ -67,7 +69,7 @@ class Solution:
                 tail.next = l2
                 l2 = l2.next
             tail = tail.next
-        tail.next = l1 if l1 else l2
+        tail.next = l1 or l2
 
         return sentinel.next
 

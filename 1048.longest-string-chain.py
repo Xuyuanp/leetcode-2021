@@ -73,6 +73,7 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(l*n^2), O(n). l = max of len(word)) in words
@@ -110,7 +111,7 @@ class Solution:
 
         for word in words:
             for i in range(len(word)):
-                pre = word[:i] + word[i + 1 :]
+                pre = word[:i] + word[i + 1:]
                 if pre in dp:
                     dp[word] = max(dp[word], dp[pre] + 1)
 
@@ -132,7 +133,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

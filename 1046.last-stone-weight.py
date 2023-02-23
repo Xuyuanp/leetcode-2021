@@ -64,8 +64,10 @@
 import heapq
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def lastStoneWeight(self, stones: List[int]) -> int:
         heap = [-x for x in stones]
         heapq.heapify(heap)
@@ -94,7 +96,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

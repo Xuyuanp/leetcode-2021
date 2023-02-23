@@ -62,6 +62,7 @@
 #
 #
 #
+import itertools
 from typing import Counter, List
 
 
@@ -72,10 +73,9 @@ class Solution:
         dp = [0] * (amount + 1)
         dp[0] = 1
 
-        for j in range(len(coins)):
-            for i in range(1, amount + 1):
-                if i >= coins[j]:
-                    dp[i] += dp[i - coins[j]]
+        for coin, i in itertools.product(coins, range(1, amount + 1)):
+            if i >= coin:
+                dp[i] += dp[i - coin]
         return dp[amount]
 
     # O(n*amount), O(amount)
@@ -83,10 +83,9 @@ class Solution:
         dp = Counter()
         dp[0] = 1
 
-        for c in coins:
-            for i in range(1, amount + 1):
-                if i >= c:
-                    dp[i] += dp[i - c]
+        for c, i in itertools.product(coins, range(1, amount + 1)):
+            if i >= c:
+                dp[i] += dp[i - c]
         return dp[amount]
 
 
@@ -105,7 +104,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

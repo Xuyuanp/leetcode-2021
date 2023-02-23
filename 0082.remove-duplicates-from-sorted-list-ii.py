@@ -44,6 +44,7 @@
 #
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -51,6 +52,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def deleteDuplicates(self, head: ListNode) -> ListNode:
         start = sentinel = ListNode(val=-1, next=head)
         while start.next and start.next.next:

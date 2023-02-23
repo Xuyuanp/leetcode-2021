@@ -51,8 +51,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def findPeakElement(self, nums: List[int]) -> int:
         left, right = 0, len(nums) - 1
         while left < right:

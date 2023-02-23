@@ -39,11 +39,13 @@
 #
 #
 #
-from typing import List
 from dataclasses import dataclass
+from typing import List
+
 
 # @lc code=start
 class Solution:
+
     def generateMatrix(self, n: int) -> List[List[int]]:
         matrix = [[0] * n for _ in range(n)]
         loops = n // 2
@@ -64,6 +66,7 @@ class Solution:
         return matrix
 
     def generateMatrix1(self, n: int) -> List[List[int]]:
+
         def generateMatrixMN(rows: int, cols: int) -> List[List[int]]:
             matrix = [[0] * cols for _ in range(rows)]
 
@@ -84,9 +87,9 @@ class Solution:
                     # shrink the bound of the previous direction,
                     # and then turn to the next direction
                     pre_dir = (curr_dir - 1) % 4
-                    directions[pre_dir][BOUND] -= directions[pre_dir][
-                        [STEP_COL, STEP_ROW][pre_dir % 2]
-                    ]
+                    directions[pre_dir][BOUND] -= directions[pre_dir][[
+                        STEP_COL, STEP_ROW
+                    ][pre_dir % 2]]
                     curr_dir = (curr_dir + 1) % 4
 
                 row += directions[curr_dir][STEP_ROW]
@@ -97,6 +100,7 @@ class Solution:
         return generateMatrixMN(n, n)
 
     def generateMatrix2(self, n: int) -> List[List[int]]:
+
         def generateMatrixMN(rows: int, cols: int) -> List[List[int]]:
             matrix = [[0] * cols for _ in range(rows)]
 
@@ -114,7 +118,8 @@ class Solution:
             for val in range(rows * cols):
                 matrix[row[DEREF]][col[DEREF]] = val + 1
 
-                if directions[curr_dir][AXIS_REF][DEREF] == directions[curr_dir][BOUND]:
+                if directions[curr_dir][AXIS_REF][DEREF] == directions[
+                        curr_dir][BOUND]:
                     # when we reach the bound of the current direction,
                     # shrink the bound of the previous direction,
                     # and then turn to the next direction
@@ -122,13 +127,15 @@ class Solution:
                     directions[pre_dir][BOUND] -= directions[pre_dir][STEP]
                     curr_dir = (curr_dir + 1) % 4
 
-                directions[curr_dir][AXIS_REF][DEREF] += directions[curr_dir][STEP]
+                directions[curr_dir][AXIS_REF][DEREF] += directions[curr_dir][
+                    STEP]
 
             return matrix
 
         return generateMatrixMN(n, n)
 
     def generateMatrix3(self, n: int) -> List[List[int]]:
+
         def generateMatrixMN(rows: int, cols: int) -> List[List[int]]:
             DEREF = 0
 
@@ -211,7 +218,8 @@ def test():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

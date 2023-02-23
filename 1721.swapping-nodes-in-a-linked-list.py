@@ -68,6 +68,7 @@ from typing import Optional
 
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -76,7 +77,8 @@ from structures import ListNode
 #         self.next = next
 class Solution:
     # O(n), O(1)
-    def swapNodes(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+    def swapNodes(self, head: Optional[ListNode],
+                  k: int) -> Optional[ListNode]:
         if not head:
             return head
 
@@ -115,7 +117,8 @@ def test():
         for args, want in cases:
             got = func(ListNode.from_list(args[0]), args[1])
             if ListNode.from_list(want) != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

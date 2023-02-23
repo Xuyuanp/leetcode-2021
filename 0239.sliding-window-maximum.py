@@ -82,6 +82,7 @@ from typing import List
 
 
 class Queue:
+
     def __init__(self):
         self._data = deque()
 
@@ -99,6 +100,7 @@ class Queue:
 
 
 class Solution:
+
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         res = []
 
@@ -132,7 +134,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

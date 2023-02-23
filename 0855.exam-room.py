@@ -75,6 +75,7 @@ START, END = 1, 2
 
 
 class ExamRoom:
+
     def __init__(self, n: int):
         self.heap = []
         self.n = n
@@ -84,10 +85,12 @@ class ExamRoom:
     def seat(self) -> int:
         _, start, end = heapq.heappop(self.heap)
 
-        mid = 0 if start < 0 else self.n - 1 if end == self.n else (start + end) // 2
+        mid = 0 if start < 0 else self.n - 1 if end == self.n else (start +
+                                                                    end) // 2
 
         heapq.heappush(self.heap, [-self._get_max_closed(mid, end), mid, end])
-        heapq.heappush(self.heap, [-self._get_max_closed(start, mid), start, mid])
+        heapq.heappush(self.heap,
+                       [-self._get_max_closed(start, mid), start, mid])
         return mid
 
     def _get_max_closed(self, start: int, end: int) -> int:
@@ -96,9 +99,7 @@ class ExamRoom:
         if end == self.n:
             return self.n - start - 2
         dist = end - start - 1
-        if dist % 2 == 0:
-            return (dist - 1) // 2
-        return dist // 2
+        return (dist - 1) // 2 if dist % 2 == 0 else dist // 2
 
     def _remove_double(self, i: int, j: int):
         if i > j:
@@ -108,12 +109,11 @@ class ExamRoom:
         if j == len(self.heap) - 1:
             self.heap.pop()
             self.heap[i] = self.heap[-1]
-            self.heap.pop()
         else:
             self.heap[i] = self.heap[-1]
             self.heap.pop()
             self.heap[j] = self.heap[-1]
-            self.heap.pop()
+        self.heap.pop()
         heapq.heapify(self.heap)
 
     # O(n)
@@ -134,7 +134,8 @@ class ExamRoom:
         self._remove_double(firsti, lasti)
 
         start, end = first[START], last[END]
-        heapq.heappush(self.heap, [-self._get_max_closed(start, end), start, end])
+        heapq.heappush(self.heap,
+                       [-self._get_max_closed(start, end), start, end])
 
 
 # Your ExamRoom object will be instantiated and called as such:
@@ -233,7 +234,10 @@ def test():
         ),
         (
             [
-                ["ExamRoom", "seat", "seat", "seat", "seat", "leave", "leave", "seat"],
+                [
+                    "ExamRoom", "seat", "seat", "seat", "seat", "leave",
+                    "leave", "seat"
+                ],
                 [[4], [], [], [], [], [1], [3], []],
             ],
             [null, 0, 3, 1, 2, null, null, 1],
@@ -258,7 +262,8 @@ def test():
                     "seat",
                     "leave",
                 ],
-                [[10], [], [], [], [0], [4], [], [], [], [], [], [], [], [], [], [0]],
+                [[10], [], [], [], [0], [4], [], [], [], [], [], [], [], [],
+                 [], [0]],
             ],
             [None, 0, 9, 4, None, None, 0, 4, 2, 6, 1, 3, 5, 7, 8, None],
         ),

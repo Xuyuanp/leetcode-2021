@@ -54,6 +54,7 @@ from typing import Optional, Tuple
 
 from structures import TreeNode
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -62,7 +63,9 @@ from structures import TreeNode
 #         self.left = left
 #         self.right = right
 class Solution:
+
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
+
         def dfs(node: Optional[TreeNode]) -> Tuple[int, int]:
             if not node:
                 return -float("inf"), -float("inf")
@@ -100,7 +103,8 @@ def test():
         for args, want in cases:
             got = func(TreeNode.from_list(*args))
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

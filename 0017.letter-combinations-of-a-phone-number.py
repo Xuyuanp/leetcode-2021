@@ -56,8 +56,10 @@
 
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def letterCombinations(self, digits: str) -> List[str]:
         if not digits:
             return []

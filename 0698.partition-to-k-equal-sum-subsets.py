@@ -45,8 +45,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def canPartitionKSubsets1(self, nums: List[int], k: int) -> bool:
         if k > len(nums):
             return False
@@ -105,28 +107,25 @@ class Solution:
 
 # @lc code=end
 
-
 if __name__ == "__main__":
-    print(
-        Solution().canPartitionKSubsets(
-            [
-                815,
-                625,
-                3889,
-                4471,
-                60,
-                494,
-                944,
-                1118,
-                4623,
-                497,
-                771,
-                679,
-                1240,
-                202,
-                601,
-                883,
-            ],
-            3,
-        )
-    )
+    print(Solution().canPartitionKSubsets(
+        [
+            815,
+            625,
+            3889,
+            4471,
+            60,
+            494,
+            944,
+            1118,
+            4623,
+            497,
+            771,
+            679,
+            1240,
+            202,
+            601,
+            883,
+        ],
+        3,
+    ))

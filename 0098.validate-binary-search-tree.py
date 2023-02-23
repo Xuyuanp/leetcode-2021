@@ -51,8 +51,6 @@
 #
 #
 #
-from structures import TreeNode
-
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -62,9 +60,13 @@ from structures import TreeNode
 #         self.right = right
 import math
 
+from structures import TreeNode
+
 
 class Solution:
+
     def isValidBST1(self, root: TreeNode) -> bool:
+
         def traverse(node: TreeNode):
             if node:
                 yield from traverse(node.left)
@@ -80,13 +82,13 @@ class Solution:
         return True
 
     def isValidBST(self, root: TreeNode) -> bool:
+
         def helper(node: TreeNode, min_v: int, max_v: int) -> bool:
             if node is None:
                 return True
             if min_v < node.val < max_v:
                 return helper(node.left, min_v, node.val) and helper(
-                    node.right, node.val, max_v
-                )
+                    node.right, node.val, max_v)
             return False
 
         return helper(root, -math.inf, math.inf)
@@ -108,7 +110,8 @@ if __name__ == "__main__":
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

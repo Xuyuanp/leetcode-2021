@@ -60,6 +60,7 @@ from typing import List, Optional
 
 from structures import TreeNode
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -68,7 +69,9 @@ from structures import TreeNode
 #         self.left = left
 #         self.right = right
 class Solution:
-    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+
+    def pathSum(self, root: Optional[TreeNode],
+                targetSum: int) -> List[List[int]]:
         if not root:
             return []
 
@@ -111,7 +114,8 @@ def test():
         for args, want in cases:
             got = func(TreeNode.from_list(args[0]), args[1])
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

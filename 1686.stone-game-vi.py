@@ -83,15 +83,16 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n*log(n)), O(n)
     def stoneGameVI(self, aliceValues: List[int], bobValues: List[int]) -> int:
         n = len(aliceValues)
 
-        indexes = sorted(
-            list(range(n)), key=lambda i: aliceValues[i] + bobValues[i], reverse=True
-        )
+        indexes = sorted(list(range(n)),
+                         key=lambda i: aliceValues[i] + bobValues[i],
+                         reverse=True)
 
         values = [aliceValues, bobValues]
         points = [0, 0]
@@ -121,7 +122,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

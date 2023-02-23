@@ -58,8 +58,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def hIndex(self, citations: List[int]) -> int:
         n = len(citations)
         left, right = 0, n - 1
@@ -95,7 +97,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

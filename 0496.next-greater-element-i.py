@@ -66,9 +66,12 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
-    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+
+    def nextGreaterElement(self, nums1: List[int],
+                           nums2: List[int]) -> List[int]:
         res = [-1] * len(nums1)
         stack = [float("inf")]
         dic = {}
@@ -94,7 +97,9 @@ if __name__ == "__main__":
     for (nums1, nums2), want in cases:
         got = sol.nextGreaterElement(nums1, nums2)
         if want != got:
-            print(f"Failed => args: {(nums1, nums2)}; want: {want}, but got: {got}")
+            print(
+                f"Failed => args: {(nums1, nums2)}; want: {want}, but got: {got}"
+            )
             break
     else:
         print("All Passed")

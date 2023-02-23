@@ -67,9 +67,10 @@
 #
 #
 #
-from collections import deque
 import heapq
+from collections import deque
 from typing import List
+
 
 # @lc code=start
 class Solution:
@@ -112,10 +113,8 @@ class Solution:
             return m + n - 2
 
         queue = deque()
-        visited = set()
         queue.append((0, (0, 0, k)))
-        visited.add((0, 0, k))
-
+        visited = {(0, 0, k)}
         while queue:
             steps, (i, j, k) = queue.popleft()
             if i == m - 1 and j == n - 1:
@@ -157,7 +156,8 @@ class Solution:
                     if next_k >= 0 and next_state not in visited:
                         visited.add(next_state)
                         next_dist = manhatton_distance(x, y) + steps + 1
-                        heapq.heappush(queue, (next_dist, steps + 1, next_state))
+                        heapq.heappush(queue,
+                                       (next_dist, steps + 1, next_state))
 
         return -1
 
@@ -196,7 +196,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

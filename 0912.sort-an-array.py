@@ -32,12 +32,14 @@
 #
 #
 #
-from datetime import datetime
 import random
+from datetime import datetime
 from typing import List
+
 
 # @lc code=start
 class Solution:
+
     def sortArrayBubble(self, nums: List[int]) -> List[int]:
         n = len(nums)
         for j in range(n - 1, 0, -1):
@@ -70,6 +72,7 @@ class Solution:
         return nums
 
     def sortArrayMerge(self, nums: List[int]) -> List[int]:
+
         def merge(left: List[int], right: List[int]) -> List[int]:
             i = j = k = 0
             m, n = len(left), len(right)
@@ -105,6 +108,7 @@ class Solution:
         return merge_sort(nums)
 
     def sortArrayQuick(self, nums: List[int]) -> List[int]:
+
         def partition(start: int, end: int) -> int:
             pivot = nums[(start + end) // 2]
             i, j = start - 1, end + 1
@@ -134,6 +138,7 @@ class Solution:
         return nums
 
     def sortArrayQuick2(self, nums: List[int]) -> List[int]:
+
         def partition(start: int, end: int) -> int:
             pivot = nums[start]
             i, j = start + 1, end
@@ -161,6 +166,7 @@ class Solution:
         return nums
 
     def sortArrayQuick3(self, nums: List[int]) -> List[int]:
+
         def partition(start: int, end: int) -> int:
             pivot = nums[end]
             i = start - 1
@@ -168,7 +174,7 @@ class Solution:
                 if nums[j] <= pivot:
                     i += 1
                     nums[i], nums[j] = nums[j], nums[i]
-            print(pivot, i, nums[start : i + 1], nums[i + 1 : end + 1])
+            print(pivot, i, nums[start:i + 1], nums[i + 1:end + 1])
             return i
 
         def quick_sort(start: int, end: int):
@@ -183,6 +189,7 @@ class Solution:
         return nums
 
     def sortArrayHeap(self, nums: List[int]) -> List[int]:
+
         def sift_down(start: int, end: int):
             root = start
             while True:
@@ -242,7 +249,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

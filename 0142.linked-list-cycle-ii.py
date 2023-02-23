@@ -75,6 +75,7 @@ from structures import ListNode
 
 
 class Solution:
+
     def detectCycle(self, head: ListNode) -> ListNode:
         if not head or head.next == head:
             return head

@@ -49,10 +49,12 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
+
     def myPow(self, x: float, n: int) -> float:
-        if x == 0 or x == 1:
+        if x in {0, 1}:
             return x
         if n < 0:
             return 1 / self.myPow(x, -n)
@@ -84,7 +86,8 @@ if __name__ == "__main__":
         for args, want in cases:
             got = fn(*args)
             if abs(got - want) > 0.00001:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

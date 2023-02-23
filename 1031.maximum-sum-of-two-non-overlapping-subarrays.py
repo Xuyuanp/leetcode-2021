@@ -63,10 +63,12 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n), O(n)
-    def maxSumTwoNoOverlap(self, nums: List[int], firstLen: int, secondLen: int) -> int:
+    def maxSumTwoNoOverlap(self, nums: List[int], firstLen: int,
+                           secondLen: int) -> int:
         n = len(nums)
         MAX_LEFT_FST, MAX_RIGHT_FST, MAX_LEFT_SND, MAX_RIGHT_SND = 0, 1, 2, 3
         # dp[i] saved the MAX_[LEFT|RIGHT]_[FST|SND] at [0, i) and [i, n)
@@ -78,33 +80,30 @@ class Solution:
         dp[secondLen][MAX_LEFT_SND] = nums[secondLen - 1]
         for i in range(1, n):
             if i > firstLen:
-                dp[i][MAX_LEFT_FST] = max(
-                    dp[i - 1][MAX_LEFT_FST], nums[i - 1] - nums[i - firstLen - 1]
-                )
+                dp[i][MAX_LEFT_FST] = max(dp[i - 1][MAX_LEFT_FST],
+                                          nums[i - 1] - nums[i - firstLen - 1])
             if i > secondLen:
                 dp[i][MAX_LEFT_SND] = max(
-                    dp[i - 1][MAX_LEFT_SND], nums[i - 1] - nums[i - secondLen - 1]
-                )
+                    dp[i - 1][MAX_LEFT_SND],
+                    nums[i - 1] - nums[i - secondLen - 1])
 
         dp[n - firstLen][MAX_RIGHT_FST] = nums[-1] - nums[n - firstLen - 1]
         dp[n - secondLen][MAX_RIGHT_SND] = nums[-1] - nums[n - secondLen - 1]
         for i in range(n - 1, 0, -1):
             if n - i > firstLen:
                 dp[i][MAX_RIGHT_FST] = max(
-                    dp[i + 1][MAX_RIGHT_FST], nums[i + firstLen - 1] - nums[i - 1]
-                )
+                    dp[i + 1][MAX_RIGHT_FST],
+                    nums[i + firstLen - 1] - nums[i - 1])
             if n - i > secondLen:
                 dp[i][MAX_RIGHT_SND] = max(
-                    dp[i + 1][MAX_RIGHT_SND], nums[i + secondLen - 1] - nums[i - 1]
-                )
+                    dp[i + 1][MAX_RIGHT_SND],
+                    nums[i + secondLen - 1] - nums[i - 1])
 
         return max(
             max(
                 dp[i][MAX_LEFT_FST] + dp[i][MAX_RIGHT_SND],
                 dp[i][MAX_LEFT_SND] + dp[i][MAX_RIGHT_FST],
-            )
-            for i in range(n)
-        )
+            ) for i in range(n))
 
 
 # @lc code=end
@@ -124,7 +123,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

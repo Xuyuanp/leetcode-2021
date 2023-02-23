@@ -50,15 +50,17 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
+
     def monotoneIncreasingDigits(self, n: int) -> int:
         res = 0
         power = 0
         while n > 0:
             high, low = divmod(n, 10)
             if high % 10 > low:
-                res = 10 ** (power + 1) - 1
+                res = 10**(power + 1) - 1
                 high -= 1
             else:
                 res += low * 10**power
@@ -87,7 +89,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

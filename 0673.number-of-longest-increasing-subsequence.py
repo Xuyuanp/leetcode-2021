@@ -49,8 +49,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def findNumberOfLIS(self, nums: List[int]) -> int:
         lis = [[[nums[0], 1]]]
 
@@ -66,7 +68,8 @@ class Solution:
 
         for x in nums[1:]:  # n*log(n)
             pos = binary_search(x)  # log(k)
-            cnt = 1 if pos == 0 else sum(cnt for v, cnt in lis[pos - 1] if v < x)
+            cnt = 1 if pos == 0 else sum(cnt for v, cnt in lis[pos - 1]
+                                         if v < x)
             if pos == len(lis):
                 lis.append([[x, cnt]])
             else:
@@ -99,7 +102,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

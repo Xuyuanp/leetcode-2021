@@ -48,8 +48,10 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
+
     def strWithout3a3b(self, a: int, b: int) -> str:
         res = []
 
@@ -79,6 +81,7 @@ class Solution:
 
 # @lc code=end
 def test():
+
     def no3a3b(s: str) -> bool:
         return len(s.split("aaa")) == 1 and len(s.split("bbb"))
 
@@ -96,7 +99,8 @@ def test():
         for args in cases:
             got = func(*args)
             if not no3a3b(got) or len(got) != sum(args):
-                print(f"  Failed => args: {args}; want no 3a3b, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want no 3a3b, but got: {got}")
                 break
         else:
             print("  All Passed")

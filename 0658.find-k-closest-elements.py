@@ -45,9 +45,13 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
-    def findClosestElements(self, nums: List[int], k: int, x: int) -> List[int]:
+
+    def findClosestElements(self, nums: List[int], k: int,
+                            x: int) -> List[int]:
+
         def closer(a: int, b: int) -> bool:
             da, db = abs(a - x), abs(b - x)
             return da < db or da == db and a < b
@@ -62,7 +66,7 @@ class Solution:
             else:
                 right = mid
 
-        return nums[left : left + k]
+        return nums[left:left + k]
 
 
 # @lc code=end
@@ -82,7 +86,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

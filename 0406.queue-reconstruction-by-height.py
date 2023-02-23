@@ -66,6 +66,7 @@
 from collections import deque
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n*log(n) + n^2), O(log(n))
@@ -75,7 +76,7 @@ class Solution:
         people.sort(key=lambda p: (-p[H], p[K]))
         for p in people:
             res.insert(p[K], p)
-        return [p for p in res]
+        return list(res)
 
 
 # @lc code=end
@@ -98,7 +99,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

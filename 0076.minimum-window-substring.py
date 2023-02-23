@@ -87,7 +87,7 @@ class Solution:
                 c = s[left]
                 if c in counter:
                     if not res or right - left + 1 < len(res):
-                        res = s[left : right + 1]
+                        res = s[left:right + 1]
 
                     win_counter[c] -= 1
                     if win_counter[c] < counter[c]:
@@ -143,7 +143,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

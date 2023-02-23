@@ -60,6 +60,7 @@
 from collections import Counter
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n*m), O(m)
@@ -68,12 +69,12 @@ class Solution:
         counter = Counter(words)
         res = []
         for start in range(n - m * k + 1):
-            if s[start : start + k] not in counter:
+            if s[start:start + k] not in counter:
                 continue
             window = Counter(counter)
             required = len(counter)
             for i in range(start, start + m * k, k):
-                curr = s[i : i + k]
+                curr = s[i:i + k]
                 if not window[curr]:
                     break
                 window[curr] -= 1
@@ -95,13 +96,15 @@ def test():
         func = getattr(sol, method)
         cases = [
             (["barfoothefoobarman", ["foo", "bar"]], [0, 9]),
-            (["wordgoodgoodgoodbestword", ["word", "good", "best", "word"]], []),
+            (["wordgoodgoodgoodbestword", ["word", "good", "best",
+                                           "word"]], []),
             (["barfoofoobarthefoobarman", ["bar", "foo", "the"]], [6, 9, 12]),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

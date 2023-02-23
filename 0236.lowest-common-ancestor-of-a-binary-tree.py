@@ -66,20 +66,21 @@
 #         self.val = x
 #         self.left = None
 #         self.right = None
+from structures.tree_node import TreeNode
 
 
 class Solution:
-    def lowestCommonAncestor(
-        self, root: TreeNode, p: TreeNode, q: TreeNode
-    ) -> TreeNode:
+
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode,
+                             q: TreeNode) -> TreeNode:
         if root in (p, q, None):
             return root
 
-        l = self.lowestCommonAncestor(root.left, p, q)
-        r = self.lowestCommonAncestor(root.right, p, q)
-        if l and r:
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        if left and right:
             return root
-        return l if l else r
+        return left if left else right
 
 
 # @lc code=end

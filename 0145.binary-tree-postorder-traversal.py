@@ -63,8 +63,8 @@
 #
 # Follow up: Recursive solution is trivial, could you do it iteratively?
 #
-from typing import Optional, List
 from collections import deque
+from typing import List, Optional
 
 from structures import TreeNode
 
@@ -78,7 +78,9 @@ from structures import TreeNode
 
 
 class Solution:
+
     def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+
         def postorder(node: Optional[TreeNode]):
             if node:
                 yield from postorder(node.left)
@@ -168,7 +170,8 @@ def test():
         for args, want in cases:
             got = func(TreeNode.from_list(*args))
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

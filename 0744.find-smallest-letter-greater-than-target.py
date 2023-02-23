@@ -74,8 +74,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def nextGreatestLetter(self, letters: List[str], target: str) -> str:
         if target < letters[0] or target >= letters[-1]:
             return letters[0]
@@ -109,7 +111,8 @@ if __name__ == "__main__":
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

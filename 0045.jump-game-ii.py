@@ -51,8 +51,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def jump3(self, nums: List[int]) -> int:
         n = len(nums)
         # dp[i] is the min jumps to reach the index i from the first index
@@ -72,7 +74,7 @@ class Solution:
             if i + nums[i] >= n - 1:
                 dp[i] = 1
             elif nums[i] > 0:
-                dp[i] = min(dp[i + 1 : i + nums[i] + 1]) + 1
+                dp[i] = min(dp[i + 1:i + nums[i] + 1]) + 1
         return dp[0]
 
     def jump(self, nums: List[int]) -> int:
@@ -103,7 +105,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

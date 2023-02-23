@@ -56,8 +56,6 @@
 #
 # Follow up: Can you flatten the tree in-place (with O(1) extra space)?
 #
-from structures import TreeNode
-
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -67,8 +65,11 @@ from structures import TreeNode
 #         self.right = right
 from collections import deque
 
+from structures import TreeNode
+
 
 class Solution:
+
     def flatten(self, root: TreeNode) -> None:
         """
         Do not return anything, modify root in-place instead.
@@ -91,19 +92,17 @@ class Solution:
 
 # @lc code=end
 
-
 if __name__ == "__main__":
     sol = Solution()
-    cases = [
-        ([1, 2, 5, 3, 4, None, 6], [1, None, 2, None, 3, None, 4, None, 5, None, 6])
-    ]
+    cases = [([1, 2, 5, 3, 4, None,
+               6], [1, None, 2, None, 3, None, 4, None, 5, None, 6])]
     for args, want in cases:
         root = TreeNode.from_list(args)
         sol.flatten(root)
         got = root
         want = TreeNode.from_list(want)
         if got != want:
-            print(f"Falied => args: {args}; want: {want}, but got: {got}")
+            print(f"Failed => args: {args}; want: {want}, but got: {got}")
             break
     else:
         print("All Passed")

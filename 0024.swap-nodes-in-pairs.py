@@ -50,6 +50,7 @@
 #
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -57,6 +58,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def swapPairs(self, head: ListNode) -> ListNode:
         sentinel = ListNode(-1, next=head)
         pre = sentinel

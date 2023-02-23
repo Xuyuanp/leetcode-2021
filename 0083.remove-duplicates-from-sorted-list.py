@@ -44,6 +44,7 @@
 
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -51,6 +52,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def deleteDuplicates(self, head: ListNode) -> ListNode:
         start = sentinel = ListNode(-1, next=head)
         while start.next and start.next.next:
@@ -64,7 +66,6 @@ class Solution:
 
 
 # @lc code=end
-
 
 if __name__ == "__main__":
     sol = Solution()
@@ -81,7 +82,7 @@ if __name__ == "__main__":
         got = sol.deleteDuplicates(ListNode.from_list(args))
         want = ListNode.from_list(want)
         if got != want:
-            print(f"Falied => args: {args}; want: {want}, but got: {got}")
+            print(f"Failed => args: {args}; want: {want}, but got: {got}")
             break
     else:
         print("All Passed")

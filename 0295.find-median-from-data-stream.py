@@ -79,6 +79,7 @@ import heapq
 
 
 class MedianFinder:
+
     def __init__(self):
         """
         initialize your data structure here.

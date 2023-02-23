@@ -53,6 +53,7 @@ from typing import List
 
 from structures import TreeNode
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -61,6 +62,7 @@ from structures import TreeNode
 #         self.left = left
 #         self.right = right
 class Solution:
+
     def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
         if not root:
             return []
@@ -87,7 +89,6 @@ class Solution:
 
 
 # @lc code=end
-
 
 # [1,2,3,4,null,null,5], [[1],[3,2],[4,5]]
 if __name__ == "__main__":

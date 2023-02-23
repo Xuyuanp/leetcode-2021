@@ -58,8 +58,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def numIslands(self, grid: List[List[str]]) -> int:
         res = 0
         m, n = len(grid), len(grid[0])
@@ -124,32 +126,29 @@ def test():
         func = getattr(sol, method)
         cases = [
             (
-                [
-                    [
-                        ["1", "1", "0", "0", "0"],
-                        ["1", "1", "0", "0", "0"],
-                        ["0", "0", "1", "0", "0"],
-                        ["0", "0", "0", "1", "1"],
-                    ]
-                ],
+                [[
+                    ["1", "1", "0", "0", "0"],
+                    ["1", "1", "0", "0", "0"],
+                    ["0", "0", "1", "0", "0"],
+                    ["0", "0", "0", "1", "1"],
+                ]],
                 3,
             ),
             (
-                [
-                    [
-                        ["1", "1", "1", "1", "0"],
-                        ["1", "1", "0", "1", "0"],
-                        ["1", "1", "0", "0", "0"],
-                        ["0", "0", "0", "0", "0"],
-                    ]
-                ],
+                [[
+                    ["1", "1", "1", "1", "0"],
+                    ["1", "1", "0", "1", "0"],
+                    ["1", "1", "0", "0", "0"],
+                    ["0", "0", "0", "0", "0"],
+                ]],
                 1,
             ),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

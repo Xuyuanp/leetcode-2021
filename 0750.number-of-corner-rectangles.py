@@ -52,6 +52,7 @@
 # The number of 1's in the grid is in the range [1, 6000].
 #
 
+import itertools
 from collections import Counter
 from typing import List
 
@@ -63,13 +64,12 @@ class Solution:
     def countOfCornerRectanges(self, grid: List[List[int]]) -> int:
         counter = Counter()
         n = len(grid[0])
-        for row in grid:
-            for i in range(n - 1):
-                if row[i] == 0:
-                    continue
-                for j in range(i + 1, n):
-                    if row[j] == 1:
-                        counter[i, j] += 1
+        for row, i in itertools.product(grid, range(n - 1)):
+            if row[i] == 0:
+                continue
+            for j in range(i + 1, n):
+                if row[j] == 1:
+                    counter[i, j] += 1
         return sum(c * (c - 1) // 2 for c in counter.values())
 
 
@@ -83,12 +83,14 @@ def test():
         cases = [
             ([[[1, 1, 1, 1]]], 0),
             ([[[1, 1, 1], [1, 1, 1], [1, 1, 1]]], 9),
-            ([[[1, 0, 0, 1, 0], [0, 0, 1, 0, 1], [0, 0, 0, 1, 0], [1, 0, 1, 0, 1]]], 1),
+            ([[[1, 0, 0, 1, 0], [0, 0, 1, 0, 1], [0, 0, 0, 1, 0],
+               [1, 0, 1, 0, 1]]], 1),
         ]
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

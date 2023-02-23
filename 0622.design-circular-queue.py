@@ -81,8 +81,10 @@
 #
 #
 
+
 # @lc code=start
 class MyCircularQueue:
+
     def __init__(self, k: int):
         self._queue = [0] * k
         self._cap = k
@@ -108,14 +110,10 @@ class MyCircularQueue:
         return True
 
     def Front(self) -> int:
-        if self.isEmpty():
-            return -1
-        return self._queue[self._head]
+        return -1 if self.isEmpty() else self._queue[self._head]
 
     def Rear(self) -> int:
-        if self.isEmpty():
-            return -1
-        return self._queue[self._tail]
+        return -1 if self.isEmpty() else self._queue[self._tail]
 
     def isEmpty(self) -> bool:
         return self._size == 0

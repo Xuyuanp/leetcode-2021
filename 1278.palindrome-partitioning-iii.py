@@ -73,9 +73,8 @@ class Solution:
         def make_palindrome(start: int, end: int) -> int:
             if start >= end:
                 return 0
-            return make_palindrome(start + 1, end - 1) + (
-                0 if s[start] == s[end] else 1
-            )
+            return make_palindrome(start + 1,
+                                   end - 1) + (0 if s[start] == s[end] else 1)
 
         @cache
         def helper(start: int, kk: int) -> int:
@@ -99,9 +98,8 @@ class Solution:
         def make_palindrome(start: int, end: int) -> int:
             if start >= end:
                 return 0
-            return make_palindrome(start + 1, end - 1) + (
-                0 if s[start] == s[end] else 1
-            )
+            return make_palindrome(start + 1,
+                                   end - 1) + (0 if s[start] == s[end] else 1)
 
         @cache
         def helper(end: int, kk: int) -> int:
@@ -126,9 +124,8 @@ class Solution:
         def make_palindrome(start: int, end: int) -> int:
             if start >= end:
                 return 0
-            return make_palindrome(start + 1, end - 1) + (
-                0 if s[start] == s[end] else 1
-            )
+            return make_palindrome(start + 1,
+                                   end - 1) + (0 if s[start] == s[end] else 1)
 
         for i in range(1, n + 1):
             dp[i][1] = make_palindrome(0, i - 1)
@@ -155,7 +152,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -44,8 +44,10 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
+
     def maximumSwap(self, num: int) -> int:
         if num < 10:
             return num
@@ -57,9 +59,9 @@ class Solution:
             n = ord(c) - zero
             for j in range(9, n, -1):
                 if j in mem and mem[j] > i:
-                    c1, c2 = 10 ** (len(s_num) - mem[j] - 1), 10 ** (len(s_num) - i - 1)
-                    num = num - n * c2 - j * c1 + j * c2 + n * c1
-                    return num
+                    c1, c2 = 10**(len(s_num) - mem[j] - 1), 10**(len(s_num) -
+                                                                 i - 1)
+                    return num - n * c2 - j * c1 + j * c2 + n * c1
         return num
 
 

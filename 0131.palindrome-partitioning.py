@@ -38,6 +38,7 @@
 from functools import lru_cache
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(2^n), O(n)
@@ -60,7 +61,7 @@ class Solution:
                 return
             for j in range(i, n):
                 if is_palindrome(i, j):
-                    pat.append(s[i : j + 1])
+                    pat.append(s[i:j + 1])
                     backtrack(j + 1, pat)
                     pat.pop(-1)
 
@@ -84,7 +85,7 @@ class Solution:
                 return
             for j in range(i, n):
                 if is_palindrome(i, j):
-                    pat.append(s[i : j + 1])
+                    pat.append(s[i:j + 1])
                     backtrack(j + 1, pat)
                     pat.pop(-1)
 
@@ -112,7 +113,7 @@ class Solution:
             fill_dp(i, i + 1)
             for j in range(i, n):
                 if dp[i][j]:
-                    pat.append(s[i : j + 1])
+                    pat.append(s[i:j + 1])
                     backtrack(j + 1, pat)
                     pat.pop(-1)
 
@@ -137,7 +138,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if sorted(want) != sorted(got):
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -73,8 +73,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def uniquePathsIII(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
         cells = set()
@@ -125,7 +127,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

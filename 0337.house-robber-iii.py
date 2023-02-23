@@ -67,6 +67,7 @@ ROB, SKIP = 0, 1
 class Solution:
     # O(n), O(log(n)). bottom-up
     def rob(self, root: Optional[TreeNode]) -> int:
+
         def dfs(node: Optional[TreeNode]) -> Tuple[int, int]:
             if not node:
                 return 0, 0
@@ -97,7 +98,8 @@ def test():
         for args, want in cases:
             got = fn(TreeNode.from_list(*args))
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -47,8 +47,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         res = []
         intervals.sort()
@@ -76,7 +78,8 @@ def main():
         print(f"Testing {method}:")
         fn = getattr(sol, method)
         cases = [
-            ([[[1, 3], [2, 6], [8, 10], [15, 18]]], [[1, 6], [8, 10], [15, 18]]),
+            ([[[1, 3], [2, 6], [8, 10], [15, 18]]], [[1, 6], [8, 10], [15,
+                                                                       18]]),
             ([[[1, 4], [4, 5]]], [[1, 5]]),
             ([[[4, 5], [1, 4]]], [[1, 5]]),
             ([[[1, 3], [2, 3]]], [[1, 3]]),
@@ -87,7 +90,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

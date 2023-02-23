@@ -67,9 +67,12 @@ import string
 from collections import deque
 from typing import List
 
+
 # @lc code=start
 class Solution:
-    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+
+    def ladderLength(self, beginWord: str, endWord: str,
+                     wordList: List[str]) -> int:
         queue = deque([(beginWord, 1)])
 
         candidates = set(wordList)
@@ -81,7 +84,7 @@ class Solution:
                 for c in string.ascii_lowercase:
                     if curr[i] == c:
                         continue
-                    next_word = curr[:i] + c + curr[i + 1 :]
+                    next_word = curr[:i] + c + curr[i + 1:]
                     if next_word in candidates:
                         queue.append((next_word, length + 1))
                         candidates.remove(next_word)
@@ -105,7 +108,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

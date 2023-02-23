@@ -63,8 +63,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def largestSumAfterKNegations(self, nums: List[int], k: int) -> int:
         nums.sort(key=lambda x: -abs(x))
         for i in range(len(nums)):
@@ -74,7 +76,7 @@ class Solution:
                 nums[i] *= -1
                 k -= 1
         else:
-            nums[-1] *= (-1) ** (k % 2)
+            nums[-1] *= (-1)**(k % 2)
 
         return sum(nums)
 
@@ -98,7 +100,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

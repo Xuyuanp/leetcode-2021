@@ -71,9 +71,12 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
-    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+
+    def findMedianSortedArrays(self, nums1: List[int],
+                               nums2: List[int]) -> float:
         m, n = len(nums1), len(nums2)
         if m > n:
             return self.findMedianSortedArrays(nums2, nums1)
@@ -117,7 +120,8 @@ if __name__ == "__main__":
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

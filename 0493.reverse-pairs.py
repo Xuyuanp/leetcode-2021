@@ -69,7 +69,8 @@ class Tree:
         self.root = self._insert(val, self.root, None)
         self.root.color = BLACK
 
-    def _insert(self, val: int, node: Optional[Node], parent: Optional[Node]) -> Node:
+    def _insert(self, val: int, node: Optional[Node],
+                parent: Optional[Node]) -> Node:
         if not node:
             child = Node(val)
         elif val < node.val:
@@ -87,9 +88,8 @@ class Tree:
 
         return self._fixup(child, node, parent)
 
-    def _fixup(
-        self, child: Node, parent: Optional[Node], grandp: Optional[Node]
-    ) -> Node:
+    def _fixup(self, child: Node, parent: Optional[Node],
+               grandp: Optional[Node]) -> Node:
         if child.color == BLACK and parent:
             return parent
         if not parent:
@@ -243,7 +243,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

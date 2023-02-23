@@ -69,10 +69,13 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def heightChecker(self, heights: List[int]) -> int:
-        return sum(min(1, abs(x - y)) for x, y in zip(heights, sorted(heights)))
+        return sum(
+            min(1, abs(x - y)) for x, y in zip(heights, sorted(heights)))
 
 
 # @lc code=end
@@ -90,7 +93,8 @@ def test():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

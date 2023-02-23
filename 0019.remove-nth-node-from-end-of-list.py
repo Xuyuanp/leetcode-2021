@@ -54,6 +54,7 @@
 #
 from structures import ListNode
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -61,6 +62,7 @@ from structures import ListNode
 #         self.val = val
 #         self.next = next
 class Solution:
+
     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
         fast = head
         for _ in range(n):
@@ -93,7 +95,9 @@ def test():
             got = func(ListNode.from_list(vals), n)
             want = ListNode.from_list(want)
             if want != got:
-                print(f"  Failed => args: {vals, n}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {vals, n}; want: {want}, but got: {got}"
+                )
                 break
         else:
             print("  All Passed")

@@ -52,8 +52,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def diffWaysToCompute(self, expression: str) -> List[int]:
         n = len(expression)
 
@@ -104,7 +106,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if sorted(want) != sorted(got):
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

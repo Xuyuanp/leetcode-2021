@@ -40,8 +40,10 @@
 
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def permute(self, nums: List[int]) -> List[List[int]]:
         res = []
         used = set()
@@ -72,7 +74,8 @@ if __name__ == "__main__":
     cases = [
         ([1], [[1]]),
         ([1, 2], [[1, 2], [2, 1]]),
-        ([1, 2, 3], [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]),
+        ([1, 2, 3], [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2],
+                     [3, 2, 1]]),
     ]
     for nums, want in cases:
         got = sol.permute(nums)

@@ -48,8 +48,8 @@
 #
 #
 #
-from random import randint
 import statistics
+from random import randint
 
 
 def rand7():

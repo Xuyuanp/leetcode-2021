@@ -73,6 +73,7 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n^2), O(n)
@@ -82,9 +83,9 @@ class Solution:
         def dfs(i: int):
             visited.add(i)
             for j, (row, col) in enumerate(stones):
-                if j not in visited:
-                    if stones[i][0] == row or stones[i][1] == col:
-                        dfs(j)
+                if j not in visited and (stones[i][0] == row
+                                         or stones[i][1] == col):
+                    dfs(j)
 
         islands = 0
         for i in range(len(stones)):
@@ -128,7 +129,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -56,8 +56,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def maxSumDivThree(self, nums: List[int]) -> int:
         dp = [0] * 3
         for x in nums:
@@ -82,7 +84,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -122,6 +122,7 @@
 from functools import cache
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n^3), O(n^2). TLE (only python)
@@ -138,7 +139,8 @@ class Solution:
             if start + 1 == end:
                 return 0
             res = 0
-            for k in range(start + 1, end):  # split stones into [start:k] and [k:end]
+            for k in range(start + 1,
+                           end):  # split stones into [start:k] and [k:end]
                 left = presum[k] - presum[start]  # sum(stoneValue[start:k])
                 right = presum[end] - presum[k]  # sum(stoneValue[k:end])
                 if left > right:
@@ -146,7 +148,8 @@ class Solution:
                 elif left < right:
                     res = max(res, left + helper(start, k))
                 else:
-                    res = max(res, right + helper(k, end), left + helper(start, k))
+                    res = max(res, right + helper(k, end),
+                              left + helper(start, k))
 
             return res
 
@@ -173,7 +176,8 @@ class Solution:
                     elif left < right:
                         dp[i][j] = max(dp[i][j], left + dp[i][k])
                     else:
-                        dp[i][j] = max(dp[i][j], left + dp[i][k], right + dp[k][j])
+                        dp[i][j] = max(dp[i][j], left + dp[i][k],
+                                       right + dp[k][j])
 
         return dp[0][n]
 
@@ -199,7 +203,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

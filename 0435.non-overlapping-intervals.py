@@ -57,8 +57,10 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
         intervals.sort()
         cnt, pre = 1, intervals[0]
@@ -120,7 +122,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

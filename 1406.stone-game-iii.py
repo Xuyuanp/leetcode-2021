@@ -93,6 +93,7 @@
 from functools import cache
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n), O(n)
@@ -113,9 +114,7 @@ class Solution:
         diff = helper(0)
         if diff > 0:
             return "Alice"
-        if diff < 0:
-            return "Bob"
-        return "Tie"
+        return "Bob" if diff < 0 else "Tie"
 
     # O(n), O(n)
     def stoneGameIII1(self, stoneValue: List[int]) -> str:
@@ -131,9 +130,7 @@ class Solution:
         diff = dp[0]
         if diff > 0:
             return "Alice"
-        if diff < 0:
-            return "Bob"
-        return "Tie"
+        return "Bob" if diff < 0 else "Tie"
 
 
 # @lc code=end
@@ -156,7 +153,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

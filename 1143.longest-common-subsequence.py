@@ -63,6 +63,7 @@
 #
 
 # @lc code=start
+import itertools
 from functools import cache
 
 
@@ -71,12 +72,9 @@ class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         m, n = len(text1), len(text2)
         dp = [[0] * (n + 1) for _ in range(m + 1)]
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                if text1[i - 1] == text2[j - 1]:
-                    dp[i][j] = dp[i - 1][j - 1] + 1
-                else:
-                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+        for i, j in itertools.product(range(1, m + 1), range(1, n + 1)):
+            dp[i][j] = (dp[i - 1][j - 1] + 1 if text1[i - 1] == text2[j - 1]
+                        else max(dp[i - 1][j], dp[i][j - 1]))
         return dp[m][n]
 
     # O(m*n), O(m*n).
@@ -129,7 +127,8 @@ def test():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

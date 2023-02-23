@@ -60,6 +60,7 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(n), O(n)
@@ -83,7 +84,9 @@ if __name__ == "__main__":
     for (nums, target), want in cases:
         got = sol.twoSum(nums, target)
         if want != got:
-            print(f"Failed => args: {(nums, target)}; want: {want}, but got: {got}")
+            print(
+                f"Failed => args: {(nums, target)}; want: {want}, but got: {got}"
+            )
             break
     else:
         print("All Passed")

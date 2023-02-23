@@ -65,7 +65,9 @@
 #
 #
 #
+import itertools
 from typing import List
+
 
 # @lc code=start
 class Solution:
@@ -74,13 +76,12 @@ class Solution:
         freshes = 0
         rottens = []
         m, n = len(grid), len(grid[0])
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j] == 1:
-                    freshes += 1
-                elif grid[i][j] == 2:
-                    grid[i][j] = 0
-                    rottens.append((i, j))
+        for i, j in itertools.product(range(m), range(n)):
+            if grid[i][j] == 1:
+                freshes += 1
+            elif grid[i][j] == 2:
+                grid[i][j] = 0
+                rottens.append((i, j))
         if freshes == 0:
             return 0
 
@@ -116,7 +117,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

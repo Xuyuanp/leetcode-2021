@@ -53,9 +53,10 @@
 #
 #
 #
-from functools import cache
 import math
+from functools import cache
 from typing import List
+
 
 # @lc code=start
 class Solution:
@@ -104,7 +105,8 @@ class Solution:
                 curr = 0
                 for j in range(i, kk - 1, -1):
                     curr += nums[j - 1]
-                    dp[i][kk] = max(dp[i][kk], curr / (i - j + 1) + dp[j - 1][kk - 1])
+                    dp[i][kk] = max(dp[i][kk],
+                                    curr / (i - j + 1) + dp[j - 1][kk - 1])
 
         return dp[n][k]
 
@@ -124,7 +126,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if not math.isclose(want, got, rel_tol=1e-3):
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

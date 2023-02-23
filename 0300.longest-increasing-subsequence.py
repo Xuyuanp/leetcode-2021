@@ -57,10 +57,9 @@
 # complexity?
 #
 #
-from typing import List
-
 # @lc code=start
 from bisect import bisect_left
+from typing import List
 
 
 class Solution:
@@ -122,7 +121,8 @@ def main():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

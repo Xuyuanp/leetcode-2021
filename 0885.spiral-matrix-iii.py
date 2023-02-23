@@ -53,11 +53,12 @@
 #
 from typing import List
 
+
 # @lc code=start
 class Solution:
-    def spiralMatrixIII(
-        self, rows: int, cols: int, rStart: int, cStart: int
-    ) -> List[List[int]]:
+
+    def spiralMatrixIII(self, rows: int, cols: int, rStart: int,
+                        cStart: int) -> List[List[int]]:
         res = [None] * (rows * cols)
 
         EAST, SOUTH, WEST, NORTH = 0, 1, 2, 3
@@ -66,7 +67,7 @@ class Solution:
 
         ROW, COL = 0, 1
 
-        dir = EAST
+        direct = EAST
 
         index = 0
         row, col = rStart, cStart
@@ -75,36 +76,35 @@ class Solution:
                 res[index] = [row, col]
                 index += 1
 
-            if dir == EAST and col == bounds[EAST]:
+            if direct == EAST and col == bounds[EAST]:
                 bounds[EAST] = min(cols, bounds[EAST] + 1)
-                dir = SOUTH
-            elif dir == SOUTH and row == bounds[SOUTH]:
+                direct = SOUTH
+            elif direct == SOUTH and row == bounds[SOUTH]:
                 bounds[SOUTH] = min(rows, bounds[SOUTH] + 1)
-                dir = WEST
-            elif dir == WEST and col == bounds[WEST]:
+                direct = WEST
+            elif direct == WEST and col == bounds[WEST]:
                 bounds[WEST] = max(-1, bounds[WEST] - 1)
-                dir = NORTH
-            elif dir == NORTH and row == bounds[NORTH]:
+                direct = NORTH
+            elif direct == NORTH and row == bounds[NORTH]:
                 bounds[NORTH] = max(-1, bounds[NORTH] - 1)
-                dir = EAST
+                direct = EAST
 
-            row += dirs[dir][ROW]
-            col += dirs[dir][COL]
+            row += dirs[direct][ROW]
+            col += dirs[direct][COL]
 
         return res
 
-    def spiralMatrixIII2(
-        self, rows: int, cols: int, rStart: int, cStart: int
-    ) -> List[List[int]]:
+    def spiralMatrixIII2(self, rows: int, cols: int, rStart: int,
+                         cStart: int) -> List[List[int]]:
         res = [None] * (rows * cols)
 
         # EAST, SOUTH, WEST, NORTH = 0, 1, 2, 3
-        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         bounds = [cStart + 1, rStart + 1, cStart - 1, rStart - 1]
 
         ROW, COL = 0, 1
 
-        dir = 0
+        direct = 0
 
         index = 0
         row, col = rStart, cStart
@@ -113,12 +113,12 @@ class Solution:
                 res[index] = [row, col]
                 index += 1
 
-            if [col, row][dir % 2] == bounds[dir]:
-                bounds[dir] += dirs[dir][[COL, ROW][dir % 2]]
-                dir = (dir + 1) % len(dirs)
+            if [col, row][direct % 2] == bounds[direct]:
+                bounds[direct] += directions[direct][[COL, ROW][direct % 2]]
+                direct = (direct + 1) % len(directions)
 
-            row += dirs[dir][ROW]
-            col += dirs[dir][COL]
+            row += directions[direct][ROW]
+            col += directions[direct][COL]
 
         return res
 
@@ -172,7 +172,8 @@ def test():
         for args, want in cases:
             got = fn(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

@@ -3,7 +3,9 @@ from typing import List, Tuple
 
 
 class Solution:
-    def numIslands2(self, m: int, n: int, positions: List[List[int]]) -> List[int]:
+
+    def numIslands2(self, m: int, n: int,
+                    positions: List[List[int]]) -> List[int]:
         res = []
 
         ufs = {}
@@ -49,7 +51,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

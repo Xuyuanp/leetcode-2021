@@ -41,8 +41,10 @@
 from collections import deque
 from typing import List
 
+
 # @lc code=start
 class Solution:
+
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
         res = [0] * len(temperatures)
         stack = deque()
@@ -69,7 +71,9 @@ if __name__ == "__main__":
     for temperatures, want in cases:
         got = sol.dailyTemperatures(temperatures)
         if want != got:
-            print(f"Failed => args: {temperatures}; want: {want}, but got: {got}")
+            print(
+                f"Failed => args: {temperatures}; want: {want}, but got: {got}"
+            )
             break
     else:
         print("All Passed")

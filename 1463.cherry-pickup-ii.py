@@ -92,6 +92,7 @@
 from functools import cache
 from typing import List
 
+
 # @lc code=start
 class Solution:
     # O(m*n*n), O(m*n*n). m, n = rows, cols
@@ -109,10 +110,8 @@ class Solution:
 
             if row + 1 < rows:
                 res += max(
-                    helper(row + 1, col1 + i, col2 + j)
-                    for i in range(-1, 2)
-                    for j in range(-1, 2)
-                )
+                    helper(row + 1, col1 + i, col2 + j) for i in range(-1, 2)
+                    for j in range(-1, 2))
 
             return res
 
@@ -129,15 +128,13 @@ def test():
         cases = [
             ([[[1, 1], [1, 1]]], 4),
             (
-                [
-                    [
-                        [1, 0, 0, 0, 0, 0, 1],
-                        [2, 0, 0, 0, 0, 3, 0],
-                        [2, 0, 9, 0, 0, 0, 0],
-                        [0, 3, 0, 5, 4, 0, 0],
-                        [1, 0, 2, 3, 0, 0, 6],
-                    ]
-                ],
+                [[
+                    [1, 0, 0, 0, 0, 0, 1],
+                    [2, 0, 0, 0, 0, 3, 0],
+                    [2, 0, 9, 0, 0, 0, 0],
+                    [0, 3, 0, 5, 4, 0, 0],
+                    [1, 0, 2, 3, 0, 0, 6],
+                ]],
                 28,
             ),
             ([[[3, 1, 1], [2, 5, 1], [1, 5, 5], [2, 1, 1]]], 24),
@@ -145,7 +142,8 @@ def test():
         for args, want in cases:
             got = func(*args)
             if want != got:
-                print(f"  Failed => args: {args}; want: {want}, but got: {got}")
+                print(
+                    f"  Failed => args: {args}; want: {want}, but got: {got}")
                 break
         else:
             print("  All Passed")

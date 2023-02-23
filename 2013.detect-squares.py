@@ -77,9 +77,9 @@
 from collections import Counter
 from typing import List
 
+
 # @lc code=start
 class DetectSquares:
-
     # add: O(1)
     # count: O(1)
     def __init__(self):
@@ -100,12 +100,13 @@ class DetectSquares:
                 res += cnt * self.points[i, y] * self.points[x, j]
             return res
 
-        for i in range(0, 1001):
+        for i in range(1001):
             if i == x:
                 continue
             d = abs(x - i)
             for j in [y + d, y - d]:
-                res += self.points[i, j] * self.points[x, j] * self.points[i, y]
+                res += self.points[i, j] * self.points[x, j] * self.points[i,
+                                                                           y]
 
         return res
 
@@ -118,33 +119,31 @@ class DetectSquares:
 def test():
     print("Testing DetectSquares")
     null = None
-    cases = [
-        (
+    cases = [(
+        [
             [
-                [
-                    "DetectSquares",
-                    "add",
-                    "add",
-                    "add",
-                    "count",
-                    "count",
-                    "add",
-                    "count",
-                ],
-                [
-                    [],
-                    [[3, 10]],
-                    [[11, 2]],
-                    [[3, 2]],
-                    [[11, 10]],
-                    [[14, 8]],
-                    [[11, 2]],
-                    [[11, 10]],
-                ],
+                "DetectSquares",
+                "add",
+                "add",
+                "add",
+                "count",
+                "count",
+                "add",
+                "count",
             ],
-            [null, null, null, null, 1, 0, null, 2],
-        )
-    ]
+            [
+                [],
+                [[3, 10]],
+                [[11, 2]],
+                [[3, 2]],
+                [[11, 10]],
+                [[14, 8]],
+                [[11, 2]],
+                [[11, 10]],
+            ],
+        ],
+        [null, null, null, null, 1, 0, null, 2],
+    )]
     for (actions, args), wants in cases:
         obj = DetectSquares()
         for action, arg, want in zip(actions[1:], args[1:], wants[1:]):
